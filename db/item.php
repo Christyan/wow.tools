@@ -1,7 +1,7 @@
 <?php
 require_once("../inc/header.php");
 ?>
-<link href="/dbc/css/dbc.css?v=<?=filemtime("/var/www/wow.tools/dbc/css/dbc.css")?>" rel="stylesheet">
+<link href="/dbc/css/dbc.css?v=<?=filemtime(WORK_DIR . "/dbc/css/dbc.css")?>" rel="stylesheet">
 <div class="container-fluid">
     <div class='row'>
         <div class='col-md-12'>    
@@ -17,12 +17,12 @@ tr.selected{
     background-color: #8bc34aa1 !important;
 }
 </style>
-<script type="text/javascript" src="/js/main.js?v=<?=filemtime("/var/www/wow.tools/js/main.js")?>"></script>
-<script type="text/javascript" src="/js/tooltips.js?v=<?=filemtime("/var/www/wow.tools/js/tooltips.js")?>"></script>
-<script src="/files/js/files.js?v=<?=filemtime("/var/www/wow.tools/files/js/files.js")?>" crossorigin="anonymous"></script>
-<script src="/dbc/js/dbc.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/dbc.js")?>"></script>
-<script src="/dbc/js/enums.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/enums.js")?>"></script>
-<script src="/dbc/js/flags.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/flags.js")?>"></script>
+<script type="text/javascript" src="/js/main.js?v=<?=filemtime(WORK_DIR . "/js/main.js")?>"></script>
+<script type="text/javascript" src="/js/tooltips.js?v=<?=filemtime(WORK_DIR . "/js/tooltips.js")?>"></script>
+<script src="/files/js/files.js?v=<?=filemtime(WORK_DIR . "/files/js/files.js")?>" crossorigin="anonymous"></script>
+<script src="/dbc/js/dbc.js?v=<?=filemtime(WORK_DIR . "/dbc/js/dbc.js")?>"></script>
+<script src="/dbc/js/enums.js?v=<?=filemtime(WORK_DIR . "/dbc/js/enums.js")?>"></script>
+<script src="/dbc/js/flags.js?v=<?=filemtime(WORK_DIR . "/dbc/js/flags.js")?>"></script>
 <script type='text/javascript'>
     var vars = {};
     var parts = window.location.href.replace(/[?&]+([^=&]+)=([^&]*)/gi, function(m,key,value) {

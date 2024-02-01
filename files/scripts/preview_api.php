@@ -1,12 +1,12 @@
 <?php
 
-require_once("/var/www/wow.tools/inc/config.php");
+require_once(WORK_DIR . "/inc/config.php");
 
 if (empty($_GET['buildconfig']) || empty($_GET['filedataid'])) {
     die("Not enough information!");
 }
 
-$staticBuild = trim(file_get_contents("/var/www/wow.tools/casc/extract/lastextractedroot.txt"));
+$staticBuild = trim(file_get_contents(WORK_DIR . "/casc/extract/lastextractedroot.txt"));
 
 if(empty($_GET['buildconfig']) || $_GET['buildconfig'] == "undefined"){
     $selectBuildFilterQ = $pdo->prepare("SELECT `hash` FROM wow_buildconfig WHERE root_cdn = ? GROUP BY root ORDER BY id ASC");
@@ -75,7 +75,7 @@ if ($type == "ogg") {
     <script type='text/javascript'>renderBLPToCanvasElement("<?php echo $previewURL ?>", "mapCanvas", 0, 0, true);</script>
     <?php
 } else {
-    $tempfile = "/var/www/wow.tools/casc/extract/" . $staticBuild . "/" . $_GET['filedataid'];
+    $tempfile = WORK_DIR . "/casc/extract/" . $staticBuild . "/" . $_GET['filedataid'];
     if ($type == "m2" || $type == "wmo") {
         // dump json
         $output = shell_exec("cd /home/wow/jsondump; /usr/bin/dotnet WoWJsonDumper.dll " . $type . " " . escapeshellarg($tempfile) . " 2>&1");

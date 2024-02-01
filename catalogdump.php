@@ -26,12 +26,12 @@ $arr = $pdo->query("SELECT * FROM catalogs_buildconfig ORDER BY description DESC
 
 	echo "<pre>";
 	// Merge fragment catalogs into main catalogs
-	$json = json_decode(file_get_contents("/var/www/wow.tools/tpr/catalogs/data/" . $build['root_cdn'][0] . $build['root_cdn'][1] . "/" . $build['root_cdn'][2] . $build['root_cdn'][3] . "/" . $build['root_cdn']), true);
+	$json = json_decode(file_get_contents(WORK_DIR . "/tpr/catalogs/data/" . $build['root_cdn'][0] . $build['root_cdn'][1] . "/" . $build['root_cdn'][2] . $build['root_cdn'][3] . "/" . $build['root_cdn']), true);
 	if(!empty($json['fragments'])){
         for($i = 0; $i < count($json['fragments']); $i++){
             $fragment = $json['fragments'][$i];
             if (doesFileExist("data", $fragment['hash'], "catalogs")) {
-                $fragmentjson = json_decode(file_get_contents("/var/www/wow.tools/tpr/catalogs/data/" . $fragment['hash'][0] . $fragment['hash'][1] . "/" . $fragment['hash'][2] . $fragment['hash'][3] . "/" . $fragment['hash']), true);
+                $fragmentjson = json_decode(file_get_contents(WORK_DIR . "/tpr/catalogs/data/" . $fragment['hash'][0] . $fragment['hash'][1] . "/" . $fragment['hash'][2] . $fragment['hash'][3] . "/" . $fragment['hash']), true);
                 $json['fragments'][$i]['content'] = $fragmentjson;
             }
         }
@@ -40,7 +40,7 @@ $arr = $pdo->query("SELECT * FROM catalogs_buildconfig ORDER BY description DESC
 	if(!empty($json['files']['default'])){
 		$curr = current($json['files']['default']);
 		if(doesFileExist("data", $curr['hash'], "catalogs")){
-			$resourcejson = json_decode(file_get_contents("/var/www/wow.tools/tpr/catalogs/data/" . $curr['hash'][0] . $curr['hash'][1] . "/" . $curr['hash'][2] . $curr['hash'][3] . "/" . $curr['hash']), true);
+			$resourcejson = json_decode(file_get_contents(WORK_DIR . "/tpr/catalogs/data/" . $curr['hash'][0] . $curr['hash'][1] . "/" . $curr['hash'][2] . $curr['hash'][3] . "/" . $curr['hash']), true);
 			$json['files']['default']['content'] = $resourcejson;
 		}
 	}

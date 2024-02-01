@@ -19,7 +19,7 @@ if (!empty($_GET['bc'])) {
 }
 
 ?>
-<link href="/dbc/css/dbc.css?v=<?=filemtime("/var/www/wow.tools/dbc/css/dbc.css")?>" rel="stylesheet">
+<link href="/dbc/css/dbc.css?v=<?=filemtime(WORK_DIR . "/dbc/css/dbc.css")?>" rel="stylesheet">
 <div class="container-fluid">
     <form id='dbcform' action='/dbc/' method='GET'>
         <select id='fileFilter' class='form-control form-control-sm'></select>
@@ -217,9 +217,9 @@ if (!empty($_GET['bc'])) {
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
 <script src="/files/js/files.js" crossorigin="anonymous"></script>
-<script src="/dbc/js/dbc.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/dbc.js")?>"></script>
-<script src="/dbc/js/flags.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/flags.js")?>"></script>
-<script src="/dbc/js/enums.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/enums.js")?>"></script>
+<script src="/dbc/js/dbc.js?v=<?=filemtime(WORK_DIR . "/dbc/js/dbc.js")?>"></script>
+<script src="/dbc/js/flags.js?v=<?=filemtime(WORK_DIR . "/dbc/js/flags.js")?>"></script>
+<script src="/dbc/js/enums.js?v=<?=filemtime(WORK_DIR . "/dbc/js/enums.js")?>"></script>
 <script type='text/javascript'>
 var Settings = {
     filtersAlwaysEnabled: false,

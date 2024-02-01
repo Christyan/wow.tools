@@ -143,7 +143,7 @@ foreach ($filesToProcess as $file) {
 
         foreach ($discordHotfixes as $discordHotfix) {
             if (strlen($message) > 2000) {
-                $dumpFile = "/var/www/wow.tools/pub/hotfixes/" . strtotime("now") . "." . md5($message) . ".txt";
+                $dumpFile = WORK_DIR . "/pub/hotfixes/" . strtotime("now") . "." . md5($message) . ".txt";
                 file_put_contents($dumpFile, $message);
                 $splitLines = explode("\n", $message);
                 discordSendMessage($splitLines[0] . "\nMessage was too long, see [this file](" . str_replace("/var/www/", "https://", $dumpFile) . ") for the full message.", $discordHotfix);

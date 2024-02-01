@@ -1,6 +1,6 @@
 <?php
 
-require_once("/var/www/wow.tools/inc/config.php");
+require_once(WORK_DIR . "/inc/config.php");
 header('Content-Type: application/json');
 
 if (!empty($_GET['tree']) && isset($_GET['depth'])) {
@@ -90,7 +90,7 @@ if (!empty($_SESSION['buildfilterid']) && !$mv && !$dbc) {
     $clauseparams[] = $_SESSION['buildfilterid'];
 }
 
-$staticBuild = trim(file_get_contents("/var/www/wow.tools/casc/extract/lastextractedroot.txt"));
+$staticBuild = trim(file_get_contents(WORK_DIR . "/casc/extract/lastextractedroot.txt"));
 
 if($mv || (!empty($_SESSION['user']) && $_SESSION['user'] == "marlamin")){
     $selectBuildFilterQ = $pdo->prepare("SELECT id FROM wow_buildconfig WHERE root_cdn = ? GROUP BY root ORDER BY id ASC");
@@ -458,7 +458,7 @@ while ($row = $dataq->fetch()) {
 
     //if($staticBuild){
 
-        if(file_exists("/var/www/wow.tools/casc/extract/" . $staticBuild . "/" . $row['id'])){
+        if(file_exists(WORK_DIR . "/casc/extract/" . $staticBuild . "/" . $row['id'])){
             $subrow = array();
             $subrow['description'] = $returndata['staticBuildName'];
             $subrow['enc'] = $enc;

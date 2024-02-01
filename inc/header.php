@@ -31,7 +31,7 @@ if (!empty($_GET['embed'])) {
     <script type="text/javascript" src="//cdn.datatables.net/v/bs4/dt-1.12.1/datatables.min.js"></script>
     <script src="//cdn.datatables.net/plug-ins/1.12.1/pagination/input.js" crossorigin="anonymous"></script>
 
-    <link href="/css/style.css?v=<?=filemtime("/var/www/wow.tools/css/style.css")?>" rel="stylesheet">
+    <link href="/css/style.css?v=<?=filemtime(WORK_DIR . "/css/style.css")?>" rel="stylesheet">
     <script type='text/javascript'>
     var SiteSettings =
     {
@@ -41,13 +41,13 @@ if (!empty($_GET['embed'])) {
     }
     </script>
 <?php if (!$embed) { ?>
-    <script type="text/javascript" src="/js/main.js?v=<?=filemtime("/var/www/wow.tools/js/main.js")?>"></script>
-    <script type="text/javascript" src="/js/tooltips.js?v=<?=filemtime("/var/www/wow.tools/js/tooltips.js")?>"></script>
-    <script type="text/javascript" src="/mv/anims.js?v=<?=filemtime("/var/www/wow.tools/mv/anims.js")?>"></script>
+    <script type="text/javascript" src="/js/main.js?v=<?=filemtime(WORK_DIR . "/js/main.js")?>"></script>
+    <script type="text/javascript" src="/js/tooltips.js?v=<?=filemtime(WORK_DIR . "/js/tooltips.js")?>"></script>
+    <script type="text/javascript" src="/mv/anims.js?v=<?=filemtime(WORK_DIR . "/mv/anims.js")?>"></script>
     <?php if (!empty($_SESSION['loggedin'])) { ?>
-        <script type="text/javascript" src="/js/powerbar.js?v=<?=filemtime("/var/www/wow.tools/js/powerbar.js")?>"></script>
-        <script type="text/javascript" src="/js/main.powerbar.js?v=<?=filemtime("/var/www/wow.tools/js/main.powerbar.js")?>"></script>
-        <link href="/css/powerbar.css?v=<?=filemtime("/var/www/wow.tools/css/powerbar.css")?>" rel="stylesheet">
+        <script type="text/javascript" src="/js/powerbar.js?v=<?=filemtime(WORK_DIR . "/js/powerbar.js")?>"></script>
+        <script type="text/javascript" src="/js/main.powerbar.js?v=<?=filemtime(WORK_DIR . "/js/main.powerbar.js")?>"></script>
+        <link href="/css/powerbar.css?v=<?=filemtime(WORK_DIR . "/css/powerbar.css")?>" rel="stylesheet">
     <?php } ?>
 <?php } ?>
 </head>

@@ -1,5 +1,5 @@
 <?php
-require_once("/var/www/wow.tools/inc/config.php");
+require_once(WORK_DIR . "/inc/config.php");
 
 if (php_sapi_name() != "cli") {
     die("This script cannot be run outside of CLI.");

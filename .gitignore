@@ -21,6 +21,7 @@ priv/
 # Editor files
 sftp-config.json
 .vscode/*
+.idea/*
 
 # Bugsnag
 inc/bugsnag/*

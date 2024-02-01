@@ -1,6 +1,6 @@
 <?php
 
-require_once("/var/www/wow.tools/inc/config.php");
+require_once(WORK_DIR . "/inc/config.php");
 
 function getDBC($name, $build)
 {

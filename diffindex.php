@@ -10,8 +10,8 @@ $cdnc2 = getCDNConfigByCDNConfigHash($_GET['to']);
 if(empty($cdnc1) || empty($cdnc2))
 	die("Invalid configs!");
 
-$config1 = parseConfig("/var/www/wow.tools/" . generateURL("config", $cdnc1['hash']));
-$config2 = parseConfig("/var/www/wow.tools/" . generateURL("config", $cdnc2['hash']));
+$config1 = parseConfig(WORK_DIR . "/" . generateURL("config", $cdnc1['hash']));
+$config2 = parseConfig(WORK_DIR . "/" . generateURL("config", $cdnc2['hash']));
 
 ?>
 <div class='container-fluid' id='diffContainer'>
@@ -50,7 +50,7 @@ foreach($addedFiles as $addedFile){
 	}
 
 	// Identify file based on magic
-	$path = "/var/www/wow.tools/".generateURL("data", $addedFile);
+	$path = WORK_DIR . "/".generateURL("data", $addedFile);
 	$firstChars = shell_exec("cd /home/wow/buildbackup/; dotnet BuildBackup.dll dumprawfile ".$path." 2");
 	switch($firstChars){
 		case "TS": // TSFM: Root

@@ -191,7 +191,7 @@ while (true) {
 function guessFileExtByExtractedFilename($name)
 {
 
-    $output = shell_exec("/usr/bin/file -b -i -m /var/www/wow.tools/builds/scripts/wow.mg " . escapeshellarg($name));
+    $output = shell_exec("/usr/bin/file -b -i -m " . WORK_DIR . "/builds/scripts/wow.mg " . escapeshellarg($name));
     $cleaned = explode(";", $output);
     switch (trim($cleaned[0])) {
         case "wow/blp2":

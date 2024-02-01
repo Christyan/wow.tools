@@ -26,7 +26,7 @@ while ($row = $res->fetch()) {
         foreach ($cdns as $cdn) {
             echo "Trying " . $cdn . "\n";
             if (!doesLocalFileExist($row['url'])) {
-                exec("cd /var/www/wow.tools/; wget -c -x -nvH -t 1 " . $cdn . $row['url']);
+                exec("cd " . WORK_DIR .  "/; wget -c -x -nvH -t 1 " . $cdn . $row['url']);
             }
 
             if (doesLocalFileExist($row['url'])) {
@@ -48,7 +48,7 @@ while ($row = $res->fetch()) {
 }
 function doesLocalFileExist($url)
 {
-    if (file_exists("/var/www/wow.tools/" . $url)) {
+    if (file_exists(WORK_DIR . "/" . $url)) {
         return true;
     } else {
         return false;

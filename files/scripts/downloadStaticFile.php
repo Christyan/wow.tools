@@ -1,11 +1,11 @@
 <?php
 
-require_once("/var/www/wow.tools/inc/config.php");
+require_once(WORK_DIR . "/inc/config.php");
 
 if(empty($_GET['build']) || empty($_GET['id']))
     die("Not enough parameters");
 
-$staticBuild = trim(file_get_contents("/var/www/wow.tools/casc/extract/lastextractedroot.txt"));
+$staticBuild = trim(file_get_contents(WORK_DIR . "/casc/extract/lastextractedroot.txt"));
 
 if($_GET['build'] != $staticBuild)
     die("Invalid build, it might still be extracting, try again later");
@@ -30,4 +30,4 @@ if(empty($file['filename'])){
 
 header('Content-type: application/octet-stream');
 header('Content-Disposition: attachment; filename="' . $filename . '"');
-readfile("/var/www/wow.tools/casc/extract/" . $staticBuild . "/" . $id);
+readfile(WORK_DIR . "/casc/extract/" . $staticBuild . "/" . $id);

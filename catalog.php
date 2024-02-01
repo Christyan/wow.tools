@@ -66,16 +66,16 @@ $arr = $pdo->query("SELECT * FROM catalogs_buildconfig ORDER BY description DESC
         die("No valid builds selected for diff");
     }
 
-    if(!file_exists("/var/www/wow.tools/tpr/catalogs/data/" . $oldbuild['root_cdn'][0] . $oldbuild['root_cdn'][1] . "/" . $oldbuild['root_cdn'][2] . $oldbuild['root_cdn'][3] . "/" . $oldbuild['root_cdn'])){
+    if(!file_exists(WORK_DIR . "/tpr/catalogs/data/" . $oldbuild['root_cdn'][0] . $oldbuild['root_cdn'][1] . "/" . $oldbuild['root_cdn'][2] . $oldbuild['root_cdn'][3] . "/" . $oldbuild['root_cdn'])){
         die("Old catalog to diff with does not exist, if this is an old catalog this will likely never exist, if this is a new catalog please check back in 5 minutes.");
     }
 
-    $oldjson = json_decode(file_get_contents("/var/www/wow.tools/tpr/catalogs/data/" . $oldbuild['root_cdn'][0] . $oldbuild['root_cdn'][1] . "/" . $oldbuild['root_cdn'][2] . $oldbuild['root_cdn'][3] . "/" . $oldbuild['root_cdn']), true);
+    $oldjson = json_decode(file_get_contents(WORK_DIR . "/tpr/catalogs/data/" . $oldbuild['root_cdn'][0] . $oldbuild['root_cdn'][1] . "/" . $oldbuild['root_cdn'][2] . $oldbuild['root_cdn'][3] . "/" . $oldbuild['root_cdn']), true);
     if(!empty($oldjson['fragments'])){
         for($i = 0; $i < count($oldjson['fragments']); $i++){
             $fragment = $oldjson['fragments'][$i];
             if (doesFileExist("data", $fragment['hash'], "catalogs")) {
-                $fragmentjson = json_decode(file_get_contents("/var/www/wow.tools/tpr/catalogs/data/" . $fragment['hash'][0] . $fragment['hash'][1] . "/" . $fragment['hash'][2] . $fragment['hash'][3] . "/" . $fragment['hash']), true);
+                $fragmentjson = json_decode(file_get_contents(WORK_DIR . "/tpr/catalogs/data/" . $fragment['hash'][0] . $fragment['hash'][1] . "/" . $fragment['hash'][2] . $fragment['hash'][3] . "/" . $fragment['hash']), true);
                 $oldjson['fragments'][$i]['content'] = $fragmentjson;
             }
         }
@@ -84,19 +84,19 @@ $arr = $pdo->query("SELECT * FROM catalogs_buildconfig ORDER BY description DESC
     if (!empty($oldjson['files']['default'])) {
         $curr = current($oldjson['files']['default']);
         if (doesFileExist("data", $curr['hash'], "catalogs")) {
-            $resourcejson = json_decode(file_get_contents("/var/www/wow.tools/tpr/catalogs/data/" . $curr['hash'][0] . $curr['hash'][1] . "/" . $curr['hash'][2] . $curr['hash'][3] . "/" . $curr['hash']), true);
+            $resourcejson = json_decode(file_get_contents(WORK_DIR . "/tpr/catalogs/data/" . $curr['hash'][0] . $curr['hash'][1] . "/" . $curr['hash'][2] . $curr['hash'][3] . "/" . $curr['hash']), true);
             $oldjson['files']['default']['content'] = $resourcejson;
         }
     }
 
     $newjson = [];
     if (doesFileExist("data", $newbuild['root_cdn'], "catalogs")) {
-        $newjson = json_decode(file_get_contents("/var/www/wow.tools/tpr/catalogs/data/" . $newbuild['root_cdn'][0] . $newbuild['root_cdn'][1] . "/" . $newbuild['root_cdn'][2] . $newbuild['root_cdn'][3] . "/" . $newbuild['root_cdn']), true);
+        $newjson = json_decode(file_get_contents(WORK_DIR . "/tpr/catalogs/data/" . $newbuild['root_cdn'][0] . $newbuild['root_cdn'][1] . "/" . $newbuild['root_cdn'][2] . $newbuild['root_cdn'][3] . "/" . $newbuild['root_cdn']), true);
         if (!empty($newjson['fragments'])) {
             for($i = 0; $i < count($newjson['fragments']); $i++){
                 $fragment = $newjson['fragments'][$i];
                 if (doesFileExist("data", $fragment['hash'], "catalogs")) {
-                    $fragmentjson = json_decode(file_get_contents("/var/www/wow.tools/tpr/catalogs/data/" . $fragment['hash'][0] . $fragment['hash'][1] . "/" . $fragment['hash'][2] . $fragment['hash'][3] . "/" . $fragment['hash']), true);
+                    $fragmentjson = json_decode(file_get_contents(WORK_DIR . "/tpr/catalogs/data/" . $fragment['hash'][0] . $fragment['hash'][1] . "/" . $fragment['hash'][2] . $fragment['hash'][3] . "/" . $fragment['hash']), true);
                     $newjson['fragments'][$i]['content'] = $fragmentjson;
                 }
             }
@@ -106,7 +106,7 @@ $arr = $pdo->query("SELECT * FROM catalogs_buildconfig ORDER BY description DESC
     if (!empty($newjson['files']['default'])) {
         $curr = current($newjson['files']['default']);
         if (doesFileExist("data", $curr['hash'], "catalogs")) {
-            $resourcejson = json_decode(file_get_contents("/var/www/wow.tools/tpr/catalogs/data/" . $curr['hash'][0] . $curr['hash'][1] . "/" . $curr['hash'][2] . $curr['hash'][3] . "/" . $curr['hash']), true);
+            $resourcejson = json_decode(file_get_contents(WORK_DIR . "/tpr/catalogs/data/" . $curr['hash'][0] . $curr['hash'][1] . "/" . $curr['hash'][2] . $curr['hash'][3] . "/" . $curr['hash']), true);
             $newjson['files']['default']['content'] = $resourcejson;
         }
     }

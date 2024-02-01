@@ -13,8 +13,8 @@ $cdnc2 = getCDNConfigByCDNConfigHash($argv[2]);
 if(empty($cdnc1) || empty($cdnc2))
 	die("Invalid configs!");
 
-$config1 = parseConfig("/var/www/wow.tools/" . generateURL("config", $cdnc1['hash']));
-$config2 = parseConfig("/var/www/wow.tools/" . generateURL("config", $cdnc2['hash']));
+$config1 = parseConfig(WORK_DIR . "/" . generateURL("config", $cdnc1['hash']));
+$config2 = parseConfig(WORK_DIR . "/" . generateURL("config", $cdnc2['hash']));
 
 if($config1['file-index'] === $config2['file-index'])
 	die("File indices match");
@@ -50,7 +50,7 @@ foreach($addedFiles as $addedFile){
 	}
 
 	// Identify file based on magic
-	$path = "/var/www/wow.tools/".generateURL("data", $addedFile);
+	$path = WORK_DIR . "/".generateURL("data", $addedFile);
 	$firstChars = shell_exec("cd /home/wow/buildbackup/; dotnet BuildBackup.dll dumprawfile ".$path." 2");
 	switch($firstChars){
 		case "TS": // TSFM: Root
@@ -93,7 +93,7 @@ if(empty($build['root_cdn']) || empty($build['encoding_cdn']) || empty($build['i
 echo "Generating MD5 contenthashes for BLTE-decoded build files..\n";
 foreach($requiredTypes as $type){
 	$tempName = tempnam("/tmp", "halfpush");
-	$path = "/var/www/wow.tools/".generateURL("data", $build[$type]);
+	$path = WORK_DIR . "/".generateURL("data", $build[$type]);
 	shell_exec("cd /home/wow/buildbackup/; dotnet BuildBackup.dll dumprawfiletofile ".$path." ".$tempName);
 	$build[str_replace("_cdn", "", $type)] = md5_file($tempName);
 	$build[str_replace("_cdn", "_size", $type)] = filesize($tempName);
@@ -131,7 +131,7 @@ foreach($addedFiles as $addedFile){
 		//continue;
 	}
 
-	$path = "/var/www/wow.tools/".generateURL("patch", $addedFile);
+	$path = WORK_DIR . "/".generateURL("patch", $addedFile);
 	$firstChars = shell_exec("head -c 2 ".$path);
 	switch($firstChars){
 		case "ZB": // ZBSDIFF
@@ -171,12 +171,12 @@ print_r($espec);
 $pclines = array();
 $pclines[] = "# Patch Configuration";
 $pclines[] = "";
-$pclines[] = "patch-entry = install " . $build['install'] . " " . $build['install_size'] . " " . $build['install_cdn'] . " " . filesize("/var/www/wow.tools/".generateURL("data", $build['install_cdn']))." ".$espec["install"];
-$pclines[] = "patch-entry = encoding " . $build['encoding'] . " " . $build['encoding_size'] . " " . $build['encoding_cdn'] . " " . filesize("/var/www/wow.tools/".generateURL("data", $build['encoding_cdn']))." ".$espec["encoding"];
+$pclines[] = "patch-entry = install " . $build['install'] . " " . $build['install_size'] . " " . $build['install_cdn'] . " " . filesize(WORK_DIR . "/".generateURL("data", $build['install_cdn']))." ".$espec["install"];
+$pclines[] = "patch-entry = encoding " . $build['encoding'] . " " . $build['encoding_size'] . " " . $build['encoding_cdn'] . " " . filesize(WORK_DIR . "/".generateURL("data", $build['encoding_cdn']))." ".$espec["encoding"];
 $pclines[] = "patch-entry = size TODO";
-$pclines[] = "patch-entry = download " . $build['download'] . " " . $build['download_size'] . " " . $build['download_cdn'] . " " . filesize("/var/www/wow.tools/".generateURL("data", $build['download_cdn']))." ".$espec["download"];
+$pclines[] = "patch-entry = download " . $build['download'] . " " . $build['download_size'] . " " . $build['download_cdn'] . " " . filesize(WORK_DIR . "/".generateURL("data", $build['download_cdn']))." ".$espec["download"];
 $pclines[] = "patch = " . $build['patch'];
-$pclines[] = "patch-size = " . filesize("/var/www/wow.tools/".generateURL("patch", $build['patch']));
+$pclines[] = "patch-size = " . filesize(WORK_DIR . "/".generateURL("patch", $build['patch']));
 
 $patchconfig = implode("\n", $pclines);
 $patchconfigmd5 = md5($patchconfig);
@@ -192,15 +192,15 @@ $bclines[] = "";
 $bclines[] = "build-creator = wow.tools";
 $bclines[] = "root = " . $build['root']; // we have root_cdn but it is not usually given in buildconfig
 $bclines[] = "install = " . $build['install'] . " " . $build['install_cdn'];
-$bclines[] = "install-size = " . $build['install_size'] . " " . filesize("/var/www/wow.tools/".generateURL("data", $build['install_cdn']));
+$bclines[] = "install-size = " . $build['install_size'] . " " . filesize(WORK_DIR . "/".generateURL("data", $build['install_cdn']));
 $bclines[] = "download = " . $build['download'] . " " . $build['download_cdn'];
-$bclines[] = "download-size = " . $build['download_size'] . " " . filesize("/var/www/wow.tools/".generateURL("data", $build['download_cdn']));
+$bclines[] = "download-size = " . $build['download_size'] . " " . filesize(WORK_DIR . "/".generateURL("data", $build['download_cdn']));
 $bclines[] = "size = TODO TODO";
 $bclines[] = "size-size = TODO TODO";
 $bclines[] = "encoding = " . $build['encoding'] . " " . $build['encoding_cdn'];
-$bclines[] = "encoding-size = " . $build['encoding_size'] . " " . filesize("/var/www/wow.tools/".generateURL("data", $build['encoding_cdn']));
+$bclines[] = "encoding-size = " . $build['encoding_size'] . " " . filesize(WORK_DIR . "/".generateURL("data", $build['encoding_cdn']));
 $bclines[] = "patch = " . $build['patch'];
-$bclines[] = "patch-size = " . filesize("/var/www/wow.tools/".generateURL("patch", $build['patch']));
+$bclines[] = "patch-size = " . filesize(WORK_DIR . "/".generateURL("patch", $build['patch']));
 $bclines[] = "patch-config = TODO";
 $bclines[] = "build-name = WOW-XXXXXpatchX.X.X_TODO";
 $bclines[] = "build-uid = TODO"; // wow, wowt, wow_beta, wow_classic, wow_classic_beta

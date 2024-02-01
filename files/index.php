@@ -9,7 +9,7 @@ foreach ($lfproducts as $lfproduct) {
     $lfbuilds[$lfproduct] = $buildq->fetch(PDO::FETCH_ASSOC);
 }
 
-?><link href="/files/css/files.css?v=<?=filemtime("/var/www/wow.tools/files/css/files.css")?>" rel="stylesheet">
+?><link href="/files/css/files.css?v=<?=filemtime(WORK_DIR . "/files/css/files.css")?>" rel="stylesheet">
 <div class="container-fluid" id='files_container'>
     <div id='files_buttons' class='notree'>
         <a href='#' class='btn btn-primary btn-sm' data-toggle='modal' data-target='#settingsModal'><i class='fa fa-gear'></i> Settings</a>
@@ -180,7 +180,7 @@ foreach ($lfproducts as $lfproduct) {
 </div>
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
-<script src="/files/js/files.js?v=<?=filemtime("/var/www/wow.tools/files/js/files.js")?>"></script>
+<script src="/files/js/files.js?v=<?=filemtime(WORK_DIR . "/files/js/files.js")?>"></script>
 <script src="/js/bufo.js"></script>
 <script src="/js/js-blp.js"></script>
 <script type='text/javascript'>

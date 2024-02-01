@@ -1,6 +1,6 @@
 <?php
 
-require_once("/var/www/wow.tools/inc/config.php");
+require_once(WORK_DIR . "/inc/config.php");
 header("Access-Control-Allow-Origin: http://wow.tools.localhost");
 
 if (!empty($_GET['filedataid'])) {
@@ -63,7 +63,7 @@ if (!empty($_GET['filedataid'])) {
     }
 
     $returndata = array("filedataid" => $row['id'], "filename" => $row['filename'], "lookup" => $row['lookup'], "versions" => $versions, "type" => $row['type']);
-    $staticBuild = trim(file_get_contents("/var/www/wow.tools/casc/extract/lastextractedroot.txt"));
+    $staticBuild = trim(file_get_contents(WORK_DIR . "/casc/extract/lastextractedroot.txt"));
 
     echo "<table class='table table-striped'>";
     echo "<thead><tr><th style='width: 400px'></th><th></th></tr></thead>";
@@ -130,7 +130,7 @@ if (!empty($_GET['filedataid'])) {
     echo "</table>
     </td></tr>";
     echo "<tr>";
-    if(file_exists("/var/www/wow.tools/casc/extract/" . $staticBuild . "/" . $returndata['filedataid'])){
+    if(file_exists(WORK_DIR . "/casc/extract/" . $staticBuild . "/" . $returndata['filedataid'])){
         echo "<td colspan='2'><a class='btn btn-primary' href='#' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"" . $version['buildconfig'] . "\", \"" . $returndata['filedataid'] . "\")'><i class='fa fa-eye'></i> Preview</a> ";
         echo "<a class='btn btn-primary' href='/files/scripts/downloadStaticFile.php?build=" . $staticBuild . "&id=" . $returndata['filedataid'] ."'><i class='fa fa-download'></i> Download</a></td>";
     }

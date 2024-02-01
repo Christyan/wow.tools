@@ -8,6 +8,8 @@ if(empty($disableBugsnag) && file_exists(__DIR__ . "/bugsnag/autoload.php")){
 	require_once(__DIR__ . "/bugsnag/autoload.php");
 }
 
+define('WORK_DIR', '/var/www/wow.tools');
+
 require_once(__DIR__ . "/db.php");
 
 $dbOptions = [

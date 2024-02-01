@@ -41,7 +41,7 @@ if (!empty($currentDB) && !empty($_GET['old']) && !empty($_GET['new'])) {
     $canDiff = true;
 }
 ?>
-<link href="/dbc/css/dbc.css?v=<?=filemtime("/var/www/wow.tools/dbc/css/dbc.css")?>" rel="stylesheet">
+<link href="/dbc/css/dbc.css?v=<?=filemtime(WORK_DIR . "/dbc/css/dbc.css")?>" rel="stylesheet">
 <div class="container-fluid">
     <select id='fileFilter' class='form-control form-control-sm'>
         <option value="">Select a table</option>
@@ -94,8 +94,8 @@ if (!empty($currentDB) && !empty($_GET['old']) && !empty($_GET['new'])) {
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
-<script src="/dbc/js/dbc.js?v=<?=filemtime("/var/www/wow.tools/dbc/js/dbc.js")?>"></script>
-<script src="/js/diff_match_patch.js?v=<?=filemtime("/var/www/wow.tools/js/diff_match_patch.js")?>"></script>
+<script src="/dbc/js/dbc.js?v=<?=filemtime(WORK_DIR . "/dbc/js/dbc.js")?>"></script>
+<script src="/js/diff_match_patch.js?v=<?=filemtime(WORK_DIR . "/js/diff_match_patch.js")?>"></script>
 <script type='text/javascript'>
 $(function() {
     $('#fileFilter').select2();
