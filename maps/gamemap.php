@@ -236,7 +236,7 @@ $cdnconfig = "a8b9a0a48cb2ca7afcca94463f78ecc0";
         });
 
 
-         fetch("/dbc/api/find/uimaplink?build=<?=$build?>&col=ParentUiMapID&val=" + uiMapID)
+         fetch(API_URL + "/api/find/uimaplink?build=<?=$build?>&col=ParentUiMapID&val=" + uiMapID)
         .then(function (response) {
             return response.json();
         }).then(function (uiMapChildren) {

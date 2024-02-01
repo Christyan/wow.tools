@@ -148,7 +148,7 @@ const showServer = false;
 if(showServer){
     Promise.all([
         fetch("/api.php?type=latestbuilds"),
-        fetch("https://api.wow.tools/databases/")
+        fetch(API_URL + "/databases/")
     ])
     .then(function (responses) {
         return Promise.all(responses.map(function (response) {
@@ -169,7 +169,7 @@ if(showServer){
         for(let i = 0; i < serverHotfixDivs.length; i++){
             let el = serverHotfixDivs[i];
             const pushID = el.dataset.pushid;
-            fetch("/dbc/api/find/Hotfixes?col=PushID&val=" + pushID + "&build=" + build + "&useHotfixes=true")
+            fetch(API_URL + "/api/find/Hotfixes?col=PushID&val=" + pushID + "&build=" + build + "&useHotfixes=true")
             .then(function (response) {
                 return response.json();
             }).then(function (hotfixesEntry) {

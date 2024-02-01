@@ -289,7 +289,7 @@ require_once(__DIR__ . "/../inc/header.php");
                 resolve(cachedDBCHeaders[cachedHeaderName]);
             });
         }else{
-            headerPromise = fetch("/dbc/api/header/" + dbc.toLowerCase() + "?build=" + build, {cache: "force-cache"}).then(data => data.json());
+            headerPromise = fetch(API_URL + "/api/header/" + dbc.toLowerCase() + "?build=" + build, {cache: "force-cache"}).then(data => data.json());
         }
 
         promises.push(headerPromise);

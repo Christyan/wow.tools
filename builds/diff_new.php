@@ -63,7 +63,7 @@ $encryptedbutnot = $pdo->query("SELECT filedataid FROM wow_encryptedbutnot")->fe
         var encrypted = <?=json_encode($encrypted)?>;
         var encryptedbutnot = <?=json_encode($encryptedbutnot)?>;
         var table = $('#buildtable').DataTable({
-            ajax: '//api.wow.tools/diff/diff_api?from=<?=$fromBuild['root_cdn']?>&to=<?=$toBuild['root_cdn']?>&cb=<?=strtotime("now")?>&start=0&cdnDir=<?=$cdn?>',
+            ajax: API_URL + '/diff/diff_api?from=<?=$fromBuild['root_cdn']?>&to=<?=$toBuild['root_cdn']?>&cb=<?=strtotime("now")?>&start=0&cdnDir=<?=$cdn?>',
             columns: [{
                     data: 'action'
                 },

@@ -1,5 +1,5 @@
 async function getDB2s(){
-    const db2Response = await fetch("https://api.wow.tools/databases/");
+    const db2Response = await fetch(API_URL + "/databases/");
     const db2Json = await db2Response.json();
     return db2Json;
 }

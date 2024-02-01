@@ -68,7 +68,7 @@ tr.selected{
         vars["build"] = "<?=$version['version']?>";
 
         // Promise.all([
-        //     fetch("/dbc/api/peek/SpellXSpellVisual/?col=SpellID&val=" + id + "&build=" + vars["build"]),
+        //     fetch(API_URL + "/api/peek/SpellXSpellVisual/?col=SpellID&val=" + id + "&build=" + vars["build"]),
         // ])
         // .then(function (responses) {
         //     return Promise.all(responses.map(function (response) {
@@ -99,7 +99,7 @@ tr.selected{
             "processing": true,
             "serverSide": true,
             "ajax": {
-                "url": "/dbc/api/data/" + vars["dbc"] + "/?build=" + vars["build"],
+                "url": API_URL + "/api/data/" + vars["dbc"] + "/?build=" + vars["build"],
                 "data": function( result ) {
                     delete result.columns;
                     return result;
@@ -142,12 +142,12 @@ tr.selected{
         document.getElementById("spellInformation").innerHTML = "";
 
         Promise.all([
-            fetch("/dbc/api/tooltip/spell/" + id + "?build=" + vars["build"]),
-            fetch("/dbc/api/peek/Spell/?col=ID&val=" + id + "&build=" + vars["build"]),
-            fetch("/dbc/api/peek/SpellMisc/?col=SpellID&val=" + id + "&build=" + vars["build"]),
-            fetch("/dbc/api/find/SpellEffect/?col=SpellID&val=" + id + "&build=" + vars["build"]),
-            fetch("/dbc/api/peek/SpellCooldowns/?col=SpellID&val=" + id + "&build=" + vars["build"]),
-            fetch("/dbc/api/peek/SpellXSpellVisual/?col=SpellID&val=" + id + "&build=" + vars["build"]),
+            fetch(API_URL + "/api/tooltip/spell/" + id + "?build=" + vars["build"]),
+            fetch(API_URL + "/api/peek/Spell/?col=ID&val=" + id + "&build=" + vars["build"]),
+            fetch(API_URL + "/api/peek/SpellMisc/?col=SpellID&val=" + id + "&build=" + vars["build"]),
+            fetch(API_URL + "/api/find/SpellEffect/?col=SpellID&val=" + id + "&build=" + vars["build"]),
+            fetch(API_URL + "/api/peek/SpellCooldowns/?col=SpellID&val=" + id + "&build=" + vars["build"]),
+            fetch(API_URL + "/api/peek/SpellXSpellVisual/?col=SpellID&val=" + id + "&build=" + vars["build"]),
         ])
         .then(function (responses) {
             return Promise.all(responses.map(function (response) {

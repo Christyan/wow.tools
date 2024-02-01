@@ -246,7 +246,7 @@ var Settings = {
 //     ptPT: "Portugese"
 // }
 
-let APIBase = "https://api.wow.tools/";
+let APIBase = API_URL + "/";
 const siteURL = new URL(window.location);
 if(siteURL.hostname == "wow.tools.localhost" || siteURL.hostname == "localhost"){
     APIBase = "http://localhost/wtapi/";
@@ -575,7 +575,7 @@ function fkDBSearchChange() {
     // Load headers and fill columns options
     const currentDBC = document.getElementById("fkSearchDB").value;
 
-    fetch("/dbc/api/header/" + currentDBC + "/?build=" + currentParams["build"]).then(function(headerResponse) {
+    fetch(API_URL + "/api/header/" + currentDBC + "/?build=" + currentParams["build"]).then(function(headerResponse) {
         return headerResponse.json();
     }).then(function(json) {
         var fkSearchField = document.getElementById('fkSearchField');
@@ -617,14 +617,14 @@ async function fkDBSearch(db, col, val, isInline = false) {
         "<ul class='nav nav-tabs' id='fkresultTabList' role='tablist'></ul><div class='tab-content' id='fkresultTabs'></div><div id='noResultHolder'></div>";
 
     const dbsToSearch = [];
-    const headerResult = await fetch("/dbc/api/header/" + db + "/?build=" + currentParams["build"]);
+    const headerResult = await fetch(API_URL + "/api/header/" + db + "/?build=" + currentParams["build"]);
     const headerJSON = await headerResult.json();
 
     headerJSON.relationsToColumns[col].forEach((foreignKey) => {
         const splitFK = foreignKey.split("::");
         dbsToSearch.push(async () => {
             try {
-                const result = await fetch("/dbc/api/find/" + splitFK[0] + "?build=" +
+                const result = await fetch(API_URL + "/api/find/" + splitFK[0] + "?build=" +
                     currentParams["build"] + "&col=" + splitFK[1] + "&val=" + val);
                 const json = await result.json();
                 fkDBResults(splitFK, json, val);
@@ -727,12 +727,12 @@ function loadTable() {
     $("#dbtable").html(
         "<tbody><tr><td style='text-align: center' id='loadingMessage'>Select a table in the dropdown above</td></tr></tbody>"
         );
-    // document.getElementById('downloadCSVButton').href = buildURL(currentParams).replace("/dbc/?dbc=", "/dbc/api/export/?name=");
+    // document.getElementById('downloadCSVButton').href = buildURL(currentParams).replace("/dbc/?dbc=", API_URL + "/api/export/?name=");
 
     // if(currentParams["locale"] != ""){
         // document.getElementById('downloadDB2Link').href = "/casc/file/db2/?tableName=" + currentParams["dbc"] + "&fullBuild=" + currentParams["build"] + "&locale=" + currentParams["locale"];
     // }else{
-        // document.getElementById('downloadDB2Link').href = "/dbc/api/export/db2/?tableName=" + currentParams["dbc"] + "&fullBuild=" + currentParams["build"];
+        // document.getElementById('downloadDB2Link').href = API_URL + "/api/export/db2/?tableName=" + currentParams["dbc"] + "&fullBuild=" + currentParams["build"];
     // }
     
     // document.getElementById('downloadCSVButton').classList.remove("disabled");
@@ -767,7 +767,7 @@ function loadTable() {
     }
 
     $.ajax({
-        "url": "/dbc/api/header/" + currentParams["dbc"] + "/?build=" + currentParams["build"],
+        "url": API_URL + "/api/header/" + currentParams["dbc"] + "/?build=" + currentParams["build"],
         "success": function(json) {
             if (json['error'] != null) {
                 if (json['error'] == "No valid definition found for this layouthash or build!") {
@@ -866,7 +866,7 @@ function loadTable() {
                 "processing": true,
                 "serverSide": true,
                 "ajax": {
-                    url: "/dbc/api/data/" + apiArgs,
+                    url: API_URL + "/api/data/" + apiArgs,
                     type: "POST",
                     beforeSend: function() {
                         if (table && table.hasOwnProperty('settings')) {
@@ -1264,7 +1264,7 @@ let currentParams = [];
 
     /* FK search */
     var fkSearchDB = document.getElementById('fkSearchDB');
-    fetch("/dbc/api/relations/")
+    fetch(API_URL + "/api/relations/")
         .then(function(fileResponse) {
             return fileResponse.json();
         }).then(function(data) {

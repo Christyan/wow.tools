@@ -39,6 +39,7 @@ if (!empty($_GET['embed'])) {
         cdnConfig: "074122ed9d63bb66f1127547b80a8819",
         buildName: "10.0.2.46479",
     }
+    const API_URL = "<?= API_URL ?>";
     </script>
 <?php if (!$embed) { ?>
     <script type="text/javascript" src="/js/main.js?v=<?=filemtime(WORK_DIR . "/js/main.js")?>"></script>

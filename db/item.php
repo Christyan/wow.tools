@@ -59,7 +59,7 @@ tr.selected{
 
         document.getElementById("itemInformation").innerHTML = "<br><br><br><ul style='clear: both' class='nav nav-tabs' id='itemTabs'></ul><div class='tab-content' id='itemTabContent'></div>";
         try{
-            const tooltipResponse = await fetch("/dbc/api/tooltip/item/" + id + "?build=" + SiteSettings.buildName);
+            const tooltipResponse = await fetch(API_URL + "/api/tooltip/item/" + id + "?build=" + SiteSettings.buildName);
             const tooltipJson = await tooltipResponse.json();
             loadTooltip(id, tooltipJson);
         }catch(e){
@@ -71,13 +71,13 @@ tr.selected{
     }
 
     async function getItemBonusesByBonusListID(bonusListID){
-        const itemBonusResponse = await fetch("/dbc/api/find/ItemBonus/?build=" + SiteSettings.buildName + "&col=ParentItemBonusListID&val=" + bonusListID);
+        const itemBonusResponse = await fetch(API_URL + "/api/find/ItemBonus/?build=" + SiteSettings.buildName + "&col=ParentItemBonusListID&val=" + bonusListID);
         const itemBonusJson = await itemBonusResponse.json();
         return itemBonusJson;
     }
 
     async function getItemBonusesByTreeID(treeID){
-        const itemBonusTreeNodeResponse = await fetch("/dbc/api/find/ItemBonusTreeNode/?build=" + SiteSettings.buildName + "&col=ParentItemBonusTreeID&val=" + treeID);
+        const itemBonusTreeNodeResponse = await fetch(API_URL + "/api/find/ItemBonusTreeNode/?build=" + SiteSettings.buildName + "&col=ParentItemBonusTreeID&val=" + treeID);
         const itemBonusTreeNodeJson = await itemBonusTreeNodeResponse.json();
 
         let itemBonusListIDs = [];
@@ -103,7 +103,7 @@ tr.selected{
 
     async function genItemBonusTab(itemID){
         console.log(itemID);
-        const itemXBonusTreeResponse = await fetch("/dbc/api/find/ItemXBonusTree/?build=" + SiteSettings.buildName + "&col=ItemID&val=" + itemID);
+        const itemXBonusTreeResponse = await fetch(API_URL + "/api/find/ItemXBonusTree/?build=" + SiteSettings.buildName + "&col=ItemID&val=" + itemID);
         const itemXBonusTreeJson = await itemXBonusTreeResponse.json();
 
         let itemBonusListIDs = givenItemBonusListIDs;

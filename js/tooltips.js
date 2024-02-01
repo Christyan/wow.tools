@@ -234,7 +234,7 @@ function generateItemTooltip(id, tooltip, build){
     const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
     Promise.all([
-        fetch("https://api.wow.tools/api/tooltip/item/" + id + "?build=" + build),
+        fetch(API_URL + "/api/tooltip/item/" + id + "?build=" + build),
     ])
         .then(function (responses) {
             return Promise.all(responses.map(function (response) {
@@ -274,7 +274,7 @@ function generateItemTooltip(id, tooltip, build){
 
                     if (itemEffect["spell"]["description"] != null){
                         tooltipTable += "<span id='spelldesc-" + itemEffect["spell"]["spellID"] + "'>" + itemEffect["spell"]["description"] + "</span>";
-                        fetch("https://api.wow.tools/api/tooltip/spell/" + itemEffect["spell"]["spellID"] + "?build=" + build + "&itemID=" + id)
+                        fetch(API_URL + "/api/tooltip/spell/" + itemEffect["spell"]["spellID"] + "?build=" + build + "&itemID=" + id)
                             .then(function (spellResponse) {
                                 return spellResponse.json();
                             }).then(function (data) {
@@ -347,7 +347,7 @@ function generateSpellTooltip(id, tooltip, build)
     const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
     Promise.all([
-        fetch("https://api.wow.tools/api/tooltip/spell/" + id + "?build=" + build),
+        fetch(API_URL + "/api/tooltip/spell/" + id + "?build=" + build),
     ])
         .then(function (responses) {
             return Promise.all(responses.map(function (response) {
@@ -482,7 +482,7 @@ function generateFileTooltip(id, tooltip)
     const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
     Promise.all([
-        fetch("https://api.wow.tools/files/" + id),
+        fetch(API_URL + "/files/" + id),
     ])
         .then(function (responses) {
             return Promise.all(responses.map(function (response) {

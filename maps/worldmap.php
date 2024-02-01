@@ -121,12 +121,12 @@ if (!empty($_GET['bc'])) {
 
     function loadHeaders(database, build){
         console.log("Loading " + database + " headers for build " + build);
-        return $.get("/dbc/api/header/" + database + "/?build=" + build);
+        return $.get(API_URL + "/api/header/" + database + "/?build=" + build);
     }
 
     function loadData(database, build){
         console.log("Loading " + database + " data for build " + build);
-        return $.post("/dbc/api/data/" + database + "/?build=" + build + "&useHotfixes=true", { draw: 1, start: 0, length: 100000});
+        return $.post(API_URL + "/api/data/" + database + "/?build=" + build + "&useHotfixes=true", { draw: 1, start: 0, length: 100000});
     }
 
     async function mapEntries(database, header, data){
