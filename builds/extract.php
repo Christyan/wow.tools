@@ -73,7 +73,7 @@ include(__DIR__ . "/../inc/header.php");
     </table>
 
     <script type='text/javascript'>
-        $.getJSON("https://wow.tools/casc/install/dump?hash=<?=$install?>", function( data ) {
+        $.getJSON("/casc/install/dump?hash=<?=$install?>", function( data ) {
             var items = [];
             $.each( data, function( key, val ) {
                 var row = "<tr><td>" + val.name + "</td><td>" + val.size + "</td>";
@@ -95,7 +95,7 @@ include(__DIR__ . "/../inc/header.php");
                 row += "<td><span class='hash'>" + val.contentHash + "</span></td>";
 
                 <?php if (!empty($build)) { ?>
-                row += "<td><a href='https://wow.tools/casc/file/chash?contenthash=" + val.contentHash + "&buildconfig=<?=$build['buildconfig']['hash']?>&cdnconfig=<?=$build['cdnconfig']['hash']?>&filename=" + val.name.split('\\').reverse()[0] + "'>Download</a></td></tr>";
+                row += "<td><a href='/casc/file/chash?contenthash=" + val.contentHash + "&buildconfig=<?=$build['buildconfig']['hash']?>&cdnconfig=<?=$build['cdnconfig']['hash']?>&filename=" + val.name.split('\\').reverse()[0] + "'>Download</a></td></tr>";
                 <?php } ?>
                 $('#install tbody').append(row);
             });

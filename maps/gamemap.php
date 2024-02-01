@@ -141,12 +141,12 @@ $cdnconfig = "a8b9a0a48cb2ca7afcca94463f78ecc0";
 
     function loadHeaders(database, build){
         console.log("Loading " + database + " headers for build " + build);
-        return $.get("https://wow.tools/dbc/api/header/" + database + "/?build=" + build);
+        return $.get("<? echo API_URL; ?>/api/header/" + database + "/?build=" + build);
     }
 
     function loadData(database, build){
         console.log("Loading " + database + " data for build " + build);
-        return $.post("https://wow.tools/dbc/api/data/" + database + "/?build=" + build + "&useHotfixes=true", { draw: 1, start: 0, length: 100000});
+        return $.post("<? echo API_URL; ?>/api/data/" + database + "/?build=" + build + "&useHotfixes=true", { draw: 1, start: 0, length: 100000});
     }
 
     async function mapEntries(database, header, data){
@@ -230,7 +230,7 @@ $cdnconfig = "a8b9a0a48cb2ca7afcca94463f78ecc0";
         .map(row => {
             const imagePosX = row.RowIndex * artStyle.TileWidth;
             const imagePosY = row.ColIndex * artStyle.TileHeight;
-            const bgURL = `https://wow.tools/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=maptile&filedataid=${row.FileDataID}`;
+            const bgURL = `/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=maptile&filedataid=${row.FileDataID}`;
 
             return renderBLPToCanvasElement(bgURL, "mapCanvas", imagePosY, imagePosX);
         });
@@ -264,7 +264,7 @@ $cdnconfig = "a8b9a0a48cb2ca7afcca94463f78ecc0";
                 const tempCanvas = document.createElement("canvas");
                 tempCanvas.width = uiTextureAtlasRow.AtlasWidth;
                 tempCanvas.height = uiTextureAtlasRow.AtlasHeight;
-                const highlightURL = `https://wow.tools/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=maphighlight&filedataid=${uiTextureAtlasRow.FileDataID}`;
+                const highlightURL = `/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=maphighlight&filedataid=${uiTextureAtlasRow.FileDataID}`;
                  fetch(highlightURL)
                 .then(function(response) {
                     return response.arrayBuffer();
@@ -372,7 +372,7 @@ $cdnconfig = "a8b9a0a48cb2ca7afcca94463f78ecc0";
                     if(wmotRow.WorldMapOverlayID == wmoRow.ID){
                         var layerPosX = parseInt(wmoRow.OffsetX) + (wmotRow.ColIndex * (artStyle.TileWidth / 1));
                         var layerPosY = parseInt(wmoRow.OffsetY) + (wmotRow.RowIndex * (artStyle.TileHeight / 1));
-                        var bgURL = "https://wow.tools/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=exploredmaptile&filedataid=" + wmotRow.FileDataID;
+                        var bgURL = "/casc/file/fdid?buildconfig=<?=$buildconfig?>&cdnconfig=<?=$cdnconfig?>&filename=exploredmaptile&filedataid=" + wmotRow.FileDataID;
 
                         renderBLPToCanvasElement(bgURL, "mapCanvas", layerPosX, layerPosY);
                     }

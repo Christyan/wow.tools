@@ -27,7 +27,7 @@ foreach ($versions as $version) {
     $version = $versionCacheByID[$version];
     echo $version . "\n";
 
-    $db2 = "https://wow.tools/dbc/api/export/?name=manifestinterfacedata&build=" . $version;
+    $db2 = API_URL . "/api/export/?name=manifestinterfacedata&build=" . $version;
 
     if (!file_exists("/tmp/mid." . $version . ".csv")) {
         $outputdump = shell_exec("/usr/bin/curl " . escapeshellarg($db2) . " -o /tmp/mid." . $version . ".csv 2>&1");

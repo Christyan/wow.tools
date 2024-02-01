@@ -37,7 +37,7 @@ function getDBC($name, $build)
 
 function listSoundKitsByType($type) {
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "https://wow.tools/dbc/api/find/SoundKit?col=SoundType&val=" . $type . "&build=9.0.2.37176");
+    curl_setopt($ch, CURLOPT_URL, API_URL."/api/find/SoundKit?col=SoundType&val=" . $type . "&build=9.0.2.37176");
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     $data = curl_exec($ch);

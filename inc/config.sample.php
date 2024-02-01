@@ -9,6 +9,7 @@ if(empty($disableBugsnag) && file_exists(__DIR__ . "/bugsnag/autoload.php")){
 }
 
 define('WORK_DIR', '/var/www/wow.tools');
+define('CASC_URL', 'http://wowtools.work:8888');
 define('API_URL', 'http://api.wow.tools');
 define('INTERNAL_API_URL', 'http://127.0.0.1:5000');
 

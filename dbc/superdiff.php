@@ -38,10 +38,10 @@ $toCDN = getVersionByBuildConfigHash($_GET['to'])['cdnconfig']['hash'];
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.13.1/styles/github.min.css" />
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.12.1/diff2html.min.css" />
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap4.min.css" />
-<link rel="stylesheet" type="text/css" href="https://wow.tools/css/style.css" />
-<link rel="stylesheet" type="text/css" href="https://wow.tools/dbc/css/dbc.css" />
+<link rel="stylesheet" type="text/css" href="/css/style.css" />
+<link rel="stylesheet" type="text/css" href="/dbc/css/dbc.css" />
 
-<script src="https://wow.tools//js/diff_match_patch.js"></script>
+<script src="/js/diff_match_patch.js"></script>
 
 <style>
     :root {
@@ -122,7 +122,7 @@ $toCDN = getVersionByBuildConfigHash($_GET['to'])['cdnconfig']['hash'];
     }
 
     async function fetch(from, to, action, type) {
-        const promise = $.getJSON(`https://wow.tools/casc/root/diff_api?from=${from.root}&to=${to.root}`)
+        const promise = $.getJSON(`/casc/root/diff_api?from=${from.root}&to=${to.root}`)
         return promise.then(result => {
             return result.data.filter(i => i.action == action).filter(i => i.type == type).map(i => {
                 return { id: i.id, name: i.filename }
@@ -195,15 +195,15 @@ $toCDN = getVersionByBuildConfigHash($_GET['to'])['cdnconfig']['hash'];
     }
 
     function getDBCPreview(table, from, to) {
-        return `https://wow.tools/dbc/diff.php?dbc=${table}&old=${from.version}&new=${to.version}&embed=1`
+        return `/dbc/diff.php?dbc=${table}&old=${from.version}&new=${to.version}&embed=1`
     }
 
     function getURL(fileDataID, build) {
-        return `https://wow.tools/casc/preview/fdid?buildconfig=${build.build}&cdnconfig=${build.cdn}&filename=${fileDataID}.blp&filedataid=${fileDataID}`
+        return `/casc/preview/fdid?buildconfig=${build.build}&cdnconfig=${build.cdn}&filename=${fileDataID}.blp&filedataid=${fileDataID}`
     }
 
     function getDiff(fileDataID, from, to) {
-        return $.get(`https://wow.tools/files/scripts/diff_api.php?from=${from.build}&to=${to.build}&filedataid=${fileDataID}&raw=0`)
+        return $.get(`/files/scripts/diff_api.php?from=${from.build}&to=${to.build}&filedataid=${fileDataID}&raw=0`)
     }
 
     function filterRows(data) {
@@ -255,7 +255,7 @@ $toCDN = getVersionByBuildConfigHash($_GET['to'])['cdnconfig']['hash'];
         var container = $(`<div class="datatable_container"><h1>${tableName}</h1><div class="loader">Loading...</div></div>`)
         $("#dbcs").append(container)
 
-        const dataURL = `https://wow.tools/dbc/api/diff?name=${tableName}&build1=${from.version}&build2=${to.version}`
+        const dataURL = `<?php echo API_URL; ?>/api/diff?name=${tableName}&build1=${from.version}&build2=${to.version}`
         const json = await $.getJSON(dataURL);
 
         const rows = json.data.filter(filterRows).map(cleanupRows)
@@ -267,7 +267,7 @@ $toCDN = getVersionByBuildConfigHash($_GET['to'])['cdnconfig']['hash'];
 
         container.find(".loader").hide()
 
-        const headersPromises = [from, to].map(build => `https://wow.tools/dbc/api/header/${tableName}/?build=${build.version}`).map($.get)
+        const headersPromises = [from, to].map(build => `<?php echo API_URL; ?>/api/header/${tableName}/?build=${build.version}`).map($.get)
         const headers = await Promise.all(headersPromises)
         const fields = [...new Set([].concat(...headers[0].headers, ...headers[1].headers))];
         const tableHeaders = fields.map(field => `<th>${field}</th>`)
