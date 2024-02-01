@@ -21,7 +21,7 @@ function getFileDataIDs($buildconfig)
 function getDBC($name, $build)
 {
     $ch = curl_init();
-    curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:5000/api/export/?name=" . urlencode($name) . "&build=" . urlencode($build));
+    curl_setopt($ch, CURLOPT_URL, INTERNAL_API_URL . "/api/export/?name=" . urlencode($name) . "&build=" . urlencode($build));
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);
     $data = curl_exec($ch);

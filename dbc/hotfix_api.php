@@ -7,9 +7,9 @@ function peekDBCRow($name, $build, $col, $val, $useHotfix, $pushID = 0)
 {
     $ch = curl_init();
     if (empty($pushID)) {
-        curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:5000/api/peek/" . $name . "?build=" . urlencode($build) . "&col=" . $col . "&val=" . $val . "&useHotfixes=" . $useHotfix);
+        curl_setopt($ch, CURLOPT_URL, INTERNAL_API_URL . "/api/peek/" . $name . "?build=" . urlencode($build) . "&col=" . $col . "&val=" . $val . "&useHotfixes=" . $useHotfix);
     } else {
-        curl_setopt($ch, CURLOPT_URL, "http://127.0.0.1:5000/api/peek/" . $name . "?build=" . urlencode($build) . "&col=" . $col . "&val=" . $val . "&useHotfixes=" . $useHotfix . "&pushIDs=" . $pushID);
+        curl_setopt($ch, CURLOPT_URL, INTERNAL_API_URL . "/api/peek/" . $name . "?build=" . urlencode($build) . "&col=" . $col . "&val=" . $val . "&useHotfixes=" . $useHotfix . "&pushIDs=" . $pushID);
     }
     curl_setopt($ch, CURLOPT_HEADER, 0);
     curl_setopt($ch, CURLOPT_RETURNTRANSFER, 1);

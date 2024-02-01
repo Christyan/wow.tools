@@ -132,7 +132,7 @@ echo "[TACT key list] Dumping current TACT keys for " . $fullbuild . "..\n";
 
 $inserted = 0;
 
-$db2 = file_get_contents("http://127.0.0.1:5000/api/data/tactkeylookup/?build=" . $fullbuild . "&draw=1&start=0&length=1000&useHotfixes=true");
+$db2 = file_get_contents(INTERNAL_API_URL . "/api/data/tactkeylookup/?build=" . $fullbuild . "&draw=1&start=0&length=1000&useHotfixes=true");
 $tactkeylookups = json_decode($db2, true)['data'];
 echo "[TACT key list] Have " . count($tactkeylookups) . " TACT key lookups from tactkeylookup.db2..\n";
 
@@ -158,7 +158,7 @@ echo "[TACT key list] Done, inserted " . $inserted . " new TACT keys!\n";
 
 $updated = 0;
 
-$db2 = file_get_contents("http://127.0.0.1:5000/api/data/tactkey/?build=" . $fullbuild . "&draw=1&start=0&length=1000&useHotfixes=true");
+$db2 = file_get_contents(INTERNAL_API_URL . "/api/data/tactkey/?build=" . $fullbuild . "&draw=1&start=0&length=1000&useHotfixes=true");
 $tactkeys = json_decode($db2, true)['data'];
 if (!empty($tactkeys)) {
     echo "[TACT key list] Have " . count($tactkeys) . " TACT keys from tactkey.db2..\n";

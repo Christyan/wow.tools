@@ -10,6 +10,7 @@ if(empty($disableBugsnag) && file_exists(__DIR__ . "/bugsnag/autoload.php")){
 
 define('WORK_DIR', '/var/www/wow.tools');
 define('API_URL', 'http://api.wow.tools');
+define('INTERNAL_API_URL', 'http://127.0.0.1:5000');
 
 require_once(__DIR__ . "/db.php");
 

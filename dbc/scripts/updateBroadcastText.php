@@ -7,7 +7,7 @@ if (php_sapi_name() != "cli") {
 function importDB2($name, $outdir, $fields)
 {
     global $pdo;
-    $db2 = "http://127.0.0.1:5000/api/export/?name=" . $name . "&build=" . $outdir . "&useHotfixes=true&t=" . strtotime("now");
+    $db2 = INTERNAL_API_URL . "/api/export/?name=" . $name . "&build=" . $outdir . "&useHotfixes=true&t=" . strtotime("now");
     $csv = "/tmp/" . $name . ".csv";
     if (file_exists($csv)) {
         unlink($csv);
