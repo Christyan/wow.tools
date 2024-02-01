@@ -1,6 +1,6 @@
 <?php
 
-require_once(WORK_DIR . "/inc/config.php");
+require_once("../../inc/config.php");
 
 function downloadFile($params, $outfile)
 {

@@ -1,6 +1,6 @@
 <?php
 
-require_once(WORK_DIR . "/inc/config.php");
+require_once("../../inc/config.php");
 
 if(empty($_GET['build']) || empty($_GET['id']))
     die("Not enough parameters");

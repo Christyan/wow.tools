@@ -1,6 +1,6 @@
 <?php
 
-require_once(WORK_DIR . "/inc/config.php");
+require_once("../../inc/config.php");
 header('Content-Type: application/json');
 
 if (!empty($_GET['tree']) && isset($_GET['depth'])) {

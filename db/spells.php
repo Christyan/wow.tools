@@ -1,7 +1,7 @@
 <?php
 
 if (!empty($_GET['embed'])) {
-    require_once(WORK_DIR . "/inc/config.php");
+    require_once("../inc/config.php");
 } else {
     require_once("../inc/header.php");
 }

@@ -1,6 +1,6 @@
 <?php
 
-require_once(WORK_DIR . "/inc/config.php");
+require_once("../../inc/config.php");
 header("Access-Control-Allow-Origin: http://wow.tools.localhost");
 
 if (!empty($_GET['filedataid'])) {
