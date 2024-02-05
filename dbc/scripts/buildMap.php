@@ -35,7 +35,7 @@ function getOrCreateTableID($table, $displayname)
     return $tableCache[$table];
 }
 
-$dbcdir = "/home/wow/dbcs/";
+$dbcdir = BACKEND_BASE_DIR . "/dbcs/";
 $insertTVq = $pdo->prepare("INSERT INTO wow_dbc_table_versions (versionid, tableid) VALUES (?, ?)");
 foreach (glob($dbcdir . "*", GLOB_ONLYDIR) as $versiondir) {
     $version = str_replace($dbcdir, "", $versiondir);

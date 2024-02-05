@@ -4,6 +4,8 @@ if (php_sapi_name() != "cli") {
     die("This script cannot be run outside of CLI.");
 }
 
+include(__DIR__ . "/../../inc/config.php");
+
 function processRoot($root, $build, $buildid)
 {
     global $pdo;
@@ -13,7 +15,7 @@ function processRoot($root, $build, $buildid)
     }
 
     echo "Processing " . $build . "\n";
-    if (!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt")) {
+    if (!file_exists(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt")) {
         echo "	Dumping manifest..";
         $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumproot2 " . $root . " > /home/wow/buildbackup/manifests/" . $root . ".txt");
         echo "..done!\n";
@@ -27,7 +29,7 @@ function processRoot($root, $build, $buildid)
 
     $fixLookupQ = $pdo->prepare("UPDATE wow_rootfiles SET lookup = ? WHERE id = ?");
     
-    $handle = fopen("/home/wow/buildbackup/manifests/" . $root . ".txt", "r");
+    $handle = fopen(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt", "r");
     if ($handle) {
         while (($line = fgets($handle)) !== false) {
             $expl = explode(";", $line);
@@ -40,8 +42,6 @@ function processRoot($root, $build, $buildid)
         fclose($handle);
     }
 }
-
-include(__DIR__ . "/../../inc/config.php");
 
 if (empty($argv[1])) {
     // Full run

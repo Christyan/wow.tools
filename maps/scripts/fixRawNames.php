@@ -24,8 +24,8 @@ foreach ($pdo->query("SELECT id, internal FROM wow_maps_maps") as $map) {
     $mapCacheByID[$map['id']] = $map['internal'];
 }
 
-foreach (glob("/home/wow/minimaps/png/*") as $dir) {
-    $version = str_replace("/home/wow/minimaps/png/", "", $dir);
+foreach (glob(BACKEND_BASE_DIR . "/minimaps/png/*") as $dir) {
+    $version = str_replace(BACKEND_BASE_DIR . "/minimaps/png/", "", $dir);
     $versionex = explode(".", $version);
     $versionid = getOrCreateVersionID($version);
     echo "Version: " . $versionex[0] . "." . $versionex[1] . "." . $versionex[2] . "." . $versionex[3] . " (" . $versionid . ")\n";

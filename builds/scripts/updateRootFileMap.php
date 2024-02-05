@@ -9,26 +9,26 @@ ini_set('memory_limit','1G');
 require __DIR__ . "/../../inc/config.php";
 function getFileDataIDs($root)
 {
-    if (!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt")) {
+    if (!file_exists(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt")) {
         echo "	Dumping manifest..";
         $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumproot2 " . $root . " > /home/wow/buildbackup/manifests/" . $root . ".txt");
         echo "..done!\n";
 
-        if(!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt")){
+        if(!file_exists(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt")){
             echo "	!!! Manifest missing, quitting..\n";
             die();
         }
 
-        if(filesize("/home/wow/buildbackup/manifests/" . $root . ".txt") == 0){
+        if(filesize(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt") == 0){
             echo "	!!! Manifest dump empty, removing and quitting..\n";
-            unlink("/home/wow/buildbackup/manifests/" . $root . ".txt");
+            unlink(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt");
             die();
         }
     }
 
     $fdids = [];
 
-    if (($handle = fopen("/home/wow/buildbackup/manifests/" . $root . ".txt", "r")) !== FALSE) {
+    if (($handle = fopen(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt", "r")) !== FALSE) {
         while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
             $fdids[] = $data[2];
         }

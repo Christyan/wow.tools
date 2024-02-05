@@ -70,7 +70,7 @@ foreach($tableVersions as $tableVersion){
         $prevVersion = $version;
     }
     
-    $filename = "/home/wow/dbcs/" . $version . "/dbfilesclient/" . $dbcMap[$tableVersion['tableid']] . ".db2";
+    $filename = BACKEND_BASE_DIR . "/dbcs/" . $version . "/dbfilesclient/" . $dbcMap[$tableVersion['tableid']] . ".db2";
     if(file_exists($filename)){
         if($tableVersion['contenthash'] != md5_file($filename)){
             echo "File " . $dbcMap[$tableVersion['tableid']] . " does not match MD5 " . $tableVersion['contenthash'] ."\n";

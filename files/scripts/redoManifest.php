@@ -18,7 +18,7 @@ $desc = $build['description'];
 
 echo "Processing " . $desc . "\n";
 
-$manifest = "/home/wow/buildbackup/manifests/" . $root . ".txt";
+$manifest = BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt";
 if (file_exists($manifest)) {
     echo "	Removing current manifest..";
     unlink($manifest);

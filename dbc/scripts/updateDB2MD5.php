@@ -50,7 +50,7 @@ foreach($unknownTableVersions as $tableVersion){
 
             $manifest = [];
 
-            if(!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt") || filesize("/home/wow/buildbackup/manifests/" . $root . ".txt") == 0){
+            if(!file_exists(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt") || filesize(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt") == 0){
                 echo "Dumping manifest..";
                 $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumproot2 " . $root . " " . $product . " > /home/wow/buildbackup/manifests/" . $root . ".txt");
                 echo "..done!\n";
@@ -58,7 +58,7 @@ foreach($unknownTableVersions as $tableVersion){
         
             echo "Parsing manifest " .$root . "\n";
 
-            if (($handle = fopen("/home/wow/buildbackup/manifests/" . $root . ".txt", "r")) !== FALSE) {
+            if (($handle = fopen(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt", "r")) !== FALSE) {
                 while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
                     $manifest[$data[2]] = $data[3];
                 }
@@ -71,7 +71,7 @@ foreach($unknownTableVersions as $tableVersion){
         $prevVersion = $version;
     }
     
-    $filename = "/home/wow/dbcs/" . $version . "/dbfilesclient/" . $dbcMap[$tableVersion['tableid']] . ".db2";
+    $filename = BACKEND_BASE_DIR . "/dbcs/" . $version . "/dbfilesclient/" . $dbcMap[$tableVersion['tableid']] . ".db2";
     if(file_exists($filename)){
         if($cascBuild){
             if(!empty($manifest[$dbcFDIDMap[$dbcMap[$tableVersion['tableid']]]])){
@@ -83,7 +83,7 @@ foreach($unknownTableVersions as $tableVersion){
             $setTableVersionMD5->execute([md5_file($filename), $tableVersion['versionid'], $tableVersion['tableid']]);
         }
     }else{
-        $filename = "/home/wow/dbcs/" . $version . "/dbfilesclient/" . $dbcMap[$tableVersion['tableid']] . ".dbc";
+        $filename = BACKEND_BASE_DIR . "/dbcs/" . $version . "/dbfilesclient/" . $dbcMap[$tableVersion['tableid']] . ".dbc";
         if(file_exists($filename)){
              $setTableVersionMD5->execute([md5_file($filename), $tableVersion['versionid'], $tableVersion['tableid']]);
         }else{

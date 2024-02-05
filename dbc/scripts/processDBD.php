@@ -21,7 +21,7 @@ foreach ($pdo->query("SELECT versionid, tableid FROM wow_dbc_table_versions WHER
     $versionTableCache[$tv['versionid']][] = $tv['tableid'];
 }
 
-$extractionDir = "/home/wow/dbcs/";
+$extractionDir = BACKEND_BASE_DIR . "/dbcs/";
 $extractedVersions = [];
 foreach (glob($extractionDir . "*", GLOB_ONLYDIR) as $dir) {
     $extractedVersions[] = str_replace($extractionDir, "", $dir);
@@ -29,7 +29,7 @@ foreach (glob($extractionDir . "*", GLOB_ONLYDIR) as $dir) {
 
 echo "[DBD processing] Parsing DBDs.";
 $dbdCache = [];
-foreach (glob("/home/wow/dbd/WoWDBDefs/definitions/*.dbd") as $dbd) {
+foreach (glob(BACKEND_BASE_DIR . "/dbd/WoWDBDefs/definitions/*.dbd") as $dbd) {
     $reader = new DBDReader();
     $dbdCache[strtolower(basename(str_replace(".dbd", "", $dbd)))] = $reader->read($dbd);
 }

@@ -4,6 +4,8 @@ if (php_sapi_name() != "cli") {
     die("This script cannot be run outside of CLI.");
 }
 
+include(__DIR__ . "/../../inc/config.php");
+
 if(empty($argv[1])){
     $product = "wow";
 }else{
@@ -12,26 +14,26 @@ if(empty($argv[1])){
 
 function getFileDataIDs($root, $product = "wow")
 {
-    if (!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt")) {
+    if (!file_exists(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt")) {
         echo "	Dumping manifest..";
         $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumproot2 " . $root . " " . $product . " > /home/wow/buildbackup/manifests/" . $root . ".txt");
         echo "..done!\n";
 
-        if(!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt")){
+        if(!file_exists(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt")){
             echo "	!!! Manifest missing, quitting..\n";
             die();
         }
 
-        if(filesize("/home/wow/buildbackup/manifests/" . $root . ".txt") == 0){
+        if(filesize(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt") == 0){
             echo "	!!! Manifest dump empty, removing and quitting..\n";
-            unlink("/home/wow/buildbackup/manifests/" . $root . ".txt");
+            unlink(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt");
             die();
         }
     }
 
     $fdids = [];
 
-    if (($handle = fopen("/home/wow/buildbackup/manifests/" . $root . ".txt", "r")) !== FALSE) {
+    if (($handle = fopen(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt", "r")) !== FALSE) {
         while (($data = fgetcsv($handle, 1000, ";")) !== FALSE) {
             $fdids[] = $data[2];
         }
@@ -51,8 +53,6 @@ function makeOutDir($description)
 
     return $outdir;
 }
-
-include(__DIR__ . "/../../inc/config.php");
 
 $disableBugsnag = true;
 
@@ -116,7 +116,7 @@ foreach ($pdo->query($query) as $row) {
         $missingFiles = [];
         foreach ($dbcs as $dbc) {
             // Check if DBC is available in this build
-            if (in_array($dbc['id'], $fdids) && !file_exists("/home/wow/dbcs/" . $outdir . "/" . $dbc['filename'])) {
+            if (in_array($dbc['id'], $fdids) && !file_exists(BACKEND_BASE_DIR . "/dbcs/" . $outdir . "/" . $dbc['filename'])) {
                 // Write to extraction list
                 fwrite($fhandle, $dbc['id'] . ";" . $dbc['filename'] . "\n");
                 $missingFiles[] = $dbc['filename'];

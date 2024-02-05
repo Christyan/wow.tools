@@ -34,23 +34,23 @@ function processRoot($root)
     }
 
     echo "Processing root_cdn " . $root . "\n";
-    if (!file_exists("/home/wow/buildbackup/manifests")) {
-        mkdir("/home/wow/buildbackup/manifests");
+    if (!file_exists(BACKEND_BASE_DIR . "/buildbackup/manifests")) {
+        mkdir(BACKEND_BASE_DIR . "/buildbackup/manifests");
     }
 
-    if (!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt")) {
+    if (!file_exists(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt")) {
         echo "	Dumping manifest..";
         $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumproot2 " . $root . " > /home/wow/buildbackup/manifests/" . $root . ".txt");
         echo "..done!\n";
 
-        if(!file_exists("/home/wow/buildbackup/manifests/" . $root . ".txt")){
+        if(!file_exists(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt")){
             echo "	!!! Manifest missing, quitting..\n";
             die();
         }
 
-        if(filesize("/home/wow/buildbackup/manifests/" . $root . ".txt") == 0){
+        if(filesize(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt") == 0){
             echo "	!!! Manifest dump empty, removing and quitting..\n";
-            unlink("/home/wow/buildbackup/manifests/" . $root . ".txt");
+            unlink(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt");
             die();
         }
     } else {
@@ -58,14 +58,14 @@ function processRoot($root)
     }
 
     echo "	Writing rootfiles..";
-    $q = $pdo->exec("LOAD DATA LOCAL INFILE '/home/wow/buildbackup/manifests/" . $root . ".txt' INTO TABLE wow_rootfiles
+    $q = $pdo->exec("LOAD DATA LOCAL INFILE '" . BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt' INTO TABLE wow_rootfiles
         FIELDS TERMINATED BY ';' LINES TERMINATED BY '\n'
         (@filename, @lookup, @filedataid, @contenthash) SET id=@filedataid, lookup=@lookup, filename=@filename
     ");
     echo "..done!\n";
     $pdo->query("UPDATE wow_rootfiles SET filename = NULL WHERE filename = ' '");
     echo "	Writing content hashes..";
-    $pdo->exec("LOAD DATA LOCAL INFILE '/home/wow/buildbackup/manifests/" . $root . ".txt' INTO TABLE wow_rootfiles_chashes
+    $pdo->exec("LOAD DATA LOCAL INFILE '" . BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt' INTO TABLE wow_rootfiles_chashes
         FIELDS TERMINATED BY ';' LINES TERMINATED BY '\n'
         (@filename, @lookup, @filedataid, @contenthash) SET filedataid=@filedataid, root_cdn='" . $root . "', contenthash=@contenthash
     ");

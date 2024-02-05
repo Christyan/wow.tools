@@ -12,7 +12,7 @@ $knownKeys = $pdo->query("SELECT keyname FROM wow_tactkey")->fetchAll(PDO::FETCH
 $keyInsert = $pdo->prepare("INSERT IGNORE INTO wow_tactkey (keyname, keybytes) VALUES (?, ?)");
 $buildLookup = $pdo->query("SELECT build, version FROM wow_builds")->fetchAll(PDO::FETCH_KEY_PAIR);
 
-$files = glob('/home/wow/dbcdumphost/caches/*.bin');
+$files = glob(BACKEND_BASE_DIR . 'dbcdumphost/caches/*.bin');
 
 if (!empty($argv[1])) {
     echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Only parsing one cache file: " . $argv[1] . "\n";
@@ -52,7 +52,7 @@ foreach ($filesToProcess as $file) {
     }
 
     echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Reading " . $file . "\n";
-    $output = shell_exec("cd /home/wow/hotfixdumper; dotnet WoWTools.HotfixDumper.dll " . escapeshellarg($file) . " " . escapeshellarg("/home/wow/dbd/WoWDBDefs/definitions"));
+    $output = shell_exec("cd /home/wow/hotfixdumper; dotnet WoWTools.HotfixDumper.dll " . escapeshellarg($file) . " " . escapeshellarg(BACKEND_BASE_DIR . "/dbd/WoWDBDefs/definitions"));
     echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Decoding output..\n";
     $json = json_decode($output, true);
 
@@ -156,7 +156,7 @@ foreach ($filesToProcess as $file) {
     echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Processing big one..\n";
 
     $foundNewKeys = false;
-    $output2 = shell_exec("cd /home/wow/hotfixdumper; dotnet WoWTools.HotfixDumper.dll " . escapeshellarg($file) . " " . escapeshellarg("/home/wow/dbd/WoWDBDefs/definitions") . " true");
+    $output2 = shell_exec("cd /home/wow/hotfixdumper; dotnet WoWTools.HotfixDumper.dll " . escapeshellarg($file) . " " . escapeshellarg(BACKEND_BASE_DIR . "/dbd/WoWDBDefs/definitions") . " true");
     if($output2 != null){
         foreach (explode("\n", $output2) as $line) {
             if (empty($line)) {

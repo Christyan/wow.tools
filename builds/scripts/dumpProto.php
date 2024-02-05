@@ -4,7 +4,9 @@ if (php_sapi_name() != "cli") {
     die("This script cannot be run outside of CLI.");
 }
 
-foreach (glob("/home/wow/exes/*.exe") as $file) {
+include(__DIR__ . "/../../inc/config.php");
+
+foreach (glob(BACKEND_BASE_DIR . "/exes/*.exe") as $file) {
     $expl = explode("-", basename($file));
     $name = $expl[0] . "-" . $expl[1];
     echo $name . "\n";

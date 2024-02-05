@@ -37,12 +37,12 @@ foreach ($mapConfigCache as $versionid => $maparr) {
             echo "[" . $version . "] [" . $mapname . "] Map has empty offset!\n";
             // Check disk for each possible variation of folders (yay for project being very old now!)
             $dirVariations = [];
-            $dirVariations[] = "/home/wow/minimaps/raw/" . $version . "/World/Minimaps/" . $mapname; // Uppercase World/Minimaps normal mapname
-            $dirVariations[] = "/home/wow/minimaps/raw/" . $version . "/world/minimaps/" . $mapname; // Lowercase World/Minimaps, normal mapname
-            $dirVariations[] = "/home/wow/minimaps/raw/" . $version . "/World/Minimaps/" . $cleanedMapName; // Uppercase World/Minimaps, cleaned mapname
-            $dirVariations[] = "/home/wow/minimaps/raw/" . $version . "/world/minimaps/" . $cleanedMapName; // Lowercase World/Minimaps, cleaned mapname
-            $dirVariations[] = "/home/wow/minimaps/raw/" . $version . "/World/Minimaps/" . strtolower($mapname); // Uppercase World/Minimaps, lowercase mapname
-            $dirVariations[] = "/home/wow/minimaps/raw/" . $version . "/world/minimaps/" . strtolower($mapname); // Lowercase World/Minimaps, lowercase mapname
+            $dirVariations[] = BACKEND_BASE_DIR . "/minimaps/raw/" . $version . "/World/Minimaps/" . $mapname; // Uppercase World/Minimaps normal mapname
+            $dirVariations[] = BACKEND_BASE_DIR . "/minimaps/raw/" . $version . "/world/minimaps/" . $mapname; // Lowercase World/Minimaps, normal mapname
+            $dirVariations[] = BACKEND_BASE_DIR . "/minimaps/raw/" . $version . "/World/Minimaps/" . $cleanedMapName; // Uppercase World/Minimaps, cleaned mapname
+            $dirVariations[] = BACKEND_BASE_DIR . "/minimaps/raw/" . $version . "/world/minimaps/" . $cleanedMapName; // Lowercase World/Minimaps, cleaned mapname
+            $dirVariations[] = BACKEND_BASE_DIR . "/minimaps/raw/" . $version . "/World/Minimaps/" . strtolower($mapname); // Uppercase World/Minimaps, lowercase mapname
+            $dirVariations[] = BACKEND_BASE_DIR . "/minimaps/raw/" . $version . "/world/minimaps/" . strtolower($mapname); // Lowercase World/Minimaps, lowercase mapname
 
             $dir = false;
 

@@ -18,12 +18,12 @@ function makeTiles2019($targetdir, $mapname, $version, $build)
         mkdir($targetdir, 0777, true);
     }
 
-    $config['map'] = "/home/wow/minimaps/png/" . $version . "/" . $mapname . ".png";
+    $config['map'] = BACKEND_BASE_DIR . "/minimaps/png/" . $version . "/" . $mapname . ".png";
 
     if (!file_exists($config['map'])) {
         echo "[" . $version . "] [" . $mapname . "] File not found on disk! Trying to find one with same filename but different casing..\n";
-        foreach (glob("/home/wow/minimaps/png/" . $version . "/*.png") as $file) {
-            $cleanedfile = str_replace("/home/wow/minimaps/png/" . $version . "/", "", $file);
+        foreach (glob(BACKEND_BASE_DIR . "/minimaps/png/" . $version . "/*.png") as $file) {
+            $cleanedfile = str_replace(BACKEND_BASE_DIR . "/minimaps/png/" . $version . "/", "", $file);
             $cleanedfile = str_replace(".png", "", $cleanedfile);
             if (strtolower($cleanedfile) == strtolower($mapname)) {
                 echo "[" . $version . "] [" . $mapname . "] Found match in file " . $file . ", using that instead!\n";
@@ -85,12 +85,12 @@ if (strlen($argv[1]) == 32) {
     }
 
     echo "Creating raw directory..\n";
-    if (file_exists("/home/wow/minimaps/raw/" . $outdir)) {
+    if (file_exists(BACKEND_BASE_DIR . "/minimaps/raw/" . $outdir)) {
         echo "Raw directory already exists, skipping extraction..\n";
     } else {
         shell_exec("mkdir -p /home/wow/minimaps/raw/" . $outdir);
         echo "Extracting tiles..\n";
-        $extractionoutput = shell_exec("cd /home/wow/minimaps/extract; /usr/bin/dotnet WoWTools.MinimapExtract.dll " . __DIR__ . "/../../tpr/wow/ " . escapeshellarg($build['buildconfig']['hash']) . " " . escapeshellarg($build['cdnconfig']['hash']) . " " . escapeshellarg("/home/wow/minimaps/raw/" . $outdir));
+        $extractionoutput = shell_exec("cd /home/wow/minimaps/extract; /usr/bin/dotnet WoWTools.MinimapExtract.dll " . __DIR__ . "/../../tpr/wow/ " . escapeshellarg($build['buildconfig']['hash']) . " " . escapeshellarg($build['cdnconfig']['hash']) . " " . escapeshellarg(BACKEND_BASE_DIR . "/minimaps/raw/" . $outdir));
         print_r($extractionoutput);
     }
 } else {
@@ -109,16 +109,16 @@ if ($regenerate) {
 }
 
 echo "Creating output directory..\n";
-if (file_exists("/home/wow/minimaps/png/" . $outdir)) {
+if (file_exists(BACKEND_BASE_DIR . "/minimaps/png/" . $outdir)) {
     echo "Output directory already exists, skipping compilation..\n";
 } else {
     shell_exec("mkdir -p /home/wow/minimaps/png/" . $outdir);
     echo "Compiling maps..\n";
 
-    if (is_dir("/home/wow/minimaps/raw/" . $outdir . "/World/Minimaps/")) {
-        $rawDir = "/home/wow/minimaps/raw/" . $outdir . "/World/Minimaps/";
-    } elseif (is_dir("/home/wow/minimaps/raw/" . $outdir . "/world/minimaps/")) {
-        $rawDir = "/home/wow/minimaps/raw/" . $outdir . "/world/minimaps/";
+    if (is_dir(BACKEND_BASE_DIR . "/minimaps/raw/" . $outdir . "/World/Minimaps/")) {
+        $rawDir = BACKEND_BASE_DIR . "/minimaps/raw/" . $outdir . "/World/Minimaps/";
+    } elseif (is_dir(BACKEND_BASE_DIR . "/minimaps/raw/" . $outdir . "/world/minimaps/")) {
+        $rawDir = BACKEND_BASE_DIR . "/minimaps/raw/" . $outdir . "/world/minimaps/";
     } else {
         die("Unable to find right casing for raw minimap directory!");
     }
@@ -133,8 +133,8 @@ if (file_exists("/home/wow/minimaps/png/" . $outdir)) {
             $res = 512;
         }
 
-        $compilationoutput = shell_exec("cd /home/wow/minimaps/compile; /usr/bin/dotnet WoWTools.MinimapCompile.dll " . escapeshellarg($rawDir . $mapname) . " " . escapeshellarg("/home/wow/minimaps/png/" . $outdir . "/" . $mapname . ".png") . " " . escapeshellarg($res));
-        if (!file_exists("/home/wow/minimaps/png/" . $outdir . "/" . $mapname . ".png")) {
+        $compilationoutput = shell_exec("cd /home/wow/minimaps/compile; /usr/bin/dotnet WoWTools.MinimapCompile.dll " . escapeshellarg($rawDir . $mapname) . " " . escapeshellarg(BACKEND_BASE_DIR . "/minimaps/png/" . $outdir . "/" . $mapname . ".png") . " " . escapeshellarg($res));
+        if (!file_exists(BACKEND_BASE_DIR . "/minimaps/png/" . $outdir . "/" . $mapname . ".png")) {
             echo "Compilation failed:" . print_r($compilationoutput, true);
         }
     }
@@ -171,8 +171,8 @@ $createMapQ = $pdo->prepare("INSERT INTO wow_maps_maps (name, internal, firstsee
 $createMapVersionQ = $pdo->prepare("INSERT INTO wow_maps_versions (map_id, versionid, md5) VALUES (?, ?, ?)");
 $createConfigQ = $pdo->prepare("INSERT INTO wow_maps_config (versionid, mapid, resx, resy, zoom, minzoom, maxzoom) VALUES (?, ?, ?, ?, 5, 2, ?)");
 $checkConfigQ = $pdo->prepare("SELECT * FROM wow_maps_config WHERE versionid = ? AND mapid = ?");
-foreach (glob("/home/wow/minimaps/png/*") as $dir) {
-    $version = str_replace("/home/wow/minimaps/png/", "", $dir);
+foreach (glob(BACKEND_BASE_DIR . "/minimaps/png/*") as $dir) {
+    $version = str_replace(BACKEND_BASE_DIR . "/minimaps/png/", "", $dir);
     $versionex = explode(".", $version);
     $versionid = getOrCreateVersionID($version);
     echo "Version: " . $versionex[0] . "." . $versionex[1] . "." . $versionex[2] . "." . $versionex[3] . " (" . $versionid . ")\n";
@@ -197,7 +197,7 @@ foreach (glob("/home/wow/minimaps/png/*") as $dir) {
             echo "[" . $version . "] [" . $mapname . "] Map is unknown in version " . $version . " (" . $versionid . "), adding..\n";
             $md5 = md5_file($map);
 
-            $targetdir = "/home/wow/minimaps/tiles/test/" . $mapid . "/" . $md5 . "/";
+            $targetdir = BACKEND_BASE_DIR . "/minimaps/tiles/test/" . $mapid . "/" . $md5 . "/";
 
             if($regenerate){
                 shell_exec("rm -rf " . $targetdir);

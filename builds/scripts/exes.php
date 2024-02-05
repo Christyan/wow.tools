@@ -29,8 +29,8 @@ $res = $pdo->query(
     "
 );
 
-if (!file_exists("/home/wow/exes")) {
-    mkdir("/home/wow/exes");
+if (!file_exists(BACKEND_BASE_DIR . "/exes")) {
+    mkdir(BACKEND_BASE_DIR . "/exes");
 }
 
 while ($row = $res->fetch()) {
@@ -48,7 +48,7 @@ while ($row = $res->fetch()) {
         "Wow-64.exe", "WowT-64.exe", "WowB-64.exe"    
     ];
     
-    $filename = "/home/wow/exes/" . $row['description'] . "-" . $row['buildconfig'] . ".exe";
+    $filename = BACKEND_BASE_DIR . "/exes/" . $row['description'] . "-" . $row['buildconfig'] . ".exe";
 
     $needsExtract = !file_exists($filename);
 
