@@ -4,7 +4,7 @@ require_once("../inc/header.php");
 
 <link href="/db/css/style.css?v=<?=filemtime(WORK_DIR . "/db/css/style.css")?>" rel="stylesheet"><?php
 if (!empty($_GET['id'])) {
-    $q = $pdo->prepare("SELECT json FROM wowdata.creatures WHERE id = ?");
+    $q = $pdo->prepare("SELECT json FROM wowdata.wdb_creatures WHERE id = ?");
     $q->execute([$_GET['id']]);
 
     $creature = json_decode($q->fetch(PDO::FETCH_ASSOC)['json'], true);

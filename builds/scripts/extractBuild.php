@@ -10,4 +10,4 @@ $q = $pdo->query("SELECT id FROM `wow_rootfiles` JOIN wow_rootfiles_builds_eroru
 
 $fdids = $q->fetchAll(PDO::FETCH_COLUMN);
 sort($fdids);
-file_put_contents("/home/wow/buildbackup/cacheFDIDs.txt", implode("\n", $fdids));
+file_put_contents("/home/wowtools/cacheFDIDs.txt", implode("\n", $fdids));

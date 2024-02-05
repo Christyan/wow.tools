@@ -19,7 +19,7 @@ if (!empty($argv[2])) {
 $processedMD5s = $pdo->query("SELECT DISTINCT(md5) FROM wow_hotfixes_parsed")->fetchAll(PDO::FETCH_COLUMN);
 $insertMD5 = $pdo->prepare("INSERT IGNORE INTO wow_hotfixes_parsed (md5) VALUES (?)");
 
-$files = glob('/home/wow/dbcdumphost/caches/*.wdb');
+$files = glob('/mnt/wowtools/archivetools/cache/*.wdb');
 foreach ($files as $file) {
     // Only process hotfixes newer than 6 hours ago
     if (!$fullrun && filemtime($file) < strtotime("-2 hours")) {
@@ -39,11 +39,12 @@ foreach ($files as $file) {
     }
 
     echo "[Cache updater] [" . date("Y-m-d H:i:s") . "] Reading " . $file . "\n";
-    $output = shell_exec("cd /home/wow/wdbupdater; dotnet WoWTools.WDBUpdater.dll " . escapeshellarg($file) . " mysql");
+    $output = shell_exec("cd /home/wowtools/backend/WoWTools.WDBUpdater/bin/Release/net7.0/; dotnet WoWTools.WDBUpdater.dll " . escapeshellarg($file) . " mysql onlyretail");
     // if (!$fullrun && $output != null && substr($output, -34) != "New entries: 0\nUpdated entries: 0\n") {
     //     // echo "[Cache updater] [" . date("Y-m-d H:i:s") . "] " . substr($output, -34);
     //     //telegramSendMessage($output);
     // }
+    echo "[Cache updater] [" . date("Y-m-d H:i:s") . "] " . $output . "\n";
 
     if (!$fullrun && !in_array($md5, $processedMD5s)) {
         $insertMD5->execute([$md5]);

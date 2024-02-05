@@ -3,7 +3,7 @@
 require_once("../inc/config.php");
 
 if (!empty($_GET['id'])) {
-    $q = $pdo->prepare("SELECT json FROM wowdata.quests WHERE id = ?");
+    $q = $pdo->prepare("SELECT json FROM wowdata.wdb_quests WHERE id = ?");
     $q->execute([$_GET['id']]);
 
     header("Content-Type: application/json");
@@ -20,7 +20,7 @@ if (!empty($_GET['id'])) {
     die();
 }
 
-$query = "FROM wowdata.quests ";
+$query = "FROM wowdata.wdb_quests ";
 
 if (!empty($_GET['search']['value'])) {
     $query .= " WHERE id LIKE :search1 OR name LIKE :search2";
@@ -32,16 +32,16 @@ if (!empty($_GET['order'])) {
     $orderby .= " ORDER BY ";
     switch ($_GET['order'][0]['column']) {
         case 0:
-            $orderby .= "quests.id";
+            $orderby .= "wdb_quests.id";
             break;
         case 1:
-            $orderby .= "quests.name";
+            $orderby .= "wdb_quests.name";
             break;
         case 2:
-            $orderby .= "quests.firstseenbuild";
+            $orderby .= "wdb_quests.firstseenbuild";
             break;
         case 3:
-            $orderby .= "quests.lastupdatedbuild";
+            $orderby .= "wdb_quests.lastupdatedbuild";
             break;
     }
 
@@ -76,7 +76,7 @@ if(isset($_GET['draw'])){
 }
 
 $returndata['recordsFiltered'] = (int)$numrowsq->fetchColumn();
-$returndata['recordsTotal'] = $pdo->query("SELECT count(id) FROM wowdata.quests")->fetchColumn();
+$returndata['recordsTotal'] = $pdo->query("SELECT count(id) FROM wowdata.wdb_quests")->fetchColumn();
 $returndata['data'] = array();
 
 foreach ($dataq->fetchAll() as $row) {
