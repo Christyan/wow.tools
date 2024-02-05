@@ -41,7 +41,7 @@ foreach($tableVersions as $tableVersion){
                 if(count($toExtract) > 0){
                     file_put_contents("/tmp/dbcs-" . $root . ".txt", implode(PHP_EOL, $toExtract));
                     echo "[DB2 export] Exporting " . count($toExtract) . " DBCs to " . $prevVersion . "\n";
-                    $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilesbyfdidlist " . $buildconfig . " " . $cdnconfig . " /home/wow/dbcs/" . $prevVersion . "/ " . "/tmp/dbcs-" . $root . ".txt " . $product);
+                    $output = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilesbyfdidlist " . $buildconfig . " " . $cdnconfig . " " . BACKEND_BASE_DIR . "/dbcs/" . $prevVersion . "/ " . "/tmp/dbcs-" . $root . ".txt " . $product);
                     print_r($output);
                     unlink("/tmp/dbcs-" . $root . ".txt");
                     $toExtract = [];

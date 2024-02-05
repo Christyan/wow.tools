@@ -35,7 +35,7 @@ function processBuildSizes($hash)
 
     $tempname = tempnam("/tmp", "SIZES");
 
-    $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpsizes wow " . escapeshellarg($hash) . " > " . escapeshellarg($tempname));
+    $output = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpsizes wow " . escapeshellarg($hash) . " > " . escapeshellarg($tempname));
 
     $pdo->exec("
         LOAD DATA LOCAL INFILE '" . $tempname . "'

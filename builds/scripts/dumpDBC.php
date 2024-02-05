@@ -16,7 +16,7 @@ function getFileDataIDs($root, $product = "wow")
 {
     if (!file_exists(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt")) {
         echo "	Dumping manifest..";
-        $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumproot2 " . $root . " " . $product . " > /home/wow/buildbackup/manifests/" . $root . ".txt");
+        $output = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet " . BACKEND_BASE_DIR . "/buildbackup/BuildBackup.dll dumproot2 " . $root . " " . $product . " > " . BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt");
         echo "..done!\n";
 
         if(!file_exists(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt")){
@@ -134,7 +134,7 @@ foreach ($pdo->query($query) as $row) {
         }
 
         echo "[DB2 export] Exporting DBCs to " . $outdir . "\n";
-        $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilesbyfdidlist " . $row['buildconfig'] . " " . $row['cdnconfig'] . " /home/wow/dbcs/" . $outdir . "/ " . escapeshellarg($extractList) . " " . $product);
+        $output = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilesbyfdidlist " . $row['buildconfig'] . " " . $row['cdnconfig'] . " " . BACKEND_BASE_DIR . "/dbcs/" . $outdir . "/ " . escapeshellarg($extractList) . " " . $product);
     }
 
     // Clean up extract list

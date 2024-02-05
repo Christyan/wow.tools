@@ -151,8 +151,8 @@ if ($type == "m2" || $type == "wmo") {
     $tofile = tempnam('/tmp/', 'DIFF');
     downloadFile($fromparams, $fromfile);
     downloadFile($toparams, $tofile);
-    $fromOutput = json_decode(shell_exec("cd /home/wow/jsondump; /usr/bin/dotnet WoWJsonDumper.dll " . $type . " " . escapeshellarg($fromfile) . " 2>&1"), true);
-    $toOutput = json_decode(shell_exec("cd /home/wow/jsondump; /usr/bin/dotnet WoWJsonDumper.dll " . $type . " " . escapeshellarg($tofile) . " 2>&1"), true);
+    $fromOutput = json_decode(shell_exec("cd " . BACKEND_BASE_DIR . "/jsondump; /usr/bin/dotnet WoWJsonDumper.dll " . $type . " " . escapeshellarg($fromfile) . " 2>&1"), true);
+    $toOutput = json_decode(shell_exec("cd " . BACKEND_BASE_DIR . "/jsondump; /usr/bin/dotnet WoWJsonDumper.dll " . $type . " " . escapeshellarg($tofile) . " 2>&1"), true);
     if (!empty($fromOutput) && !empty($toOutput)) {
         $diffs = CompareArrays::Diff($fromOutput, $toOutput);
         if (!empty($diffs)) {

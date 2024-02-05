@@ -32,7 +32,7 @@ $encryptedfiles = array();
 $encryptedEntryCount = 0;
 echo "[Encrypted file list] Parsing " . $fullbuild . "\n";
 
-$cmd = "cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpencrypted wow " . escapeshellarg($row['hash']) . " | grep -v Unknown";
+$cmd = "cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpencrypted wow " . escapeshellarg($row['hash']) . " | grep -v Unknown";
 $output = [];
 $returnCode = null;
 
@@ -104,7 +104,7 @@ if (count($current) > 0) {
     }
 }
 
-$cmd = "cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpbadlyencrypted wow " . escapeshellarg($row['hash']);
+$cmd = "cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpbadlyencrypted wow " . escapeshellarg($row['hash']);
 $output = [];
 $returnCode = null;
 

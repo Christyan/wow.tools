@@ -28,7 +28,7 @@ if (empty($argv[1])) {
 $usedLookups = [];
 $encryptedfiles = [];
 
-$cmd = "cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpencrypted wow " . escapeshellarg($argv[1]);
+$cmd = "cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpencrypted wow " . escapeshellarg($argv[1]);
 $output = shell_exec($cmd);
 foreach (explode("\n", $output) as $line) {
     if (empty(trim($line))) {

@@ -72,7 +72,7 @@ while ($row = $res->fetch()) {
             continue;
         }
 
-        $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpinstall " . $product . " " . $row['install_cdn']);
+        $output = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpinstall " . $product . " " . $row['install_cdn']);
         foreach (explode("\n", $output) as $line) {
             if (in_array(explode(" ", $line)[0], $targets)){
                 if (empty(trim($line))) {
@@ -83,7 +83,7 @@ while ($row = $res->fetch()) {
                 $md5 = str_replace("md5: ", "", $split2[1]);
                 
                 echo "[EXE dump] " . $row['description'] . ": " . $row['buildconfig'] . "\" \"" . $row['cdnconfig'] . "\" \"" . $md5 . "\" \"" . $filename . "\"\n";
-                $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilebycontenthash " . $product . " \"".$row['buildconfig']."\" \"".$row['cdnconfig']."\" \"".$md5."\" \"".$filename."\"");          
+                $output = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilebycontenthash " . $product . " \"".$row['buildconfig']."\" \"".$row['cdnconfig']."\" \"".$md5."\" \"".$filename."\"");          
 
                 if (file_exists($filename)) {
                     if (filesize($filename) == 0) {

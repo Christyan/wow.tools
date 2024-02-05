@@ -52,7 +52,7 @@ foreach ($filesToProcess as $file) {
     }
 
     echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Reading " . $file . "\n";
-    $output = shell_exec("cd /home/wow/hotfixdumper; dotnet WoWTools.HotfixDumper.dll " . escapeshellarg($file) . " " . escapeshellarg(BACKEND_BASE_DIR . "/dbd/WoWDBDefs/definitions"));
+    $output = shell_exec("cd " . BACKEND_BASE_DIR . "/hotfixdumper; dotnet WoWTools.HotfixDumper.dll " . escapeshellarg($file) . " " . escapeshellarg(BACKEND_BASE_DIR . "/dbd/WoWDBDefs/definitions"));
     echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Decoding output..\n";
     $json = json_decode($output, true);
 
@@ -156,7 +156,7 @@ foreach ($filesToProcess as $file) {
     echo "[Hotfix updater] [" . date("Y-m-d H:i:s") . "] Processing big one..\n";
 
     $foundNewKeys = false;
-    $output2 = shell_exec("cd /home/wow/hotfixdumper; dotnet WoWTools.HotfixDumper.dll " . escapeshellarg($file) . " " . escapeshellarg(BACKEND_BASE_DIR . "/dbd/WoWDBDefs/definitions") . " true");
+    $output2 = shell_exec("cd " . BACKEND_BASE_DIR . "/hotfixdumper; dotnet WoWTools.HotfixDumper.dll " . escapeshellarg($file) . " " . escapeshellarg(BACKEND_BASE_DIR . "/dbd/WoWDBDefs/definitions") . " true");
     if($output2 != null){
         foreach (explode("\n", $output2) as $line) {
             if (empty($line)) {

@@ -17,7 +17,7 @@ function processRoot($root, $build, $buildid)
     echo "Processing " . $build . "\n";
     if (!file_exists(BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt")) {
         echo "	Dumping manifest..";
-        $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumproot2 " . $root . " > /home/wow/buildbackup/manifests/" . $root . ".txt");
+        $output = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet " . BACKEND_BASE_DIR . "/buildbackup/BuildBackup.dll dumproot2 " . $root . " > " . BACKEND_BASE_DIR . "/buildbackup/manifests/" . $root . ".txt");
         echo "..done!\n";
     } else {
         echo "	Manifest already dumped, skipping..\n";

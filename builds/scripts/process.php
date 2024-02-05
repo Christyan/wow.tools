@@ -168,7 +168,7 @@ function updateBuildConfig($product)
     foreach ($it as $file) {
         if($product == "wowdev"){
             if(!file_exists("/tmp/wowdevcache/" . basename($file))){
-                $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumpconfig wowdev " .  basename($file) . " > " . "/tmp/wowdevcache/" . basename($file) . " 2>&1");
+                $output = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet " . BACKEND_BASE_DIR . "/buildbackup/BuildBackup.dll dumpconfig wowdev " .  basename($file) . " > " . "/tmp/wowdevcache/" . basename($file) . " 2>&1");
             }
             $file = "/tmp/wowdevcache/" . basename($file);
         }
@@ -414,7 +414,7 @@ function updateBuildConfigLong($product)
         $unarchivedcomplete = 0;
 
         // Run buildbackup tool in dump mode
-        $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumpinfo " . $product . " " . $row['buildconfig'] . " " . $row['cdnconfig']);
+        $output = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet " . BACKEND_BASE_DIR . "/buildbackup/BuildBackup.dll dumpinfo " . $product . " " . $row['buildconfig'] . " " . $row['cdnconfig']);
         if (!$output) {
             echo "\n\nEncountered exception, skipping build.. \n\n\n";
             continue;
@@ -487,7 +487,7 @@ function updatePatchConfig($product)
     foreach ($it as $file) {
         if($product == "wowdev"){
             if(!file_exists("/tmp/wowdevcache/" . basename($file))){
-                $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumpconfig wowdev " .  basename($file) . " > " . "/tmp/wowdevcache/" . basename($file) . " 2>&1");
+                $output = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet " . BACKEND_BASE_DIR . "/buildbackup/BuildBackup.dll dumpconfig wowdev " .  basename($file) . " > " . "/tmp/wowdevcache/" . basename($file) . " 2>&1");
             }
             $file = "/tmp/wowdevcache/" . basename($file);
         }
@@ -531,7 +531,7 @@ function updateCDNConfig($product)
     foreach ($it as $file) {
         if($product == "wowdev"){
             if(!file_exists("/tmp/wowdevcache/" . basename($file))){
-                $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumpconfig wowdev " .  basename($file) . " > " . "/tmp/wowdevcache/" . basename($file) . " 2>&1");
+                $output = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet " . BACKEND_BASE_DIR . "/buildbackup/BuildBackup.dll dumpconfig wowdev " .  basename($file) . " > " . "/tmp/wowdevcache/" . basename($file) . " 2>&1");
             }
             $file = "/tmp/wowdevcache/" . basename($file);
         }

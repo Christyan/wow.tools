@@ -20,8 +20,8 @@ if($config1['file-index'] === $config2['file-index'])
 	die("File indices match");
 
 echo "Dumping file-index entries..\n";
-$output1 = shell_exec("cd /home/wow/buildbackup/; dotnet BuildBackup.dll dumpindex wow ".$config1['file-index']);
-$output2 = shell_exec("cd /home/wow/buildbackup/; dotnet BuildBackup.dll dumpindex wow ".$config2['file-index']);
+$output1 = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup/; dotnet BuildBackup.dll dumpindex wow ".$config1['file-index']);
+$output2 = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup/; dotnet BuildBackup.dll dumpindex wow ".$config2['file-index']);
 
 $expl1 = explode("\n", $output1);
 $expl2 = explode("\n", $output2);
@@ -51,7 +51,7 @@ foreach($addedFiles as $addedFile){
 
 	// Identify file based on magic
 	$path = WORK_DIR . "/".generateURL("data", $addedFile);
-	$firstChars = shell_exec("cd /home/wow/buildbackup/; dotnet BuildBackup.dll dumprawfile ".$path." 2");
+	$firstChars = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup/; dotnet BuildBackup.dll dumprawfile ".$path." 2");
 	switch($firstChars){
 		case "TS": // TSFM: Root
 			$results[$addedFile] = "root_cdn";
@@ -94,7 +94,7 @@ echo "Generating MD5 contenthashes for BLTE-decoded build files..\n";
 foreach($requiredTypes as $type){
 	$tempName = tempnam("/tmp", "halfpush");
 	$path = WORK_DIR . "/".generateURL("data", $build[$type]);
-	shell_exec("cd /home/wow/buildbackup/; dotnet BuildBackup.dll dumprawfiletofile ".$path." ".$tempName);
+	shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup/; dotnet BuildBackup.dll dumprawfiletofile ".$path." ".$tempName);
 	$build[str_replace("_cdn", "", $type)] = md5_file($tempName);
 	$build[str_replace("_cdn", "_size", $type)] = filesize($tempName);
 	unlink($tempName);
@@ -103,8 +103,8 @@ foreach($requiredTypes as $type){
 
 // Patch stuff
 echo "Dumping patch-file-index entries..\n";
-$output1 = shell_exec("cd /home/wow/buildbackup/; dotnet BuildBackup.dll dumpindex wow ".$config1['patch-file-index']." patch");
-$output2 = shell_exec("cd /home/wow/buildbackup/; dotnet BuildBackup.dll dumpindex wow ".$config2['patch-file-index']." patch");
+$output1 = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup/; dotnet BuildBackup.dll dumpindex wow ".$config1['patch-file-index']." patch");
+$output2 = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup/; dotnet BuildBackup.dll dumpindex wow ".$config2['patch-file-index']." patch");
 
 $expl1 = explode("\n", $output1);
 $expl2 = explode("\n", $output2);
@@ -150,7 +150,7 @@ foreach($addedFiles as $addedFile){
 
 echo "Finding espec for build files in encoding..\n";
 $espec = array();
-$output = shell_exec("cd /home/wow/buildbackup/; dotnet BuildBackup.dll dumpencoding wow ".$build['encoding_cdn']);
+$output = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup/; dotnet BuildBackup.dll dumpencoding wow ".$build['encoding_cdn']);
 foreach(explode("\n", $output) as $line){
 	$entry = explode(" ", $line);
 	if($entry[0] == "ENCODINGESPEC"){

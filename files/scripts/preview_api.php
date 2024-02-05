@@ -78,7 +78,7 @@ if ($type == "ogg") {
     $tempfile = WORK_DIR . "/casc/extract/" . $staticBuild . "/" . $_GET['filedataid'];
     if ($type == "m2" || $type == "wmo") {
         // dump json
-        $output = shell_exec("cd /home/wow/jsondump; /usr/bin/dotnet WoWJsonDumper.dll " . $type . " " . escapeshellarg($tempfile) . " 2>&1");
+        $output = shell_exec("cd " . BACKEND_BASE_DIR . "/jsondump; /usr/bin/dotnet WoWJsonDumper.dll " . $type . " " . escapeshellarg($tempfile) . " 2>&1");
         ?>
             <div class='alert alert-danger'>As mentioned in the October update (see <a href='/2022.php' target='_BLANK'>2022</a>), the model viewer is now using static files. This means previewing models from recent builds will likely not work.</div>
         <ul class="nav nav-tabs" id="myTab" role="tablist">

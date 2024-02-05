@@ -26,7 +26,7 @@ if (file_exists($manifest)) {
 }
 
 echo "	Dumping manifest..";
-$output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll dumproot2 " . $root . " > " . escapeshellarg($manifest));
+$output = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet BuildBackup.dll dumproot2 " . $root . " > " . escapeshellarg($manifest));
 echo "..done!\n";
 
 $unverifiedq = $pdo->query("SELECT id, lookup FROM wow_rootfiles WHERE verified = 0 AND lookup != ''")->fetchAll();
@@ -45,7 +45,7 @@ while (($line = fgetcsv($file, 1000, ';', '"')) !== false) {
     // 3 = contenthash
 
     if (array_key_exists($line[2], $unverifieds) && empty($line[1])) {
-        $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll calchash " . escapeshellarg("by_fdid_" . $line[2]));
+        $output = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet BuildBackup.dll calchash " . escapeshellarg("by_fdid_" . $line[2]));
         $lookups = explode(" ", trim($output));
         $lookup = $lookups[1];
 

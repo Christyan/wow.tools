@@ -138,9 +138,9 @@ while (true) {
             }
             fclose($fhandle);
             echo("Extracting " . $toextract . " unknown files (" . $extracted . " already extracted) for buildconfig " . $buildconfig . "\n");
-            // echo "cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll extractfilesbylist ".$buildconfig." ".$cdnrow['cdnconfig']." /tmp/casc/".$buildconfig."/ /tmp/casc/".$buildconfig.".txt";
+            // echo "cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet " . BACKEND_BASE_DIR . "/buildbackup/BuildBackup.dll extractfilesbylist ".$buildconfig." ".$cdnrow['cdnconfig']." /tmp/casc/".$buildconfig."/ /tmp/casc/".$buildconfig.".txt";
             if ($toextract > 0) {
-                $cmd = "cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll extractfilesbylist " . $buildconfig . " " . $cdnrow['cdnconfig'] . " /tmp/casc/" . $buildconfig . "/ /tmp/casc/" . $buildconfig . ".txt";
+                $cmd = "cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet " . BACKEND_BASE_DIR . "/buildbackup/BuildBackup.dll extractfilesbylist " . $buildconfig . " " . $cdnrow['cdnconfig'] . " /tmp/casc/" . $buildconfig . "/ /tmp/casc/" . $buildconfig . ".txt";
                 exec($cmd, $output);
             }
         }else{

@@ -52,7 +52,7 @@ echo "Inserting..\n";
 $insq = $pdo->prepare("INSERT INTO wow_rootfiles (id, filename, lookup, verified) VALUES (?, ?, ?, 1)");
 foreach ($files as $fdid => $fname) {
     if (!in_array($fdid, $knownfdids)) {
-        $output = shell_exec("dotnet /home/wow/buildbackup/BuildBackup.dll calchash " . escapeshellarg($fname));
+        $output = shell_exec("dotnet " . BACKEND_BASE_DIR . "/buildbackup/BuildBackup.dll calchash " . escapeshellarg($fname));
         $lookup = explode(" ", trim($output))[1];
         echo $fdid . ": " . $fname . " (" . $lookup . ")\n";
         $insq->execute([$fdid, $fname, $lookup]);

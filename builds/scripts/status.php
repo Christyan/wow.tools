@@ -38,7 +38,7 @@ foreach ($products as $code => $product) {
     foreach ($it as $file) {
         if($product == "wowdev"){
             if(!file_exists("/tmp/wowdevcache/" . basename($file))){
-                $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet /home/wow/buildbackup/BuildBackup.dll dumpconfig wowdev " .  basename($file) . " > " . "/tmp/wowdevcache/" . basename($file) . " 2>&1");
+                $output = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet " . BACKEND_BASE_DIR . "/buildbackup/BuildBackup.dll dumpconfig wowdev " .  basename($file) . " > " . "/tmp/wowdevcache/" . basename($file) . " 2>&1");
             }
             $file = "/tmp/wowdevcache/" . basename($file);
         }

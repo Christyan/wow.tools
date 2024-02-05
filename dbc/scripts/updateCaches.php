@@ -39,7 +39,7 @@ foreach ($files as $file) {
     }
 
     echo "[Cache updater] [" . date("Y-m-d H:i:s") . "] Reading " . $file . "\n";
-    $output = shell_exec("cd /home/wowtools/backend/WoWTools.WDBUpdater/bin/Release/net7.0/; dotnet WoWTools.WDBUpdater.dll " . escapeshellarg($file) . " mysql onlyretail");
+    $output = shell_exec("cd " . BACKEND_BASE_DIR . "/WoWTools.WDBUpdater/bin/Release/net7.0/; dotnet WoWTools.WDBUpdater.dll " . escapeshellarg($file) . " mysql onlyretail");
     // if (!$fullrun && $output != null && substr($output, -34) != "New entries: 0\nUpdated entries: 0\n") {
     //     // echo "[Cache updater] [" . date("Y-m-d H:i:s") . "] " . substr($output, -34);
     //     //telegramSendMessage($output);

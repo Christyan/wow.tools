@@ -12,7 +12,7 @@ for (
     $i++
 ) {
     echo "Comparing " . $cdnconfigs[$i - 1] . " and " . $cdnconfigs[$i] . "\n";
-    $output = shell_exec("cd /home/wow/halfpush/; /usr/bin/dotnet HalfPushConfigGenerator.dll " . $cdnconfigs[$i - 1] . " " . $cdnconfigs[$i]);
+    $output = shell_exec("cd " . BACKEND_BASE_DIR . "/halfpush/; /usr/bin/dotnet HalfPushConfigGenerator.dll " . $cdnconfigs[$i - 1] . " " . $cdnconfigs[$i]);
     print_r($output);
 }
 

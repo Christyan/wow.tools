@@ -35,7 +35,7 @@ foreach ($files as $file) {
 
 fclose($tmpfile);
 
-$cmd = "cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll calchashlistfile " . escapeshellarg($tmpfname);
+$cmd = "cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet BuildBackup.dll calchashlistfile " . escapeshellarg($tmpfname);
 $output = explode("\n", shell_exec($cmd));
 
 $qt = $pdo->prepare("SELECT filename FROM wow_rootfiles WHERE lookup = ?");

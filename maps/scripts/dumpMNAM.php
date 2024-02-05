@@ -19,7 +19,7 @@ foreach ($pdo->query("SELECT internal, wdtFileDataID FROM wow_maps_maps WHERE wd
     }
 
     file_put_contents($tempname, $data);
-    $output = shell_exec("cd /home/wow/jsondump; dotnet WoWJsonDumper.dll wdt " . escapeshellarg($tempname) . " > " . escapeshellarg($destinationjson));
+    $output = shell_exec("cd " . BACKEND_BASE_DIR . "/jsondump; dotnet WoWJsonDumper.dll wdt " . escapeshellarg($tempname) . " > " . escapeshellarg($destinationjson));
     print_r($output);
     unlink($tempname);
 }

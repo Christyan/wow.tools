@@ -40,7 +40,7 @@ function makeTiles2019($targetdir, $mapname, $version, $build)
         $maxZoom = 7;
     }
 
-    exec("cd /home/wow/minimaps/cut; /usr/bin/dotnet WoWTools.MinimapCut.dll " . escapeshellarg($config['map']) . " " . escapeshellarg($targetdir) . " " . escapeshellarg($maxZoom));
+    exec("cd " . BACKEND_BASE_DIR . "/minimaps/cut; /usr/bin/dotnet WoWTools.MinimapCut.dll " . escapeshellarg($config['map']) . " " . escapeshellarg($targetdir) . " " . escapeshellarg($maxZoom));
     echo "..done!\n";
 }
 
@@ -81,16 +81,16 @@ if (strlen($argv[1]) == 32) {
 
     if ($regenerate) {
         echo "Removing raw directory..\n";
-        shell_exec("rm -rf /home/wow/minimaps/raw/" . $outdir);
+        shell_exec("rm -rf " . BACKEND_BASE_DIR . "/minimaps/raw/" . $outdir);
     }
 
     echo "Creating raw directory..\n";
     if (file_exists(BACKEND_BASE_DIR . "/minimaps/raw/" . $outdir)) {
         echo "Raw directory already exists, skipping extraction..\n";
     } else {
-        shell_exec("mkdir -p /home/wow/minimaps/raw/" . $outdir);
+        shell_exec("mkdir -p " . BACKEND_BASE_DIR . "/minimaps/raw/" . $outdir);
         echo "Extracting tiles..\n";
-        $extractionoutput = shell_exec("cd /home/wow/minimaps/extract; /usr/bin/dotnet WoWTools.MinimapExtract.dll " . __DIR__ . "/../../tpr/wow/ " . escapeshellarg($build['buildconfig']['hash']) . " " . escapeshellarg($build['cdnconfig']['hash']) . " " . escapeshellarg(BACKEND_BASE_DIR . "/minimaps/raw/" . $outdir));
+        $extractionoutput = shell_exec("cd " . BACKEND_BASE_DIR . "/minimaps/extract; /usr/bin/dotnet WoWTools.MinimapExtract.dll " . __DIR__ . "/../../tpr/wow/ " . escapeshellarg($build['buildconfig']['hash']) . " " . escapeshellarg($build['cdnconfig']['hash']) . " " . escapeshellarg(BACKEND_BASE_DIR . "/minimaps/raw/" . $outdir));
         print_r($extractionoutput);
     }
 } else {
@@ -105,14 +105,14 @@ if (strlen($argv[1]) == 32) {
 
 if ($regenerate) {
     echo "Removing output directory..\n";
-    shell_exec("rm -rf /home/wow/minimaps/png/" . $outdir);
+    shell_exec("rm -rf " . BACKEND_BASE_DIR . "/minimaps/png/" . $outdir);
 }
 
 echo "Creating output directory..\n";
 if (file_exists(BACKEND_BASE_DIR . "/minimaps/png/" . $outdir)) {
     echo "Output directory already exists, skipping compilation..\n";
 } else {
-    shell_exec("mkdir -p /home/wow/minimaps/png/" . $outdir);
+    shell_exec("mkdir -p " . BACKEND_BASE_DIR . "/minimaps/png/" . $outdir);
     echo "Compiling maps..\n";
 
     if (is_dir(BACKEND_BASE_DIR . "/minimaps/raw/" . $outdir . "/World/Minimaps/")) {
@@ -133,7 +133,7 @@ if (file_exists(BACKEND_BASE_DIR . "/minimaps/png/" . $outdir)) {
             $res = 512;
         }
 
-        $compilationoutput = shell_exec("cd /home/wow/minimaps/compile; /usr/bin/dotnet WoWTools.MinimapCompile.dll " . escapeshellarg($rawDir . $mapname) . " " . escapeshellarg(BACKEND_BASE_DIR . "/minimaps/png/" . $outdir . "/" . $mapname . ".png") . " " . escapeshellarg($res));
+        $compilationoutput = shell_exec("cd " . BACKEND_BASE_DIR . "/minimaps/compile; /usr/bin/dotnet WoWTools.MinimapCompile.dll " . escapeshellarg($rawDir . $mapname) . " " . escapeshellarg(BACKEND_BASE_DIR . "/minimaps/png/" . $outdir . "/" . $mapname . ".png") . " " . escapeshellarg($res));
         if (!file_exists(BACKEND_BASE_DIR . "/minimaps/png/" . $outdir . "/" . $mapname . ".png")) {
             echo "Compilation failed:" . print_r($compilationoutput, true);
         }

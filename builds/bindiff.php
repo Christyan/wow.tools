@@ -42,7 +42,7 @@ ini_set('memory_limit', '1G');
                     die("Invalid buildconfig specified!");
                 }
 
-                $oldoutput = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpinstall wow " . $oldbuild['buildconfig']['install_cdn'] . " | sort");
+                $oldoutput = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpinstall wow " . $oldbuild['buildconfig']['install_cdn'] . " | sort");
                 $oldlines = explode("\n", $oldoutput);
                 foreach ($oldlines as $line) {
                     if (empty(trim($line))) {
@@ -79,7 +79,7 @@ ini_set('memory_limit', '1G');
                     die("Invalid buildconfig specified!");
                 }
 
-                $newoutput = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpinstall wow " . $newbuild['buildconfig']['install_cdn'] . " | sort");
+                $newoutput = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpinstall wow " . $newbuild['buildconfig']['install_cdn'] . " | sort");
                 $newlines = explode("\n", $newoutput);
                 foreach ($newlines as $line) {
                     if (empty(trim($line))) {
@@ -117,8 +117,8 @@ ini_set('memory_limit', '1G');
             die("Invalid buildconfig specified!");
         }
 
-        $oldoutput = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpinstall wow " . $oldbuild['buildconfig']['install_cdn'] . " | sort");
-        $newoutput = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpinstall wow " . $newbuild['buildconfig']['install_cdn'] . " | sort");
+        $oldoutput = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpinstall wow " . $oldbuild['buildconfig']['install_cdn'] . " | sort");
+        $newoutput = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet BuildBackup.dll dumpinstall wow " . $newbuild['buildconfig']['install_cdn'] . " | sort");
         $oldlines = explode("\n", $oldoutput);
         $newlines = explode("\n", $newoutput);
         $oldsuccess = false;
@@ -135,7 +135,7 @@ ini_set('memory_limit', '1G');
                 $oldq->execute([$oldbuild['buildconfig']['hash']]);
                 $oldrow = $oldq->fetch();
                 if (!file_exists("/tmp/" . $oldfilename . "_" . $oldbuild['buildconfig']['description'])) {
-                    $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilebycontenthash wow " . escapeshellarg($oldbuild['buildconfig']['hash']) . " " . escapeshellarg($oldrow['cdnconfig']) . " " . escapeshellarg($md5) . " " . escapeshellarg("/tmp/" . $oldfilename . "_" . $oldbuild['buildconfig']['description']) . " 2>&1");
+                    $output = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilebycontenthash wow " . escapeshellarg($oldbuild['buildconfig']['hash']) . " " . escapeshellarg($oldrow['cdnconfig']) . " " . escapeshellarg($md5) . " " . escapeshellarg("/tmp/" . $oldfilename . "_" . $oldbuild['buildconfig']['description']) . " 2>&1");
                 }
 
                 if (!file_exists("/tmp/" . $oldfilename . "_" . $oldbuild['buildconfig']['description'])) {
@@ -162,7 +162,7 @@ ini_set('memory_limit', '1G');
                 $newq->execute([$newbuild['buildconfig']['hash']]);
                 $newrow = $newq->fetch();
                 if (!file_exists("/tmp/" . $newfilename . "_" . $newbuild['buildconfig']['description'])) {
-                    $output = shell_exec("cd /home/wow/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilebycontenthash wow " . escapeshellarg($newbuild['buildconfig']['hash']) . " " . escapeshellarg($newrow['cdnconfig']) . " " . escapeshellarg($md5) . " " . escapeshellarg("/tmp/" . $newfilename . "_" . $newbuild['buildconfig']['description']) . " 2>&1");
+                    $output = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup; /usr/bin/dotnet BuildBackup.dll extractfilebycontenthash wow " . escapeshellarg($newbuild['buildconfig']['hash']) . " " . escapeshellarg($newrow['cdnconfig']) . " " . escapeshellarg($md5) . " " . escapeshellarg("/tmp/" . $newfilename . "_" . $newbuild['buildconfig']['description']) . " 2>&1");
                 }
 
                 if (!file_exists("/tmp/" . $newfilename . "_" . $newbuild['buildconfig']['description'])) {

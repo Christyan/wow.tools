@@ -21,8 +21,8 @@ $config2 = parseConfig(WORK_DIR . "/" . generateURL("config", $cdnc2['hash']));
 if($config1['file-index'] === $config2['file-index'])
 	die("File indexes match");
 
-$output1 = shell_exec("cd /home/wow/buildbackup/; dotnet BuildBackup.dll dumpindex wow ".$config1['file-index']);
-$output2 = shell_exec("cd /home/wow/buildbackup/; dotnet BuildBackup.dll dumpindex wow ".$config2['file-index']);
+$output1 = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup/; dotnet BuildBackup.dll dumpindex wow ".$config1['file-index']);
+$output2 = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup/; dotnet BuildBackup.dll dumpindex wow ".$config2['file-index']);
 
 $expl1 = explode("\n", $output1);
 $expl2 = explode("\n", $output2);
@@ -51,7 +51,7 @@ foreach($addedFiles as $addedFile){
 
 	// Identify file based on magic
 	$path = WORK_DIR . "/".generateURL("data", $addedFile);
-	$firstChars = shell_exec("cd /home/wow/buildbackup/; dotnet BuildBackup.dll dumprawfile ".$path." 2");
+	$firstChars = shell_exec("cd " . BACKEND_BASE_DIR . "/buildbackup/; dotnet BuildBackup.dll dumprawfile ".$path." 2");
 	switch($firstChars){
 		case "TS": // TSFM: Root
 			$results[$addedFile] = "root";

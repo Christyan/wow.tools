@@ -36,7 +36,7 @@ while ($row = $q->fetch(PDO::FETCH_ASSOC)) {
         continue;
     }
 
-    $output = shell_exec("cd /home/wow/jsondump; /usr/bin/dotnet WoWJsonDumper.dll m2 " . escapeshellarg($tempfile) . " 2>&1");
+    $output = shell_exec("cd " . BACKEND_BASE_DIR . "/jsondump; /usr/bin/dotnet WoWJsonDumper.dll m2 " . escapeshellarg($tempfile) . " 2>&1");
 
     $json = json_decode($output, true);
     if (!$json) {
