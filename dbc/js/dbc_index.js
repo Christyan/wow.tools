@@ -1,3 +1,6 @@
+let build;
+let currentParams = [];
+
 $(document).ready(() => {
 
     loadSettings();
@@ -136,4 +139,4 @@ $(document).ready(() => {
             document.getElementById("fkSearchResultHolder").innerHTML = "";
         })
     }());
-})
+});

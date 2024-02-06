@@ -1301,9 +1301,6 @@ function loadTable() {
     });
 }
 
-let build;
-let currentParams = [];
-
 
 
 
