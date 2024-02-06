@@ -9,8 +9,8 @@
                     <thead><tr><th>Version</th><th>Tables w/o def</th></tr></thead>
                     {% for noDef in versions %}
                         <tr>
-                            <td>{{ versionCacheByID[noDef['versionid']] }}</td>
-                            <td>{{ noDef['noDefCount']  }}</td>
+                            <td>{{ versionCacheByID[noDef.versionid] }}</td>
+                            <td>{{ noDef.noDefCount  }}</td>
                         </tr>
                     {% endfor %}
                 </table>
@@ -21,8 +21,8 @@
                     <thead><tr><th>Table</th><th>Versions w/o def</th></tr></thead>
                     {% for noDef in tables %}
                         <tr>
-                            <td>{{ tableCacheByID[noDef['tableid']] }}</td>
-                            <td>{{ noDef['noDefCount'] }}</td>
+                            <td>{{ tableCacheByID[noDef.tableid] }}</td>
+                            <td>{{ noDef.noDefCount }}</td>
                         </tr>
                     {% endfor %}
                 </table>
