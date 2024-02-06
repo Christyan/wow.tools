@@ -49,10 +49,11 @@ function parseBuildName($buildname)
     return $build;
 }
 
-function generateMeta($queryString)
+function generateMeta($queryString, $returnDesc = false)
 {
     $url = parse_url($queryString);
     $tags = [];
+    $desc = '';
 
     if (!empty($url['path'])) {
         switch ($url['path']) {
@@ -97,6 +98,10 @@ function generateMeta($queryString)
 
         $tags[] = "<meta name='description' content='" . $desc . "'>";
         $tags[] = "	<meta property='og:description' content='" . $desc . "'>";
+    }
+    
+    if ($returnDesc) {
+        return $desc;
     }
 
     $tags[] = "	<meta property='og:type' content='website'>";

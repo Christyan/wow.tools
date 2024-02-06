@@ -1,0 +1,15 @@
+{% if global.meta_desc is defined and global.meta is not empty %}
+    <meta name='description' content='{{ global.meta_desc }}'>
+    <meta property='og:description' content='{{ global.meta_desc }}'>
+{% endif %}
+
+<meta property='og:type' content='website'>
+<meta property='og:site_name' content='WoW.tools'>
+<meta property='og:title' content='{{ global.title }}'>
+<meta property='og:image' content='//img/cogw.png'>
+<meta property='twitter:image' content='//img/cogw.png'>
+<meta property='twitter:card' content='summary'>
+<meta property='twitter:site' content='@Marlamin'>
+<meta name='application-name' content='WoW.tools'>
+<meta name='apple-mobile-web-app-title' content='WoW.tools'>
+<meta name='theme-color' content='#343a40'>

@@ -33,3 +33,6 @@ vendor
 
 # Psalm
 psalm.xml
+
+#templating
+var/cache
