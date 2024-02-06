@@ -401,7 +401,7 @@ function generateFKTooltip(targetFK, value, tooltip, build)
         col = "ID";
 
     Promise.all([
-        fetch("/dbc/api/peek/" + table + "?build=" + build + "&col=" + col + "&val=" + value),
+        fetch(API_URL + "/api/peek/" + table + "?build=" + build + "&col=" + col + "&val=" + value),
     ])
         .then(function (responses) {
             return Promise.all(responses.map(function (response) {

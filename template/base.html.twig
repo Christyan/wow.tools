@@ -46,6 +46,10 @@
             <link href="{{ '/css/powerbar.css'|filemtime }}" rel="stylesheet">
         {% endif %}
     {% endif %}
+    
+    {% block extra_includes %}
+    
+    {% endblock %}
 </head>
 <body>
 {% if not global.embed %}

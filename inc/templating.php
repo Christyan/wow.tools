@@ -13,8 +13,12 @@ $twig = new Environment($loader, [
 
 $twig->addExtension(new TwigFilemtime());
 
-$twig->addGlobal('title', prettyTitle($_SERVER['REQUEST_URI']));
-$twig->addGlobal('meta_desc', generateMeta($_SERVER['REQUEST_URI'], true));
-$twig->addGlobal('embed', !empty($_GET['embed']));
-$twig->addGlobal('loggedin', !empty($_SESSION['loggedin']));
-$twig->addGlobal('API_URL', API_URL);
+$globals = [
+    'title' => prettyTitle($_SERVER['REQUEST_URI']),
+    'meta_desc' => generateMeta($_SERVER['REQUEST_URI'], true),
+    'embed' => !empty($_GET['embed']),
+    'loggedin' => !empty($_SESSION['loggedin']),
+    'API_URL' => API_URL
+];
+
+$twig->addGlobal('global', $globals);

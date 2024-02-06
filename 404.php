@@ -6,5 +6,4 @@ require_once("inc/config.php");
 
 global $twig;
 
-print $twig->render('error/404.html.twig', [
-]);
+print $twig->render('error/404.html.twig');
