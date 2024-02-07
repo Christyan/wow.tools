@@ -1,4 +1,4 @@
-{% if global.meta_desc is defined and global.meta is not empty %}
+{% if global.meta_desc is defined and not global.meta is empty %}
     <meta name='description' content='{{ global.meta_desc }}'>
     <meta property='og:description' content='{{ global.meta_desc }}'>
 {% endif %}

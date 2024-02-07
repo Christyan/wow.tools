@@ -2,12 +2,13 @@
 
 use Twig\Extension\AbstractExtension;
 
-class TwigFilemtime extends AbstractExtension
+class TwigFileFilters extends AbstractExtension
 {
     public function getFilters()
     {
         return [
             new \Twig\TwigFilter('filemtime', [$this, 'filemtime']),
+            new \Twig\TwigFilter('fileExists', [$this, 'fileExists']),
         ];
     }
 
@@ -19,5 +20,10 @@ class TwigFilemtime extends AbstractExtension
         }
         
         return $filepath . '?v=' . $mtime;
+    }
+    
+    public function fileExists($type, $hash, $cdndir = "wow")
+    {
+        return doesFileExist($type, $hash, $cdndir);
     }
 }

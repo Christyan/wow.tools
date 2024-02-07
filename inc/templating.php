@@ -3,7 +3,8 @@
 use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
-require_once('twig/TwigFilemtime.php');
+require_once('twig/TwigFileFilters.php');
+require_once('twig/TwigDataConvertFilters.php');
 
 $loader = new FilesystemLoader(__DIR__ . '/../template');
 $twig = new Environment($loader, [
@@ -11,7 +12,8 @@ $twig = new Environment($loader, [
     'auto_reload' => defined('DEV')
 ]);
 
-$twig->addExtension(new TwigFilemtime());
+$twig->addExtension(new TwigFileFilters());
+$twig->addExtension(new TwigDataConvertFilters());
 
 $globals = [
     'title' => prettyTitle($_SERVER['REQUEST_URI']),

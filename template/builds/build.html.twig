@@ -1,0 +1,173 @@
+<table class='table table-striped table-condensed'>
+    <tr>
+        <td>Description</td>
+        <td>{{ build.description }}</td>
+    </tr>
+    <tr>
+        <td>Product</td>
+        <td>{{ build.product }}</td>
+    </tr>
+    {% if not build.builton is empty %}
+        <tr>
+            <td>Compiled at</td>
+            <td>{{ build.builton }}</td>
+        </tr>
+    {% endif %}
+</table>
+
+<h4>Configs</h4>
+<table class='table table-sm table-striped table-condensed'>
+    <thead>
+    <tr>
+        <th>File</th>
+        <th>Encoding/CDN hash</th>
+    </tr>
+    </thead>
+    {% if not build.buildconfig is empty %}
+        <tr>
+            <td>
+                Build config (<a href='#' data-toggle='modal' data-target='#configModal' onClick='fillConfigModal("{{ build.buildconfig }}")'>show</a>)
+            </td>
+            <td>
+                <span class='badge bg-{{ build.buildconfigcomplete == 1 ? 'success' : 'danger' }} hash'>{{ build.buildconfig }}</span>
+            </td>
+        </tr>
+    {% endif %}
+
+    {% if not build.cdnconfig is empty %}
+        <tr>
+            <td>
+                CDN config (<a href='#' data-toggle='modal' data-target='#configModal' onClick='fillConfigModal("{{ build.cdnconfig }}")'>show</a>)
+            </td>
+            <td>
+                <span class='badge bg-{{ build.cdnconfigcomplete == 1 ? 'success' : 'danger' }} hash'>{{ build.cdnconfig }}</span>
+            </td>
+        </tr>
+    {% endif %}
+
+    {% if not build.patchconfig is empty %}
+        <tr>
+            <td>
+                Patch config (<a href='#' data-toggle='modal' data-target='#configModal' onClick='fillConfigModal("{{ buildpatchconfig }}")'>show</a>)
+            </td>
+            <td>
+                <span class='badge bg-{{ build.patchconfigcomplete == 1 ? 'success' : 'danger' }} hash'>{{ build.patchconfig }}</span>
+            </td>
+        </tr>
+    {% endif %}
+
+</table>
+<h4>Build config files</h4>
+<table class='table table-sm table-striped table-condensed'>
+    <thead>
+    <tr>
+        <th>File</th>
+        <th>Content hash</th>
+        <th>Encoding/CDN hash</th>
+    </tr>
+    </thead>
+
+    {% if not build.encoding is empty %}
+        <tr>
+            <td>Encoding</td>
+            <td><span class='badge bg-secondary hash'>{{ build.encoding }}</span></td>
+            <td>
+                <span class='badge bg-{{ ( not build.encoding_cdn is empty and 'data'|fileExists(build.encoding_cdn, allowedproducts.wow.cdndir) ) ? 'success' : 'danger' }} hash'>
+                    {{ build.encoding_cdn }}
+                </span>
+            </td>
+        </tr>
+    {% endif %}
+
+    {% if not build.root is empty %}
+        <tr>
+            <td>Root</td>
+            <td><span class='badge bg-secondary hash'>{{ build.root }}</span></td>
+            <td>
+                <span class='badge bg-{{ ( not build.rood_cdn is empty and 'data'|fileExists(build.root_cdn, allowedproducts.wow.cdndir) ) ? 'success' : 'danger' }} hash'>
+                    {{ build.root_cdn }}
+                </span>
+            </td>
+        </tr>
+    {% endif %}
+
+    {% if not build.install is empty %}
+        <tr>
+            <td>Install</td>
+            <td><span class='badge bg-secondary hash'>{{ build.install }}</span></td>
+            <td>
+                <span class='badge bg-{{ ( not build.install_cdn is empty and 'data'|fileExists(build.install_cdn, allowedproducts.wow.cdndir) ) ? 'success' : 'danger' }} hash'>
+                    {{ build.install_cdn }}
+                </span>
+            </td>
+        </tr>
+    {% endif %}
+
+    {% if not build.download is empty %}
+        <tr>
+            <td>Download</td>
+            <td><span class='badge bg-secondary hash'>{{ build.download }}</span></td>
+            <td>
+                <span class='badge bg-{{ ( not build.download_cdn is empty and 'data'|fileExists(build.download_cdn, allowedproducts.wow.cdndir) ) ? 'success' : 'danger' }} hash'>
+                    {{ build.download_cdn }}
+                </span>
+            </td>
+        </tr>
+    {% endif %}
+
+    {% if not build.size is empty %}
+        <tr>
+            <td>Size</td>
+            <td><span class='badge bg-secondary hash'>{{ build.size }}</span></td>
+            <td>
+                <span class='badge bg-{{ ( not build.size_cdn is empty and 'data'|fileExists(build.size_cdn, allowedproducts.wow.cdndir) ) ? 'success' : 'danger' }} hash'>
+                    {{ build.size_cdn }}
+                </span>
+            </td>
+        </tr>
+    {% endif %}
+
+    <tr>
+        <td>Unarchived</td>
+        <td colspan='2' style='color: {{ build.unarchivedcomplete == build.unarchivedcount ? 'green' : 'red' }}'>
+            {{ build.unarchivedcomplete }}/{{ build.unarchivedcount == 0 ? '???' : build.unarchivedcount }}
+        </td>
+    </tr>
+</table>
+<h4>CDN config files</h4>
+<table class='table table-sm table-striped table-condensed'>
+    <thead>
+    <tr>
+        <th style='width: 200px'>Type</th>
+        <th>Status</th>
+    </tr>
+    </thead>
+
+    <tr>
+        <td>Archives</td>
+        <td style='color: {{ build.archivecomplete == build.archivecount ? 'green' : 'red' }}'>
+            {{ build.archivecomplete }}/{{ build.archivecount }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>Archive indexes</td>
+        <td style='color: {{ build.indexcomplete == build.archivecount ? 'green' : 'red' }}'>
+            {{ build.indexcomplete }}/{{ build.archivecount }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>Patch archives</td>
+        <td style='color: {{ build.patcharchivecomplete == build.patcharchivecount ? 'green' : 'red' }}'>
+            {{ build.patcharchivecomplete }}/{{ build.patcharchivecount }}
+        </td>
+    </tr>
+
+    <tr>
+        <td>Patch archive indexes</td>
+        <td style='color: {{ build.patchindexcomplete == build.patcharchivecount ? 'green' : 'red' }}'>
+            {{ build.patchindexcomplete }}/{{ build.patcharchivecount }}
+        </td>
+    </tr>
+</table>

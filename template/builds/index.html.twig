@@ -1,0 +1,167 @@
+{% extends 'base.html.twig' %}
+
+{% block extra_includes %}
+    <link href="{{ '/builds/css/builds.css'|filemtime }}" rel="stylesheet">
+    <script type='text/javascript' src='{{ '/builds/js/builds.js'|filemtime }}'></script>
+{% endblock %}
+
+{% block body %}
+    <div class="modal" id="installDiffModal" tabindex="-1" role="dialog" aria-labelledby="installDiffModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="installDiffModalLabel">Install diff</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="installDiffModalContent">
+                    <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="moreInfoModal" tabindex="-1" role="dialog" aria-labelledby="moreInfoModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="moreInfoModalLabel">Version information</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="moreInfoModalContent">
+                    <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal" id="configModal" tabindex="-1" role="dialog" aria-labelledby="configModalLabel"
+         aria-hidden="true">
+        <div class="modal-dialog modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="configModalLabel">Raw config</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body" id="configModalContent">
+                    <i class="fa fa-refresh fa-spin" style="font-size:24px"></i>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class='container-fluid'>
+        <h3 style='float: left'>{{ allbuilds|length }} builds in DB</h3>
+        <div style='float: left; margin-left: 10px; position: sticky; top: 0; z-index: 9'>
+            <a href='#' class='btn btn-primary btn-sm disabled' id='diffButton'>Diff builds</a>
+            <a href='#' class='btn btn-success btn-sm' style='display :none' id='openDiffButton' target='_BLANK'>
+                Open diff
+            </a>
+            <a href='#' class='btn btn-info btn-sm' style='display :none' id='openInstallDiffButton' href='#'>
+                Open install diff
+            </a>
+            <a href='#' class='btn btn-danger btn-sm' style='display: none' id='resetButton'>Reset</a>
+        </div>
+        <table id='buildtable' class='table table-sm table-hover maintable' style='clear: both'>
+            <thead>
+            <tr>
+                <th>Patch</th>
+                <th>Build</th>
+                <th>Branch</th>
+                <th>Build config</th>
+                <th>Patch config</th>
+                <th>CDN config</th>
+                <th>Compiled at (PT)</th>
+                <th>Detected at (CEST)
+                <th>&nbsp;</th>
+            </tr>
+            </thead>
+            {% for row in allbuilds %}
+                <tr>
+                    {% if not row.product is empty %}
+                        {% set product = row.product %}
+                    {% else %}
+                        {% set product = row.versionproduct %}
+                    {% endif %}
+
+                    {% set buildarr = row.description|parseBuildName %}
+
+                    <td style='width: 50px'>{{ buildarr.patch }}</td>
+                    <td style='width: 70px'>{{ buildarr.build }}
+                        {% if buildarr.build % 10000 == 0 %}
+                            🥳
+                        {% endif %}
+                    </td>
+                    <td style='width: 120px'>
+                        <span class='badge bg-{{ product|branchColor }}'>{{ product|prettyBranch(false) }}</span>
+                        {% if row.buildconfig in customBuilds %}
+                            <span class='badge bg-warning' data-trigger='hover' data-container='body' data-html='false' data-toggle='popover' data-content='Build configuration for this build was generated by wow.tools.'>
+                                <i class='fa fa-pencil'></i>
+                            </span>
+                        {% elseif buildarr.build == 42698 and product == 'wowt' %}
+                            ...ish
+                        {% endif %}
+                    </td>
+                    <td style='width: 500px'>
+                        <span class='hash buildconfighash'>{{ row.buildconfig }}</span>
+
+                        {% if row.buildconfigcomplete == 0 %}
+                            <span class='badge bg-danger'>Incomplete</span>
+                        {% endif %}
+                    </td>
+                    <td style='width: 300px'>
+                        <span class='hash'>{{ row.patchconfig }}</span>
+
+                        {% if row.patchconfigcomplete is defined and row.patchconfigcomplete == 0 %}
+                            <span class='badge bg-danger'>Incomplete</span>
+                        {% endif %}
+
+                    </td>
+                    <td style='width: 300px;'>
+                        <span class='hash'>{{ row.cdnconfig }}</span>
+
+                        {% if row.cdnconfigcomplete is defined and row.cdnconfigcomplete == 0 %}
+                            <span class='badge bg-danger'>Incomplete</span>
+                        {% endif %}
+                    </td>
+
+                    <td style='width: 150px'>{{ row.builton }}</td>
+                    <td style='width: 150px'>{{ row.releasetime }}</td>
+                    <td style='width: 100px'>
+                        <a href='#' data-toggle='modal' data-target='#moreInfoModal' onClick='fillVersionModal({{ row.versionid }})'>
+                            Show details
+                        </a>
+                    </td>
+                </tr>
+            {% endfor %}
+        </table>
+    </div>
+
+    <script type='text/javascript'>
+        var table = $('#buildtable').DataTable({
+            "pagingType": "input",
+            "pageLength": 25,
+            "order": [[1, 'desc']],
+            "lengthMenu": [[25, 100, 500, 1000], [25, 100, 500, 1000]],
+            "columnDefs": [
+                {
+                    "targets": [2, 3, 4, 5, 8],
+                    "orderable": false,
+                }],
+        });
+
+    </script>
+{% endblock %}

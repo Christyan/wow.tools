@@ -169,7 +169,7 @@ function prettyTitle($queryString)
     }
 }
 
-function prettyBranch($branch, $realPretty = true)
+function prettyBranch($branch, $realPretty = true, $returnColor = false)
 {
     switch ($branch) {
         case "wow":
@@ -235,6 +235,10 @@ function prettyBranch($branch, $realPretty = true)
         default:
             $color = "danger";
             $branch = "unknown (" . $branch . ")";
+    }
+    
+    if ($returnColor) {
+        return $color;
     }
 
     if ($realPretty) {
