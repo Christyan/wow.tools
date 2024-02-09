@@ -1,0 +1,44 @@
+{% if type == 'ogg' %}
+    <audio autoplay controls><source src='{{ previewURL }}' type='audio/ogg'></audio>
+{% elseif type == 'mp3' %}
+    <audio autoplay controls><source src='{{ previewURL }}' type='audio/mpeg'></audio>
+{% elseif type == 'blp' %}
+    <canvas id='mapCanvas' width='1' height='1'></canvas>
+    <script type='text/javascript'>
+        renderBLPToCanvasElement("{{ previewURL }}", "mapCanvas", 0, 0, true);
+    </script>
+{% else %}
+    {% if type == 'm2' or type == 'wmo' %}
+        <div class='alert alert-danger'>As mentioned in the October update (see <a href='/2022.php' target='_BLANK'>2022</a>), the model viewer is now using static files. This means previewing models from recent builds will likely not work.</div>
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="model-tab" data-toggle="tab" href="#model" role="tab" aria-controls="model" aria-selected="true">Model</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="raw-tab" data-toggle="tab" href="#raw" role="tab" aria-controls="raw" aria-selected="false">Raw</a>
+            </li>
+        </ul>
+        <div class="tab-content" id="myTabContent">
+            <div class="tab-pane show active" id="model" role="tabpanel" aria-labelledby="model-tab">
+                <iframe style='border:0px;width:100%;min-height: 75vh' src='/mv/?embed=true&buildconfig={{ build.buildconfig.hash }}&cdnconfig={{ build.cdnconfig.hash }}>&filedataid={{ filedataid }}&type={{ type }}'></iframe><br>
+                <center><a href='/mv/?buildconfig={{ build.buildconfig.hash }}&cdnconfig={{ build.cdnconfig.hash }}&filedataid={{ filedataid }}&type={{ type }}' target='_BLANK'>Open in modelviewer</a></center>
+            </div>
+            <div class="tab-pane" id="raw" role="tabpanel" aria-labelledby="raw-tab">
+                <pre style='max-height: 80vh'><code>{{ output }}</code></pre>
+            </div>
+        </div>
+    {% elseif type == 'xml' or type == 'xsd' or type == 'lua' or type == 'toc' or type == 'htm' or type == 'html' or type == 'sbt' or type == 'txt' or type == 'wtf' %}
+        <pre style='max-height: 80vh'><code>{{ output }}</code></pre>
+    {% elseif type == 'wmf' %}
+        <pre style='max-height: 80vh'>
+            <code id='jsonHolder'></code>
+        </pre>
+        <script type='text/javascript'>
+            var jsonString = "{{ output }}";
+            document.getElementById('jsonHolder').innerHTML = JSON.stringify(JSON.parse(jsonString),null,2);
+        </script>
+    {% else %}
+        "Not a supported file for previews, dumping hex output (until 1MB)."
+        <pre style='max-height: 80vh'><code>{{ output }}</code></pre>
+    {% endif %}    
+{% endif %}

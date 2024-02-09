@@ -8,7 +8,8 @@ class TwigFileFilters extends AbstractExtension
     {
         return [
             new \Twig\TwigFilter('filemtime', [$this, 'filemtime']),
-            new \Twig\TwigFilter('fileExists', [$this, 'fileExists']),
+            new \Twig\TwigFilter('doesFileExist', [$this, 'doesFileExist']),
+            new \Twig\TwigFilter('basename', [$this, 'basename']),
         ];
     }
 
@@ -22,8 +23,16 @@ class TwigFileFilters extends AbstractExtension
         return $filepath . '?v=' . $mtime;
     }
     
-    public function fileExists($type, $hash, $cdndir = "wow")
+    public function doesFileExist($type, $hash, $cdndir = "wow")
     {
         return doesFileExist($type, $hash, $cdndir);
     }
+    
+    public function basename ($path, $suffix = '')
+    {
+        return basename($path, $suffix = '');
+    }
+    
+    
+    
 }

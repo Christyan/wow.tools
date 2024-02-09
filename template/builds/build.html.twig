@@ -72,7 +72,7 @@
             <td>Encoding</td>
             <td><span class='badge bg-secondary hash'>{{ build.encoding }}</span></td>
             <td>
-                <span class='badge bg-{{ ( not build.encoding_cdn is empty and 'data'|fileExists(build.encoding_cdn, allowedproducts.wow.cdndir) ) ? 'success' : 'danger' }} hash'>
+                <span class='badge bg-{{ ( not build.encoding_cdn is empty and 'data'|doesFileExist(build.encoding_cdn, allowedproducts.wow.cdndir) ) ? 'success' : 'danger' }} hash'>
                     {{ build.encoding_cdn }}
                 </span>
             </td>
@@ -84,7 +84,7 @@
             <td>Root</td>
             <td><span class='badge bg-secondary hash'>{{ build.root }}</span></td>
             <td>
-                <span class='badge bg-{{ ( not build.rood_cdn is empty and 'data'|fileExists(build.root_cdn, allowedproducts.wow.cdndir) ) ? 'success' : 'danger' }} hash'>
+                <span class='badge bg-{{ ( not build.rood_cdn is empty and 'data'|doesFileExist(build.root_cdn, allowedproducts.wow.cdndir) ) ? 'success' : 'danger' }} hash'>
                     {{ build.root_cdn }}
                 </span>
             </td>
@@ -96,7 +96,7 @@
             <td>Install</td>
             <td><span class='badge bg-secondary hash'>{{ build.install }}</span></td>
             <td>
-                <span class='badge bg-{{ ( not build.install_cdn is empty and 'data'|fileExists(build.install_cdn, allowedproducts.wow.cdndir) ) ? 'success' : 'danger' }} hash'>
+                <span class='badge bg-{{ ( not build.install_cdn is empty and 'data'|doesFileExist(build.install_cdn, allowedproducts.wow.cdndir) ) ? 'success' : 'danger' }} hash'>
                     {{ build.install_cdn }}
                 </span>
             </td>
@@ -108,7 +108,7 @@
             <td>Download</td>
             <td><span class='badge bg-secondary hash'>{{ build.download }}</span></td>
             <td>
-                <span class='badge bg-{{ ( not build.download_cdn is empty and 'data'|fileExists(build.download_cdn, allowedproducts.wow.cdndir) ) ? 'success' : 'danger' }} hash'>
+                <span class='badge bg-{{ ( not build.download_cdn is empty and 'data'|doesFileExist(build.download_cdn, allowedproducts.wow.cdndir) ) ? 'success' : 'danger' }} hash'>
                     {{ build.download_cdn }}
                 </span>
             </td>
@@ -120,7 +120,7 @@
             <td>Size</td>
             <td><span class='badge bg-secondary hash'>{{ build.size }}</span></td>
             <td>
-                <span class='badge bg-{{ ( not build.size_cdn is empty and 'data'|fileExists(build.size_cdn, allowedproducts.wow.cdndir) ) ? 'success' : 'danger' }} hash'>
+                <span class='badge bg-{{ ( not build.size_cdn is empty and 'data'|doesFileExist(build.size_cdn, allowedproducts.wow.cdndir) ) ? 'success' : 'danger' }} hash'>
                     {{ build.size_cdn }}
                 </span>
             </td>

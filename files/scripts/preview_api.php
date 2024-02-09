@@ -2,6 +2,8 @@
 
 require_once("../../inc/config.php");
 
+global $twig, $pdo;
+
 if (empty($_GET['buildconfig']) || empty($_GET['filedataid'])) {
     die("Not enough information!");
 }
@@ -64,49 +66,32 @@ if (!empty($_GET['contenthash'])) {
 }
 
 $previewURL = "/casc/extract/" . $staticBuild . "/" . $_GET['filedataid'];
+$output = '';
 
-if ($type == "ogg") {
-    echo "<audio autoplay controls><source src='" . $previewURL . "' type='audio/ogg'></audio>";
-} elseif ($type == "mp3") {
-    echo "<audio autoplay controls><source src='" . $previewURL . "' type='audio/mpeg'></audio>";
-} elseif ($type == "blp") {
-        ?>
-    <canvas id='mapCanvas' width='1' height='1'></canvas>
-    <script type='text/javascript'>renderBLPToCanvasElement("<?php echo $previewURL ?>", "mapCanvas", 0, 0, true);</script>
-    <?php
-} else {
+if ($type != 'ogg' && $type != 'mp3' && $type != 'blp') {
     $tempfile = WORK_DIR . "/casc/extract/" . $staticBuild . "/" . $_GET['filedataid'];
     if ($type == "m2" || $type == "wmo") {
         // dump json
         $output = shell_exec("cd " . BACKEND_BASE_DIR . "/jsondump; /usr/bin/dotnet WoWJsonDumper.dll " . $type . " " . escapeshellarg($tempfile) . " 2>&1");
-        ?>
-            <div class='alert alert-danger'>As mentioned in the October update (see <a href='/2022.php' target='_BLANK'>2022</a>), the model viewer is now using static files. This means previewing models from recent builds will likely not work.</div>
-        <ul class="nav nav-tabs" id="myTab" role="tablist">
-            <li class="nav-item">
-                <a class="nav-link active" id="model-tab" data-toggle="tab" href="#model" role="tab" aria-controls="model" aria-selected="true">Model</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" id="raw-tab" data-toggle="tab" href="#raw" role="tab" aria-controls="raw" aria-selected="false">Raw</a>
-            </li>
-        </ul>
-        <div class="tab-content" id="myTabContent">
-            <div class="tab-pane show active" id="model" role="tabpanel" aria-labelledby="model-tab">
-                <iframe style='border:0px;width:100%;min-height: 75vh' src='/mv/?embed=true&buildconfig=<?=$build['buildconfig']['hash']?>&cdnconfig=<?=$build['cdnconfig']['hash']?>&filedataid=<?=$_GET['filedataid']?>&type=<?=$type?>'></iframe><br>
-                <center><a href='/mv/?buildconfig=<?=$build['buildconfig']['hash']?>&cdnconfig=<?=$build['cdnconfig']['hash']?>&filedataid=<?=$_GET['filedataid']?>&type=<?=$type?>' target='_BLANK'>Open in modelviewer</a></center>
-            </div>
-            <div class="tab-pane" id="raw" role="tabpanel" aria-labelledby="raw-tab"><pre style='max-height: 80vh'><code><?=htmlentities($output)?></pre></code></div>
-        </div>
-        <?php
+        $output = htmlentities($output);
     } elseif ($type == "xml" || $type == "xsd" || $type == "lua" || $type == "toc" || $type == "htm" || $type == "html" || $type == "sbt" || $type == "txt" || $type == "wtf") {
-        echo "<pre style='max-height: 80vh'><code>" . htmlentities(file_get_contents($tempfile)) . "</pre></code>";
+        $output = file_get_contents($tempfile);
+        // $output = htmlentities($output);
     } else if ($type == "wwf") {
         $output = shell_exec("/usr/bin/tail -c +9 " . escapeshellarg($tempfile) . "");
-        echo "<pre style='max-height: 80vh'><code id='jsonHolder'></code></pre><script type='text/javascript'>var jsonString = \"" . addslashes($output) . "\"; document.getElementById('jsonHolder').innerHTML = JSON.stringify(JSON.parse(jsonString),null,2);</script>";
+        $output = addslashes($output);
     } else {
         // dump via hd
-        echo "Not a supported file for previews, dumping hex output (until 1MB).";
+        // "Not a supported file for previews, dumping hex output (until 1MB).";
         $output = shell_exec("/usr/bin/hd -n1048576 " . escapeshellarg($tempfile));
-        echo "<pre style='max-height: 80vh'><code>" . htmlentities($output) . "</pre></code>";
+        // $output = htmlentities($output);
     }
 }
-?>
+
+print $twig->render('files/api_filepreview.html.twig', [
+    'build' => $build,
+    'previewURL' => $previewURL,
+    'filedataid' => @$_GET['filedataid'],
+    'type' => $type,
+    'output' => $output
+]);

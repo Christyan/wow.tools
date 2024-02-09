@@ -3,6 +3,8 @@
 require_once("../../inc/config.php");
 header("Access-Control-Allow-Origin: http://wow.tools.localhost");
 
+global $twig, $pdo;
+
 if (!empty($_GET['filedataid'])) {
     $q = $pdo->prepare("SELECT * FROM wow_rootfiles WHERE id = :id");
     $q->bindParam(":id", $_GET['filedataid'], PDO::PARAM_INT);
@@ -65,171 +67,78 @@ if (!empty($_GET['filedataid'])) {
     $returndata = array("filedataid" => $row['id'], "filename" => $row['filename'], "lookup" => $row['lookup'], "versions" => $versions, "type" => $row['type']);
     $staticBuild = trim(file_get_contents(WORK_DIR . "/casc/extract/lastextractedroot.txt"));
 
-    echo "<table class='table table-striped'>";
-    echo "<thead><tr><th style='width: 400px'></th><th></th></tr></thead>";
-    echo "<tr><td>FileDataID</td><td>" . $returndata['filedataid'] . "</td></tr>";
-    if (!empty($returndata['filename'])) {
-        echo "<tr><td>Filename</td><td id='editableFilename' data-id=" . $returndata['filedataid'] . ">" . $returndata['filename'] . "</td></tr>";
-    }
-    echo "<tr><td>Lookup</td><td>" . $returndata['lookup'] . "</td></tr>";
-    echo "<tr><td>Type</td><td>" . $returndata['type'] . "</td></tr>";
-
     if ($returndata['type'] == "ogg" || $returndata['type'] == "mp3") {
         $soundkitq = $pdo->prepare("SELECT soundkitentry.entry as entry, soundkitname.name as name FROM `wowdata`.soundkitentry INNER JOIN `wowdata`.soundkitname ON soundkitentry.entry=`wowdata`.soundkitname.id WHERE soundkitentry.id = :id");
         $soundkitq->bindParam(":id", $returndata['filedataid']);
         $soundkitq->execute();
         $soundkits = $soundkitq->fetchAll();
-        if (count($soundkits) > 0) {
-            echo "<tr><td>SoundKit</td><td>";
-            foreach ($soundkits as $soundkitrow) {
-                echo $soundkitrow['entry'] . " (" . htmlentities($soundkitrow['name'], ENT_QUOTES) . ")<br>";
-            }
-            echo "</td></tr>";
-        }
     }
 
     $eq = $pdo->prepare("SELECT wow_tactkey.id, wow_encrypted.keyname, wow_tactkey.description, wow_tactkey.keybytes, wow_encrypted.active FROM wow_encrypted LEFT JOIN wow_tactkey ON wow_encrypted.keyname = wow_tactkey.keyname WHERE wow_encrypted.filedataid = :id");
     $eq->bindParam(":id", $returndata['filedataid']);
     $eq->execute();
-    foreach ($eq->fetchAll(PDO::FETCH_ASSOC) as $er) {
-        if (!empty($er['keybytes'])) {
-            $keyAvailable = "<span style='color: green;'>known</span>";
-        } else {
-            $keyAvailable = "<span style='color: red;'>unknown</span>";
-        }
-
-        if ($er['active'] == 1) {
-            echo "<tr><td>Encrypted with " . $keyAvailable . " key <span class='hash'><a target='_BLANK' href='https://wow.tools/files/#search=encrypted%3A" . $er['keyname'] . "'>". $er['keyname'] . "</a> (" . $er['id'] . ")</span> </td><td>" . $er['description'] . "</td></tr>";
-        } else {
-            echo "<tr><td>Used to be encrypted with " . $keyAvailable . " key <span class='hash'><a target='_BLANK' href='https://wow.tools/files/#search=encrypted%3A" . $er['keyname'] . "'>". $er['keyname'] . "</a> (" . $er['id'] . ")</span></td><td>" . $er['description'] . "</td></tr>";
-        }
-    }
+    $eqr = $eq->fetchAll(PDO::FETCH_ASSOC);
 
     $badlyencq = $pdo->prepare("SELECT filedataid FROM wow_encryptedbutnot WHERE filedataid = ?");
     $badlyencq->execute([$row['id']]);
-    if(!empty($badlyencq->fetch())){
-        echo "<tr><td colspan='2'>Flagged as encrypted but has either been decrypted long ago or conflicts with an identical non-encrypted version of the file</td></tr>";
-    }
 
-    echo "<tr><td colspan='2'><b>Known versions</b></td></tr>";
-    echo "<tr><td colspan='2'>
-    <table class='table table-sm'>";
-    echo "<tr><th>Description</th><th>Buildconfig</th><th>Contenthash</th><th>Size</th></tr>";
-    foreach ($versions as $version) {
-        if (!empty($returndata['filename'])) {
-            $downloadFilename = basename($returndata['filename']);
-        } else {
-            if (empty($returndata['type'])) {
-                $downloadFilename = $returndata['filedataid'] . ".unk";
-            } else {
-                $downloadFilename = $returndata['filedataid'] . "." . $returndata['type'];
-            }
-        }
-        echo "<tr><td>" . $version['description'] . "</td><td class='hash'>" . $version['buildconfig'] . "</td><td class='hash'><a href='#' data-toggle='modal' data-target='#chashModal' onClick='fillChashModal(\"" . $version['contenthash'] . "\")'>" . $version['contenthash'] . "</a></td><td>" . humanBytes($version['size']) . " (" . $version['size'] . " bytes)</td></tr>";
-    }
-    echo "</table>
-    </td></tr>";
-    echo "<tr>";
-    if(file_exists(WORK_DIR . "/casc/extract/" . $staticBuild . "/" . $returndata['filedataid'])){
-        echo "<td colspan='2'><a class='btn btn-primary' href='#' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"" . $version['buildconfig'] . "\", \"" . $returndata['filedataid'] . "\")'><i class='fa fa-eye'></i> Preview</a> ";
-        echo "<a class='btn btn-primary' href='/files/scripts/downloadStaticFile.php?build=" . $staticBuild . "&id=" . $returndata['filedataid'] ."'><i class='fa fa-download'></i> Download</a></td>";
-    }
-    echo "</tr>";
-    echo "<tr><td colspan='2'><b>Neighbouring files</b></td></tr>";
     $nbq = $pdo->prepare("(SELECT * FROM wow_rootfiles WHERE id >= :id1 ORDER BY id ASC LIMIT 4) UNION (SELECT * FROM wow_rootfiles WHERE id < :id2 ORDER BY id DESC LIMIT 3) ORDER BY id ASC");
     $nbq->bindParam(":id1", $row['id']);
     $nbq->bindParam(":id2", $row['id']);
     $nbq->execute();
+    $nbr = $nbq->fetchAll();
 
-    echo "<tr><td colspan='2'>
-    <table class='table table-sm'>";
-    echo "<tr><th>ID</th><th>Filename</th></tr>";
-    while ($nbrow = $nbq->fetch()) {
-        echo "<tr>";
-        if ($nbrow['id'] == $row['id']) {
-            echo "<td><b style='color: red'>" . $nbrow['id'] . "</b></td>";
-            echo "<td><b style='color: red'>" . $nbrow['filename'] . "</b></td>";
-        } else {
-            echo "<td>" . $nbrow['id'] . "</td>";
-            echo "<td>" . $nbrow['filename'] . "</td>";
-        }
-        echo "</tr>";
-    }
-    echo "</table>
-    </td></tr>";
     $lq = $pdo->prepare("SELECT wow_rootfiles_links.*, wow_rootfiles.id, wow_rootfiles.filename, wow_rootfiles.type as filetype FROM wow_rootfiles_links INNER JOIN wow_rootfiles ON wow_rootfiles.id=wow_rootfiles_links.parent WHERE child = :id");
     $lq->bindParam(":id", $row['id']);
     $lq->execute();
     $parents = $lq->fetchAll();
-    if (count($parents) > 0) {
-        echo "<tr><td colspan='2'><b>Linked parent files</b></td></tr>";
-        echo "<tr><td colspan='2'>
-        <table class='table'>";
-        echo "<tr><th>Link type</th><th>ID</th><th>Filename</th><th>Type</th></tr>";
-        foreach ($parents as $lrow) {
-            echo "<tr>";
-            echo "<td>" . $lrow['type'] . "</td>";
-            echo "<td>" . $lrow['parent'] . "</td>";
-            echo "<td>" . $lrow['filename'] . "</td>";
-            echo "<td>" . $lrow['filetype'] . "</td>";
-            echo "</tr>";
-        }
-        echo "</table>
-        </td></tr>";
-    }
 
     $bhashq = $pdo->prepare("SELECT hash FROM wow_buildconfig WHERE root_cdn IN (SELECT root_cdn FROM wow_rootfiles_chashes WHERE filedataid = ?) ORDER BY ID DESC LIMIT 1");
     $lq = $pdo->prepare("SELECT wow_rootfiles_links.*, wow_encrypted.keyname, wow_rootfiles.id, wow_rootfiles.filename, wow_rootfiles.type as filetype FROM wow_rootfiles_links INNER JOIN wow_rootfiles ON wow_rootfiles.id=wow_rootfiles_links.child LEFT OUTER JOIN wow_encrypted ON wow_rootfiles.id=wow_encrypted.filedataid WHERE parent = :id");
     $lq->bindParam(":id", $row['id']);
     $lq->execute();
     $children = $lq->fetchAll();
-    if (count($children) > 0) {
-        echo "<tr><td colspan='2'><b>Linked child files</b></td></tr>";
-        echo "<tr><td colspan='2'>
-        <table class='table'>";
-        echo "<tr><th>Link type</th><th>ID</th><th>Filename</th><th>Type</th><th>&nbsp;</th></tr>";
-        foreach ($children as $lrow) {
-            echo "<tr>";
-            echo "<td>" . $lrow['type'] . "</td>";
-            echo "<td>" . $lrow['child'] . "</td>";
-            echo "<td>" . $lrow['filename'] . "</td>";
-            echo "<td>" . $lrow['filetype'] . "</td>";
-            if ($lrow['filetype'] == "blp") {
-                // select newest bc for this file, TODO: most recent one instead of random one
-                $bhashq->execute([$lrow['child']]);
-                $buildhashforchildres = $bhashq->fetch();
-                if (!empty($buildhashforchildres)) {
-                    $buildhashforchild = $buildhashforchildres['hash'];
-                } else {
-                    $buildhashforchild = $versions[0]['buildconfig'];
-                }
-                // check encryption
-                $eq->bindParam(":id", $lrow['child']);
-                $eq->execute();
-                $enc = 0;
-                foreach ($eq->fetchAll(PDO::FETCH_ASSOC) as $er) {
-                    if (!empty($er['keybytes'])) {
-                        $enc = 2;
-                    } else {
-                        $enc = 1;
-                    }
-                }
-                echo "<td><a href='#' data-toggle='modal' data-target='#previewModal' onClick='fillPreviewModal(\"" . $buildhashforchild . "\", \"" . $lrow['child'] . "\")'>Preview</a>";
-                if ($enc == 1) {
-                    echo " <i style='color: red' title='File is encrypted (key " . $lrow['keyname'] . " not known)' class='fa fa-lock'></i>";
-                } elseif ($enc == 2) {
-                    echo " <i style='color: green' title='File is encrypted (key " . $lrow['keyname'] . " is available)' class='fa fa-unlock'></i>";
-                }
-                echo "</td>";
+    
+    foreach ($children as &$lrow) {
+        if ($lrow['filetype'] == "blp") {
+            // select newest bc for this file, TODO: most recent one instead of random one
+            $bhashq->execute([$lrow['child']]);
+            $buildhashforchildres = $bhashq->fetch();
+            if (!empty($buildhashforchildres)) {
+                $buildhashforchild = $buildhashforchildres['hash'];
             } else {
-                echo "<td>&nbsp;</td>";
+                $buildhashforchild = $versions[0]['buildconfig'];
             }
-            echo "</tr>";
+            // check encryption
+            $eq->bindParam(":id", $lrow['child']);
+            $eq->execute();
+            $enc = 0;
+            foreach ($eq->fetchAll(PDO::FETCH_ASSOC) as $er) {
+                if (!empty($er['keybytes'])) {
+                    $enc = 2;
+                } else {
+                    $enc = 1;
+                }
+            }
+
+            $lrow['buildhashforchild'] = $buildhashforchild;
+            $lrow['enc'] = $enc;
         }
-        echo "</table>
-        </td></tr>";
     }
-    echo "</table>";
+    
+    print $twig->render('files/api_filedata.html.twig', [
+        'staticBuild' => $staticBuild,
+        'returndata' => $returndata,
+        'soundkits' => @$soundkits,
+        'eqr' => $eqr,
+        'row' => $row,
+        'nbr' => $nbr,
+        'versions' => $versions,
+        'parents' => $parents,
+        'children' => $children,
+        'showEncryptDisclaimer' => !empty($badlyencq->fetch()),
+        'fileExists' => file_exists(WORK_DIR . "/casc/extract/" . $staticBuild . "/" . $returndata['filedataid'])
+    ]);
 }
 
 if (!empty($_GET['contenthash'])) {
@@ -242,13 +151,10 @@ if (!empty($_GET['contenthash'])) {
     $chashq->execute();
 
     $chashes = $chashq->fetchAll();
-
-    echo count($chashes) . " results for this contenthash!";
-    echo "<table class='table' id='chashtable'>";
-    foreach ($chashes as $chashrow) {
-        echo "<tr><td style='width: 85px;'>" . $chashrow['filedataid'] . "</td><td>" . $chashrow['filename'] . "</td></tr>";
-    }
-    echo "</table>";
+    
+    print $twig->render('files/api_contenthash.html.twig', [
+        'chashes' => $chashes
+    ]);
 }
 
 if (!empty($_GET['type']) && $_GET['type'] == "gettypes") {

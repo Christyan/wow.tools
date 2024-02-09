@@ -20,6 +20,7 @@ $globals = [
     'meta_desc' => generateMeta($_SERVER['REQUEST_URI'], true),
     'embed' => !empty($_GET['embed']),
     'loggedin' => !empty($_SESSION['loggedin']),
+    'user' => @$_SESSION['user'],
     'API_URL' => API_URL
 ];
 

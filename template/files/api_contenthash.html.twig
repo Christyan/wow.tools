@@ -1,0 +1,9 @@
+{{ chashes|length }} results for this contenthash!
+<table class='table' id='chashtable'>
+    {% for chashrow in chashes %}
+        <tr>
+            <td style='width: 85px;'>{{ chashrow.filedataid  }}</td>
+            <td>{{ chashrow.filename }}</td>
+        </tr>
+    {% endfor %}
+</table>
