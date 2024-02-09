@@ -87,6 +87,7 @@ if(php_sapi_name() != 'cli')
 		session_name('wowtools');
 		session_start();
 	}
+    
+    require_once(__DIR__ . "/templating.php");
 }
 
-require_once(__DIR__ . "/templating.php");
