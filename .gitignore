@@ -27,7 +27,6 @@ sftp-config.json
 inc/bugsnag/*
 
 # Composer
-composer.json
 composer.lock
 vendor
 
