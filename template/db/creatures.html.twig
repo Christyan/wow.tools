@@ -1,0 +1,30 @@
+{% extends 'base.html.twig' %}
+
+{% block extra_includes %}
+    <link href="{{ '/db/css/style.css'|filemtime }}" rel="stylesheet">
+    {% if not creature is defined %}
+        <script src="{{ '/db/js/creatures.js'|filemtime }}" ></script>
+    {% endif %}
+{% endblock %}
+
+{% block body %}
+    {% if not creature is empty %}
+        <div class='container-fluid'>
+            <h2>{{ creature['Name[0]'] }} <small>&lt; {{ creature.Title }}&gt;</small></h2>
+            {% if not filedataid is empty %}
+                <iframe width='950' height='700' src='/mv/?filedataid={{ filedataid }}&type=m2&embed=true'></iframe>
+            {% endif %}
+        </div>
+        
+        <pre>{{ creature|dump }}</pre>
+    {% else %}
+        <div class='container-fluid'>
+            <h3>Creatures</h3>
+            <div class='row'><div class='col'><label for='enableMV'>Enable modelviewer</label> <input type='checkbox' id='enableMV'> | <a href='/db/creature_export.php'><i class='fa fa-download'></i> JSON (experimental)</a></div></div>
+            <table class='table table-striped' id='creatures'>
+                <thead><tr><th style='width: 100px'>ID</th><th>Name</th><th style='width: 120px'>First seen build</th><th style='width: 120px'>Last update build</th></tr>
+            </table>
+            <div id="creatures_preview" style="display: block;"></div>
+        </div>
+    {% endif %}
+{% endblock %}
