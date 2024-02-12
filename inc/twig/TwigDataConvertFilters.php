@@ -7,12 +7,18 @@ class TwigDataConvertFilters extends AbstractExtension
     public function getFilters()
     {
         return [
+            new \Twig\TwigFilter('dump', [$this, 'dump']),
             new \Twig\TwigFilter('parseBuildName', [$this, 'parseBuildName']),
             new \Twig\TwigFilter('prettyBranch', [$this, 'prettyBranch']),
             new \Twig\TwigFilter('branchColor', [$this, 'branchColor']),
             new \Twig\TwigFilter('prettyBuild', [$this, 'prettyBuild']),
             new \Twig\TwigFilter('humanBytes', [$this, 'humanBytes']),
         ];
+    }
+    
+    public function dump($data)
+    {
+        return var_export($data);
     }
 
     public function parseBuildName($buildname)
