@@ -1,0 +1,16 @@
+{% extends 'base.html.twig' %}
+
+{% block extra_includes %}
+    <link href="{{ '/db/css/style.css'|filemtime }}" rel="stylesheet">
+    <script src="{{ '/db/js/quests.js'|filemtime }}"></script>
+{% endblock %}
+
+{% block body %}
+    <div class='container-fluid'>
+        <h3>Quests</h3>
+        <table class='table table-striped' id='quests'>
+            <thead><tr><th style='width: 100px'>ID</th><th>Name</th><th style='width: 120px'>First seen build</th><th style='width: 120px'>Last update build</th></tr>
+        </table>
+        <div id="quests_preview" style="display: block;"></div>
+    </div>
+{% endblock %}
