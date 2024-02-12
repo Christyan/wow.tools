@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class='container-fluid'>
+        <table class='table table-condensed table-striped'>
+            <thead><tr><th>Name</th><th>Internal</th><th>First seen</th><th>Versions</th></tr></thead><tbody>
+            {% for mapid, map in mapCacheByID %}
+                <tr>
+                    <td>{{ map.name }}</td>
+                    <td>{{ map.internal }}</td>
+                    <td>{{ versionCacheByBuild[map.firstseen] }}</td>
+                    <td>
+                        {% for mapVersion in map.mapVersions %}
+                            <a href='/maps/png/{{ mapVersion.version }}/{{ map.internal|rawurldecode }}.png'>{{ mapVersion.version }}</a> 
+                        {% endfor %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody></table>
+    </div>
+{% endblock %}

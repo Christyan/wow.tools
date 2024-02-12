@@ -8,6 +8,8 @@ class TwigDataConvertFilters extends AbstractExtension
     {
         return [
             new \Twig\TwigFilter('dump', [$this, 'dump']),
+            new \Twig\TwigFilter('rawurlencode', [$this, 'rawurlencode']),
+            new \Twig\TwigFilter('rawurldecode', [$this, 'rawurldecode']),
             new \Twig\TwigFilter('parseBuildName', [$this, 'parseBuildName']),
             new \Twig\TwigFilter('prettyBranch', [$this, 'prettyBranch']),
             new \Twig\TwigFilter('branchColor', [$this, 'branchColor']),
@@ -19,6 +21,16 @@ class TwigDataConvertFilters extends AbstractExtension
     public function dump($data)
     {
         return var_export($data);
+    }
+    
+    public function rawurlencode(string $string)
+    {
+        return rawurlencode($string);
+    }
+
+    public function rawurldecode(string $string)
+    {
+        return rawurldecode($string);
     }
 
     public function parseBuildName($buildname)
