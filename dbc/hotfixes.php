@@ -59,7 +59,7 @@ require_once(__DIR__ . "/../inc/header.php");
 <script src="/dbc/js/dbc.js?v=<?=filemtime(WORK_DIR . "/dbc/js/dbc.js")?>"></script>
 <script src="/dbc/js/flags.js?v=<?=filemtime(WORK_DIR . "/dbc/js/flags.js")?>"></script>
 <script src="/dbc/js/enums.js?v=<?=filemtime(WORK_DIR . "/dbc/js/enums.js")?>"></script>
-<script src="https://wow.tools/js/diff_match_patch.js"></script>
+<script src="/js/diff_match_patch.js"></script>
 <script type='text/javascript'>
 <?php if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){ ?>
     const showHotfixButtons = true;
