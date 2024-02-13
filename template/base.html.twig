@@ -37,9 +37,9 @@
         const API_URL = "{{ global.API_URL }}";
     </script>
     {% if not global.embed %}
-    <script type="text/javascript" src="{{ '/js/main.js'|filemtime }}"></script>
-    <script type="text/javascript" src="{{ '/js/tooltips.js'|filemtime }}"></script>
-    <script type="text/javascript" src="{{ '/mv/anims.js'|filemtime }}"></script>
+        <script type="text/javascript" src="{{ '/js/main.js'|filemtime }}"></script>
+        <script type="text/javascript" src="{{ '/js/tooltips.js'|filemtime }}"></script>
+        <script type="text/javascript" src="{{ '/mv/anims.js'|filemtime }}"></script>
         {% if global.loggedin %}
             <script type="text/javascript" src="{{ '/js/powerbar.js'|filemtime }}"></script>
             <script type="text/javascript" src="{{ '/js/main.powerbar.js'|filemtime }}"></script>
@@ -130,14 +130,15 @@
 
 {% endblock %}
 
-
-{% block footer %}
-    <footer>
-        <div class="container text-muted">
-            <p><a class='text-danger' href='/2022.php'>WoW.tools is mostly in read-only mode, click here for more information. ♥</a></p>
-            <p style='font-size: 11px'>World of Warcraft and related trademarks are registered trademarks of Blizzard Entertainment whom this site is not affiliated with. <a href='/about.php'>Privacy Policy/Open Source</a></p>
-        </div>
-    </footer>
-{% endblock %}
+{% if not global.embed %}
+    {% block footer %}
+        <footer>
+            <div class="container text-muted">
+                <p><a class='text-danger' href='/2022.php'>WoW.tools is mostly in read-only mode, click here for more information. ♥</a></p>
+                <p style='font-size: 11px'>World of Warcraft and related trademarks are registered trademarks of Blizzard Entertainment whom this site is not affiliated with. <a href='/about.php'>Privacy Policy/Open Source</a></p>
+            </div>
+        </footer>
+    {% endblock %}
+{% endif %}
 
 </body>
