@@ -104,7 +104,7 @@ function openFKModal(value, location, build){
 
     Promise.all([
         fetch(API_URL + "/api/header/" + db + "?build=" + build),
-        fetch(API_URL + "/peek/" + db + "?build=" + build + "&col=" + col + "&val=" + value)
+        fetch(API_URL + "/api/peek/" + db + "?build=" + build + "&col=" + col + "&val=" + value)
     ])
         .then(async function (responses) {
             try {
