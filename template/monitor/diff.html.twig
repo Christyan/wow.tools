@@ -1,0 +1,65 @@
+<script type="text/javascript" charset="utf-8">
+    $(document).ready(function() {
+        if(localStorage.getItem('theme') == "dark"){
+            $('#previewModalContent').append('<link rel="stylesheet" type="text/css" href="/css/diff2html-dark.css?v= ' + Date.now() +'">');
+        }
+
+        var diffHtml = Diff2Html.html(
+            document.getElementById("rawdiff").innerHTML, {
+                inputFormat: 'diff',
+                drawFileList: false,
+                matching: 'lines',
+                outputFormat: 'side-by-side'
+            }
+        );
+        document.getElementById("diff").innerHTML = diffHtml;
+    });
+</script>
+<ul class="nav nav-tabs" id="myTab" role="tablist">
+    <li class="nav-item">
+        <a class="nav-link active" id="sbs-tab" data-toggle="tab" href="#sbs" role="tab" aria-controls="sbs" aria-selected="true">Side-by-Side diff</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" id="parsed-tab" data-toggle="tab" href="#parsed" role="tab" aria-controls="parsed" aria-selected="false">Parsed diff</a>
+    </li>
+</ul>
+<div class="tab-content">
+    <div class="tab-pane show active" id="sbs" role="tabpanel" aria-labelledby="sbs-tab">
+        <div id='rawdiff' style='display: none'>{{ diff|raw }}</div>
+        <div id='diff' style='width: 100%;'>Generating diff..</div>
+    </div>
+    <div class="tab-pane" id="parsed" role="tabpanel" aria-labelledby="parsed-tab">
+        <div id="jsondiff">
+            <table class='table table-sm table-striped'>
+                <thead><tr><th>&nbsp;</th><th>Key</th><th>Before</th><th>After</th></tr></thead>
+                {% if parsedDiffs == 'Unsupported' %}
+                    {{ parsedDiffs }}
+                {% else %}
+                    {% set difftext = '' %}
+                    {% set color = '' %}
+                    {% for name, parsedDiff in parsedDiffs %}
+                        {% if parsedDiffs.Type == 'added' %}
+                            {% set difftext = 'plus' %}
+                            {% set color = 'success' %}
+                        {% elseif parsedDiffs.Type == 'modified' %}
+                            {% set difftext = 'pencil' %}
+                            {% set color = 'warning' %}
+                        {% elseif parsedDiffs.Type == 'removed' %}
+                            {% set difftext = 'times' %}
+                            {% set color = 'danger' %}
+                        {% endif %}
+                        <tr>
+                            <td class='text-{{ color }}'>
+                                <i class='fa fa-{{ icon }}'></i>
+                            </td>
+                            <td>{{ name }}</td>
+                            <td>{{ parsedDiff.OldValue }}</td>
+                            <td>{{ parsedDiff.NewValue }}</td>
+                            <td></td>
+                        </tr>
+                    {% endfor %}
+                {% endif %}
+            </table>
+        </div>
+    </div>
+</div>

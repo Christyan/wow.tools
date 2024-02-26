@@ -20,8 +20,8 @@
     <link rel="apple-touch-icon" href="/img/cogw-192.png">
 </head>
 <body>
-<link href="/maps/css/leaflet.css" rel="stylesheet" type="text/css">
-<link href="/maps/css/style.css" rel="stylesheet" type="text/css">
+<link href="/css/maps/leaflet.css" rel="stylesheet" type="text/css">
+<link href="/css/maps/style.css" rel="stylesheet" type="text/css">
 <style type='text/css'>
     html{
         height: 100%;
@@ -54,7 +54,7 @@
 </style>
 <div id='maps'>
     <div id="js-map" class="map-canvas">&nbsp;</div>
-    <script type="text/javascript" src="/maps/js/leaflet.js"></script>
+    <script type="text/javascript" src="/js/maps/leaflet.js"></script>
     <script type='text/javascript'>
     /* global google:false */
     (function(){

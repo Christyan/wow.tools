@@ -27,7 +27,7 @@ if (!empty($_GET['embed']) && !empty($_GET['skitid'])) {
 
 <script type='text/javascript'>
     (function() {
-        var apiUrl = "/files/scripts/api.php";
+        var apiUrl = "/files/api";
 
         var previewTypes = ["ogg", "mp3", "blp", "wmo", "m2"];
 
@@ -119,7 +119,7 @@ $vq = $pdo->prepare("SELECT * FROM wow_dbc_table_versions LEFT JOIN wow_builds O
 $vq->execute([$currentDB['id']]);
 $version = $vq->fetch();
 ?>
-<link href="/dbc/css/dbc.css?v=<?=filemtime(WORK_DIR . "/dbc/css/dbc.css")?>" rel="stylesheet">
+<link href="/css/dbc/dbc.css?v=<?=filemtime(WORK_DIR . "/css/dbc/dbc.css")?>" rel="stylesheet">
 <div class="container-fluid">
 <div class='alert alert-warning'>
     Blizzard removed SoundKit names during 8.3 so soundkits more recent than that will not be available on this page.
@@ -176,8 +176,8 @@ $version = $vq->fetch();
         </div>
     </div>
 </div>
-<script src="/files/js/files.js?v=<?=filemtime(WORK_DIR . "/files/js/files.js")?>" crossorigin="anonymous"></script>
-<script src="/dbc/js/dbc.js?v=<?=filemtime(WORK_DIR . "/dbc/js/dbc.js")?>"></script>
+<script src="/js/files/files.js?v=<?=filemtime(WORK_DIR . "/js/files/files.js")?>" crossorigin="anonymous"></script>
+<script src="/js/dbc/dbc.js?v=<?=filemtime(WORK_DIR . "/js/dbc/dbc.js")?>"></script>
 <script type='text/javascript'>
     (function() {
         var vars = {};

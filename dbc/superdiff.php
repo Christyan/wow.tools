@@ -39,7 +39,7 @@ $toCDN = getVersionByBuildConfigHash($_GET['to'])['cdnconfig']['hash'];
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/diff2html/2.12.1/diff2html.min.css" />
 <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/datatables/1.10.19/css/dataTables.bootstrap4.min.css" />
 <link rel="stylesheet" type="text/css" href="/css/style.css" />
-<link rel="stylesheet" type="text/css" href="/dbc/css/dbc.css" />
+<link rel="stylesheet" type="text/css" href="/css/dbc/dbc.css" />
 
 <script src="/js/diff_match_patch.js"></script>
 
@@ -195,7 +195,7 @@ $toCDN = getVersionByBuildConfigHash($_GET['to'])['cdnconfig']['hash'];
     }
 
     function getDBCPreview(table, from, to) {
-        return `/dbc/diff.php?dbc=${table}&old=${from.version}&new=${to.version}&embed=1`
+        return `/dbc/diff?dbc=${table}&old=${from.version}&new=${to.version}&embed=1`
     }
 
     function getURL(fileDataID, build) {

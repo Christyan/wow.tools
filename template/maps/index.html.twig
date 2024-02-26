@@ -1,8 +1,8 @@
 {% extends 'base.html.twig' %}
 
 {% block extra_includes %}
-    <link href="{{ '/maps/css/leaflet.css'|filemtime }}" rel="stylesheet" type="text/css">
-    <link href="{{ '/maps/css/style.css'|filemtime }}" rel="stylesheet" type="text/css">
+    <link href="{{ '/css/maps/leaflet.css'|filemtime }}" rel="stylesheet" type="text/css">
+    <link href="{{ '/css/maps/style.css'|filemtime }}" rel="stylesheet" type="text/css">
     
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
@@ -51,9 +51,9 @@
         #}
     </div>
 
-    <script type="text/javascript" src="{{ '/maps/js/maps_index.js'|filemtime }}"></script>
-    <script type="text/javascript" src="{{ '/maps/js/leaflet.js'|filemtime }}"></script>
-    <script type="text/javascript" src="{{ '/maps/js/leaflet_wowmap.js'|filemtime }}"></script>
-    <script type="text/javascript" src="{{ '/maps/js/Control.MiniMap.min.js'|filemtime }}"></script>
+    <script type="text/javascript" src="{{ '/js/maps/maps_index.js'|filemtime }}"></script>
+    <script type="text/javascript" src="{{ '/js/maps/leaflet.js'|filemtime }}"></script>
+    <script type="text/javascript" src="{{ '/js/maps/leaflet_wowmap.js'|filemtime }}"></script>
+    <script type="text/javascript" src="{{ '/js/maps/Control.MiniMap.min.js'|filemtime }}"></script>
 {% endblock %}
 

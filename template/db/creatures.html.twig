@@ -1,9 +1,9 @@
 {% extends 'base.html.twig' %}
 
 {% block extra_includes %}
-    <link href="{{ '/db/css/style.css'|filemtime }}" rel="stylesheet">
+    <link href="{{ '/css/db/style.css'|filemtime }}" rel="stylesheet">
     {% if not creature is defined %}
-        <script src="{{ '/db/js/creatures.js'|filemtime }}" ></script>
+        <script src="{{ '/js/db/creatures.js'|filemtime }}" ></script>
     {% endif %}
 {% endblock %}
 

@@ -2,7 +2,7 @@
 
 {% block extra_includes %}
     {% if not global.embed %}
-        <link href="{{ '/maps/css/leaflet.css'|filemtime }}" rel="stylesheet">
+        <link href="{{ '/css/maps/leaflet.css'|filemtime }}" rel="stylesheet">
         <link href="{{ '/mv/mapviewer.css'|filemtime }}" rel="stylesheet">
     {% else %}
         <script type="text/javascript" src="{{ '/mv/anims.js'|filemtime }}"></script>
@@ -228,7 +228,7 @@
     <script src="{{ '/mv/modelviewer.js'|filemtime }}"></script>
     <script src="{{ '/mv/project.js'|filemtime }}"></script>
     {% if not global.embed %}
-        <script src="{{ '/maps/js/leaflet.js'|filemtime }}"></script>
+        <script src="{{ '/js/maps/leaflet.js'|filemtime }}"></script>
         <script src="{{ '/mv/mapviewer.js'|filemtime }}"></script>
     {% endif %}
 {% endblock %}

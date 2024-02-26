@@ -1,4 +1,4 @@
-<link href="{{ '/dbc/css/dbc.css'|filemtime }}" rel="stylesheet">
+<link href="{{ '/css/dbc/dbc.css'|filemtime }}" rel="stylesheet">
 <div class="container-fluid">
     <select id='fileFilter' class='form-control form-control-sm'>
         <option value="">Select a table</option>
@@ -9,7 +9,7 @@
         {% endfor %}
     </select>
     {% if not currentDB is empty %}
-        <form class='form-inline' id='dbcform' action='/dbc/diff.php' method='GET'>
+        <form class='form-inline' id='dbcform' action='/dbc/diff' method='GET'>
             <input type='hidden' name='dbc' value='{{ selectedDbc }}'>
             <label for='oldbuild' class='' style='float: left; padding-left: 15px;'>Old </label>
             <select id='oldbuild' name='old' class='form-control form-control-sm buildFilter'>
@@ -35,7 +35,7 @@
 
 <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/css/select2.min.css" rel="stylesheet" />
 <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.7/js/select2.min.js"></script>
-<script src="{{ '/dbc/js/dbc.js'|filemtime }}"></script>
+<script src="{{ '/js/dbc/dbc.js'|filemtime }}"></script>
 <script src="{{ '/js/diff_match_patch.js'|filemtime }}"></script>
 <script type='text/javascript'>
     {# TODO: move to js #}
@@ -163,7 +163,7 @@
     
     $('#fileFilter').on( 'change', function () {
         if($(this).val() != ""){
-            document.location = "/dbc/diff.php?dbc=" + $(this).val();
+            document.location = "/dbc/diff?dbc=" + $(this).val();
         }
     });
 </script>

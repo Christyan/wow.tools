@@ -1,7 +1,5 @@
 <?php
 
-require_once(__DIR__ . '/../vendor/autoload.php');
-
 require_once(__DIR__ . "/functions.php");
 require_once(__DIR__ . "/CompareArrays.php");
 require_once(__DIR__ . "/worldStateExpression.php");
@@ -88,7 +86,5 @@ if(php_sapi_name() != 'cli')
 		session_name('wowtools');
 		session_start();
 	}
-    
-    require_once(__DIR__ . "/templating.php");
 }
 

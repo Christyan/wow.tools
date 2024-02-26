@@ -63,7 +63,7 @@ function generateMeta($queryString, $returnDesc = false)
                 $desc = "Collection of several World of Warcraft tools (DBC/file browser, modelviewer & more).";
                 break;
             case "/dbc/":
-            case "/dbc/diff.php":
+            case "/dbc/diff":
                 $desc = "Web database/DBC browser for World of Warcraft";
                 break;
             case "/dbc/hotfixes.php":

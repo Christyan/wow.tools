@@ -55,10 +55,10 @@ require_once(__DIR__ . "/../inc/header.php");
         </div>
     </div>
 </div>
-<link href="/dbc/css/dbc.css?v=<?=filemtime(__DIR__ . "/css/dbc.css")?>" rel="stylesheet">
-<script src="/dbc/js/dbc.js?v=<?=filemtime(WORK_DIR . "/dbc/js/dbc.js")?>"></script>
-<script src="/dbc/js/flags.js?v=<?=filemtime(WORK_DIR . "/dbc/js/flags.js")?>"></script>
-<script src="/dbc/js/enums.js?v=<?=filemtime(WORK_DIR . "/dbc/js/enums.js")?>"></script>
+<link href="/css/dbc/dbc.css?v=<?=filemtime(__DIR__ . "/css/dbc.css")?>" rel="stylesheet">
+<script src="/js/dbc/dbc.js?v=<?=filemtime(WORK_DIR . "/js/dbc/dbc.js")?>"></script>
+<script src="/js/dbc/flags.js?v=<?=filemtime(WORK_DIR . "/js/dbc/flags.js")?>"></script>
+<script src="/js/dbc/enums.js?v=<?=filemtime(WORK_DIR . "/js/dbc/enums.js")?>"></script>
 <script src="/js/diff_match_patch.js"></script>
 <script type='text/javascript'>
 <?php if(!empty($_SESSION['loggedin']) && $_SESSION['rank'] > 0){ ?>
@@ -297,10 +297,10 @@ require_once(__DIR__ . "/../inc/header.php");
         promises.push(afterReq);
 
         if(dbc == "CreatureDifficulty"){
-            let cdReq = fetch("/db/creature_api.php?draw=1&start=0&length=25&search%5Bvalue%5D=field%3ACreatureDifficultyID%3D" + recordID).then(data => data.json());
+            let cdReq = fetch("/db/creature/api?draw=1&start=0&length=25&search%5Bvalue%5D=field%3ACreatureDifficultyID%3D" + recordID).then(data => data.json());
             promises.push(cdReq);
         }else if(dbc == "Creature"){
-            let cReq = fetch("/db/creature_api.php?draw=1&start=0&length=25&search%5Bvalue%5D=id:" + recordID).then(data => data.json());
+            let cReq = fetch("/db/creature/api?draw=1&start=0&length=25&search%5Bvalue%5D=id:" + recordID).then(data => data.json());
             promises.push(cReq);            
         }
             
@@ -429,11 +429,11 @@ require_once(__DIR__ . "/../inc/header.php");
     }
 
     function fillModal(fileDataID){
-        $( "#moreInfoModalContent" ).load( "/files/scripts/filedata_api.php?filedataid=" + fileDataID );
+        $( "#moreInfoModalContent" ).load( "/files/api/filedata?filedataid=" + fileDataID );
     }
 
     function fillPreviewModal(buildconfig, filedataid){
-        $( "#previewModalContent" ).load( "/files/scripts/preview_api.php?buildconfig=" + buildconfig + "&filedataid=" + filedataid);
+        $( "#previewModalContent" ).load( "/files/api/preview?buildconfig=" + buildconfig + "&filedataid=" + filedataid);
     }
 
 $("html").on('hidden.bs.modal', '#moreInfoModal', function(e) {
