@@ -1,7 +1,7 @@
 var Elements = {};
 
 async function loadQuestInfo(id){
-    const response = await fetch("/db/quest_api.php?id=" + id, {
+    const response = await fetch("/db/quest/api?id=" + id, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -85,7 +85,7 @@ $(document).ready(() => {
             "processing": true,
             "serverSide": true,
             "search": { "search": searchString },
-            "ajax": "/db/quest_api.php",
+            "ajax": "/db/quest/api",
             "pageLength": 25,
             "displayStart": page * 25,
             "autoWidth": false,

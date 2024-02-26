@@ -60,11 +60,11 @@ $( document ).ready(function() {
             if (!("tpr" in hashElement[0].dataset)) {
                 $('#openDiffButton')
                     .text('Click to diff (might take up to a minute to generate)')
-                    .attr('href', '/builds/diff_new.php?from=' + build1 + '&to=' + build2);
+                    .attr('href', '/builds/diff?from=' + build1 + '&to=' + build2);
             } else {
                 $('#openDiffButton')
                     .text('Click to diff (might take up to a minute to generate)')
-                    .attr('href', '/builds/diff_new.php?from=' + build1 + '&to=' + build2 + '&tpr=' + hashElement[0].dataset.tpr);
+                    .attr('href', '/builds/diff?from=' + build1 + '&to=' + build2 + '&tpr=' + hashElement[0].dataset.tpr);
             }
             $('#openInstallDiffButton').show();
         }
@@ -83,8 +83,8 @@ $( document ).ready(function() {
 
         var result = "<table>";
 
-        $.getJSON("https://wow.tools/casc/install/dumpbybuild?buildConfigHash=" + build1, function( fromData ) {
-            $.getJSON("https://wow.tools/casc/install/dumpbybuild?buildConfigHash=" + build2, function( toData ) {
+        $.getJSON("/casc/install/dumpbybuild?buildConfigHash=" + build1, function( fromData ) {
+            $.getJSON("/casc/install/dumpbybuild?buildConfigHash=" + build2, function( toData ) {
                 $.each( fromData, function( key, val ) {
                     fromArray[val.name] = val;
                 });
@@ -132,22 +132,22 @@ $( document ).ready(function() {
 function fillVersionModal(id, product = "wow"){
     let url;
     if (product == "wow") {
-        url = "index.php";
+        url = "/";
     } else {
         url = "index_wowdev.php";
     }
-    $("#moreInfoModalContent").load("/builds/" + url + "?api=buildinfo&versionid=" + id + "&product=" + product);
+    $("#moreInfoModalContent").load("/builds" + url + "?api=buildinfo&versionid=" + id + "&product=" + product);
 }
 
 function fillConfigModal(config, product = "wow"){
     let url;
     if(product == "wow"){
-        url = "index.php";
+        url = "/";
     }else{
         url = "index_wowdev.php";
     }
 
-    $("#configModalContent").load("/builds/" + url + "?api=configdump&config=" + config + "&product=" + product);
+    $("#configModalContent").load("/builds" + url + "?api=configdump&config=" + config + "&product=" + product);
 }
 
 $(function () {

@@ -481,7 +481,7 @@ function loadModel(type, filedataid, buildconfig, cdnconfig){
     isDownloading = false;
     numDownloading = 0;
     $.ajax({
-        url: "/files/scripts/filedata_api.php?filename=1&filedataid=" + Current.fileDataID
+        url: "/files/api/filedata?filename=1&filedataid=" + Current.fileDataID
     })
         .done(function( filename ) {
             Current.filename = filename;
@@ -586,7 +586,7 @@ async function loadModelDisplays() {
             opt.dataset.type = 'creature';
 
             if (!filenameMap.has(result['TextureVariationFileDataID[0]'])){
-                const filenameResponse = await fetch("/files/scripts/filedata_api.php?filename=1&filedataid=" + result['TextureVariationFileDataID[0]']);
+                const filenameResponse = await fetch("/files/api/filedata?filename=1&filedataid=" + result['TextureVariationFileDataID[0]']);
                 const filenameContents = await filenameResponse.text();
                 if (filenameContents != ""){
                     filenameMap.set(result['TextureVariationFileDataID[0]'], filenameContents.substring(filenameContents.lastIndexOf('/') + 1).replace(".blp", ""));
@@ -605,7 +605,7 @@ async function loadModelDisplays() {
                     materialResourceMap.set(materialJson.values.MaterialResourcesID, materialJson.values.FileDataID);
 
                     if (!filenameMap.has(materialJson.values.FileDataID)){
-                        const filenameResponse = await fetch("/files/scripts/filedata_api.php?filename=1&filedataid=" + materialJson.values.FileDataID);
+                        const filenameResponse = await fetch("/files/api/filedata?filename=1&filedataid=" + materialJson.values.FileDataID);
                         const filenameContents = await filenameResponse.text();
                         if (filenameContents != ""){
                             filenameMap.set(materialJson.values.FileDataID, filenameContents.substring(filenameContents.lastIndexOf('/') + 1).replace(".blp", ""));
@@ -760,14 +760,14 @@ function loadModelTextures() {
 
             $.ajax({
                 type: 'GET',
-                url: "/files/scripts/filedata_api.php",
+                url: "/files/api/filedata",
                 data: {
                     filename: 1,
                     filedataid : intArray.join(",")
                 }
             })
                 .done(function( filename ) {
-                    var textureFileDataIDs = decodeURIComponent(this.url.replace("/files/scripts/filedata_api.php?filename=1&filedataid=", '')).split(',');
+                    var textureFileDataIDs = decodeURIComponent(this.url.replace("/files/api/filedata?filename=1&filedataid=", '')).split(',');
           
                     var textureFileDataID = textureFileDataIDs[0];
 
@@ -1018,7 +1018,7 @@ function exportScene(){
         "processing": true,
         "serverSide": true,
         "ajax": {
-            "url": "/files/scripts/api.php",
+            "url": "/files/api",
             "data": function ( d ) {
                 return $.extend( {}, d, {
                     "src": "mv",

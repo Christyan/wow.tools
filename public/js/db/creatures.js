@@ -1,7 +1,7 @@
 var Elements = {};
 
 async function loadCreatureInfo(id){
-    const response = await fetch("/db/creature_api.php?id=" + id, {
+    const response = await fetch("/db/creature/api?id=" + id, {
         method: 'GET',
         headers: {
             'Content-Type': 'application/json'
@@ -97,7 +97,7 @@ $(document).ready(() => {
             "processing": true,
             "serverSide": true,
             "search": { "search": searchString },
-            "ajax": "/db/creature_api.php",
+            "ajax": "/db/creature/api",
             "pageLength": 25,
             "displayStart": page * 25,
             "autoWidth": false,

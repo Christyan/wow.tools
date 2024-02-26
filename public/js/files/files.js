@@ -141,7 +141,7 @@ function applyBuildFilter(build){
     if (build == undefined){
         build = "";
     }
-    $.ajax("/files/scripts/api.php?switchbuild=" + build)
+    $.ajax("/files/api?switchbuild=" + build)
         .always(function() {
             $('#files').DataTable().ajax.reload();
         });
@@ -170,7 +170,7 @@ function updateBuildFilterButton(){
 }
 
 function fillModal(fileDataID){
-    $("#moreInfoModalContent").load("/files/scripts/filedata_api.php?filedataid=" + fileDataID, function () {
+    $("#moreInfoModalContent").load("/files/api/filedata?filedataid=" + fileDataID, function () {
         document.getElementById('editableFilename').addEventListener("dblclick", makeEditable);
         document.getElementById('editableFilename').addEventListener("blur", finishEditing);
     });
@@ -205,17 +205,17 @@ function finishEditing(){
 
 function fillPreviewModal(buildconfig, filedataid){
     if ($("#files_preview").is(":visible")){
-        $( "#files_preview" ).load( "/files/scripts/preview_api.php?buildconfig=" + buildconfig + "&filedataid=" + filedataid);
+        $( "#files_preview" ).load( "/files/api/preview?buildconfig=" + buildconfig + "&filedataid=" + filedataid);
     } else {
-        $( "#previewModalContent" ).load( "/files/scripts/preview_api.php?buildconfig=" + buildconfig + "&filedataid=" + filedataid);
+        $( "#previewModalContent" ).load( "/files/api/preview?buildconfig=" + buildconfig + "&filedataid=" + filedataid);
     }
 }
 
 function fillPreviewModalByContenthash(buildconfig, filedataid, contenthash){
     if ($("#files_preview").is(":visible")){
-        $( "#files_preview" ).load( "/files/scripts/preview_api.php?buildconfig=" + buildconfig + "&filedataid=" + filedataid + "&contenthash=" + contenthash);
+        $( "#files_preview" ).load( "/files/api/preview?buildconfig=" + buildconfig + "&filedataid=" + filedataid + "&contenthash=" + contenthash);
     } else {
-        $( "#previewModalContent" ).load( "/files/scripts/preview_api.php?buildconfig=" + buildconfig + "&filedataid=" + filedataid + "&contenthash=" + contenthash);
+        $( "#previewModalContent" ).load( "/files/api/preview?buildconfig=" + buildconfig + "&filedataid=" + filedataid + "&contenthash=" + contenthash);
     }
 }
 
@@ -228,11 +228,11 @@ function fillDiffModalRaw(from, to, filedataid){
 }
 
 function fillDBCDiffModal(from, to, dbc){
-    $("#previewModalContent" ).load( "/dbc/diff.php?embed=1&dbc=" + dbc + "&old=" + from + "&new=" + to);
+    $("#previewModalContent" ).load( "/dbc/diff?embed=1&dbc=" + dbc + "&old=" + from + "&new=" + to);
 }
 
 function fillChashModal(contenthash){
-    $( "#chashModalContent" ).load( "/files/scripts/filedata_api.php?contenthash=" + contenthash);
+    $( "#chashModalContent" ).load( "/files/api/filedata?contenthash=" + contenthash);
 }
 
 function fillSkitModal(skitid){
@@ -311,11 +311,11 @@ function treeClick(event, returnAfterClear = true){
         return;
 
     let depth = 1;
-    let url = '/files/scripts/api.php?tree=1&depth=' + depth;
+    let url = '/files/api?tree=1&depth=' + depth;
     let start = parentElement.dataset.name;
     if (start !== undefined){
         depth = Number(parentElement.dataset.depth) + 1;
-        url = '/files/scripts/api.php?tree=1&start=' + start + '&depth=' + depth;
+        url = '/files/api?tree=1&start=' + start + '&depth=' + depth;
     }
 
     let filter = document.getElementById('treeFilter').value;

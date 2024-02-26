@@ -652,28 +652,28 @@
         FlightPathLayer = new L.LayerGroup();
 
         var allianceIcon = L.icon({
-            iconUrl: '/maps/css/images/marker-icon-alliance.png',
+            iconUrl: '/css/maps/images/marker-icon-alliance.png',
             iconAnchor:  [12, 41],
             popupAnchor: [1, -34],
             shadowSize:  [41, 41]
         });
 
         var hordeIcon = L.icon({
-            iconUrl: '/maps/css/images/marker-icon-horde.png',
+            iconUrl: '/css/maps/images/marker-icon-horde.png',
             iconAnchor:  [12, 41],
             popupAnchor: [1, -34],
             shadowSize:  [41, 41]
         });
 
         var neutralIcon = L.icon({
-            iconUrl: '/maps/css/images/marker-icon-neutral.png',
+            iconUrl: '/css/maps/images/marker-icon-neutral.png',
             iconAnchor:  [12, 41],
             popupAnchor: [1, -34],
             shadowSize:  [41, 41]
         });
 
         var unknownIcon = L.icon({
-            iconUrl: '/maps/css/images/marker-icon-unknown.png',
+            iconUrl: '/css/maps/images/marker-icon-unknown.png',
             iconAnchor:  [12, 41],
             popupAnchor: [1, -34],
             shadowSize:  [41, 41]

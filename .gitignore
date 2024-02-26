@@ -7,6 +7,9 @@ tpr/
 maps/data/
 maps/tiles/
 maps/png/
+public/maps/data/
+public/maps/tiles/
+public/maps/png/
 
 # Exporter
 export/download

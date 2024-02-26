@@ -1,5 +1,5 @@
 function fillDiffModal(from, to){
-    $( "#previewModalContent" ).load( "/monitor/scripts/diff.php?from=" + from + "&to=" + to);
+    $( "#previewModalContent" ).load( "/monitor/diff?from=" + from + "&to=" + to);
 }
 
 $('#files').on( 'draw.dt', function () {
@@ -53,7 +53,7 @@ $(document).ready(() => {
             "searching": true,
             "search": { "search": searchString },
             "dom": "<'row'<'col-sm-6 col-md-2'l><'col-sm-12 col-md-10'pf>><'row'<'col-sm-12'tr>><'row'<'col-sm-12 col-md-5'i><'col-sm-12 col-md-7'p>>",
-            "ajax": "scripts/api.php",
+            "ajax": "/monitor/api",
             "pageLength": 5,
             "displayStart": page * 5,
             "autoWidth": false,

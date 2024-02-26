@@ -120,7 +120,7 @@ function generateQuestTooltip(id, tooltip)
     // const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
     const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
-    fetch("/db/quest_api.php?id=" + id, {cache: "force-cache"})
+    fetch("/db/quest/api?id=" + id, {cache: "force-cache"})
         .then(function (response) {
             return response.json();
         }).then(function (questEntry) {
@@ -189,7 +189,7 @@ function generateCreatureTooltip(id, tooltip)
     // const tooltipIcon = tooltip.querySelector(".tooltip-icon img");
     const tooltipDesc = tooltip.querySelector(".tooltip-desc");
 
-    fetch("/db/creature_api.php?id=" + id, {cache: "force-cache"})
+    fetch("/db/creature/api?id=" + id, {cache: "force-cache"})
         .then(function (response) {
             return response.json();
         }).then(function (creatureEntry) {
