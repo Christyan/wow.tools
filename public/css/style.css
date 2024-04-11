@@ -513,3 +513,13 @@ footer p{
 		padding: .5rem 1rem;
 	}
 }
+
+td {
+    position: relative;
+}
+
+#clip-button {
+    position: absolute;
+    right: 1px;
+    top: 1px;
+}

@@ -104,3 +104,30 @@ function renderBLPToCanvas(url, canvas, canvasX, canvasY) {
             let image = blp.getPixels(0, canvas, canvasX, canvasY);
         });
 }
+
+let clipboard = '';
+$(document).on('draw.dt', (e, settings) => {
+    $('td').on('mouseenter', function (ee) {
+        clipboard = $(this).text();
+
+        var copyButton = $("<div class=\"btn btn-sm btn-dark\" id=\"clip-button\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Copied to clipboard\"><i class=\"fa fa-copy\"></i></div>");
+        copyButton.id = 'clip-button';
+
+        // Add click event listener to the button
+        copyButton.on('click', function() {
+            $('#clip-button').tooltip({ trigger: 'click' }).tooltip('show');
+            navigator.clipboard.writeText(clipboard) ;
+        });
+        copyButton.on('mouseout', function() {
+            $('#clip-button').tooltip('hide');
+        })
+
+        // Append the button to the cell (temporarily)
+        $(this).append(copyButton);
+    }).on('mouseleave', function() {
+        // Remove the button when mouse leaves the cell
+        const btn = $(this).find("#clip-button");
+        btn.tooltip('hide');
+        btn.remove();
+    });
+});
