@@ -59,6 +59,10 @@ $thirdPartyDBMap = [
     ]
 ];
 
+$externalDB = [
+    'playercondition' => '#'
+];
+
 $memcached = new Memcached('wowtools');
 if(empty($memcached->getServerList()))
 {

@@ -71,7 +71,12 @@ function openFKModal(value, location, build){
     const col = splitLocation[1];
     const fkModal = document.getElementById("fkModalContent");
 
-    fkModal.innerHTML = "<b>Lookup into table " + db + " on col '" + col + "' value '" + value + "'</b><br>";
+    fkModal.innerHTML = "<b>Lookup into table " + db + " on col '" + col + "' value '" + value + "'</b>";
+    console.log(db);
+    if (EXTERNALDB[db]) {
+        fkModal.innerHTML += " <a target='_blank' href='" + EXTERNALDB[db] + value + "'><button class='btn btn-sm btn-secondary'><i class='fa fa-external-link'></i></button></a>"
+    }
+    fkModal.innerHTML += "<br>";
 
     for (const thirdParty in thirdPartyDBMap) {
         if (thirdPartyDBMap[thirdParty].has(db)) {
