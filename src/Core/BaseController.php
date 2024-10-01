@@ -14,7 +14,7 @@ abstract class BaseController
     
     public function __construct()
     {
-        global $pdo;
+        global $pdo, $thirdPartyDBMap;
         
         $this->pdo = $pdo;
         
@@ -33,7 +33,8 @@ abstract class BaseController
             'embed' => !empty($_GET['embed']),
             'loggedin' => !empty($_SESSION['loggedin']),
             'user' => @$_SESSION['user'],
-            'API_URL' => API_URL
+            'API_URL' => API_URL,
+            'thirdPartyDBMap' => json_encode($thirdPartyDBMap)
         ];
 
         $this->twig->addGlobal('global', $globals);

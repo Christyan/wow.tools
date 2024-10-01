@@ -40,6 +40,25 @@ $allowedproducts = array(
 
 $previewTypes = array("ogg", "mp3", "blp", "wmo", "_xxxwmo", "adt", "m2");
 
+$thirdPartyDBMap = [
+    'WoWDB' => [
+        "spell" => "https://www.wowdb.com/spells/",
+        "item" => "https://www.wowdb.com/items/",
+        "itemsparse" => "https://www.wowdb.com/items/",
+        "questv2" => "https://www.wowdb.com/quests/",
+        "creature" => "https://www.wowdb.com/npcs/",
+        "gameobjects" => "https://www.wowdb.com/objects/",
+    ],
+    'Wowhead' => [
+        "spell" => "https://www.wowhead.com/spell=",
+        "item" => "https://www.wowhead.com/item=",
+        "itemsparse" => "https://www.wowhead.com/item=",
+        "questv2" => "https://www.wowhead.com/quest=",
+        "creature" => "https://www.wowhead.com/npc=",
+        "gameobjects" => "https://www.wowhead.com/object=",
+    ]
+];
+
 $memcached = new Memcached('wowtools');
 if(empty($memcached->getServerList()))
 {

@@ -57,21 +57,14 @@ function getFKCols(headers, fks){
 }
 
 function openFKModal(value, location, build){
-    const wowDBMap = new Map();
-    wowDBMap.set("spell", "https://www.wowdb.com/spells/");
-    wowDBMap.set("item", "https://www.wowdb.com/items/");
-    wowDBMap.set("itemsparse", "https://www.wowdb.com/items/");
-    wowDBMap.set("questv2", "https://www.wowdb.com/quests/");
-    wowDBMap.set("creature", "https://www.wowdb.com/npcs/");
-    wowDBMap.set("gameobjects", "https://www.wowdb.com/objects/");
-
-    const wowheadMap = new Map();
-    wowheadMap.set("spell", "https://www.wowhead.com/spell=");
-    wowheadMap.set("item", "https://www.wowhead.com/item=");
-    wowheadMap.set("itemsparse", "https://www.wowhead.com/item=");
-    wowheadMap.set("questv2", "https://www.wowhead.com/quest=");
-    wowheadMap.set("creature", "https://www.wowhead.com/npc=");
-    wowheadMap.set("gameobjects", "https://www.wowhead.com/object=");
+    const thirdPartyDBMap = {}
+    
+    for (const thirdParty in THIRDPARTYDBMAP) {
+        thirdPartyDBMap[thirdParty] = new Map();
+        for (const db in THIRDPARTYDBMAP[thirdParty]) {
+            thirdPartyDBMap[thirdParty].set(db, THIRDPARTYDBMAP[thirdParty][db]);
+        }
+    }
 
     const splitLocation = location.split("::");
     const db = splitLocation[0].toLowerCase();
@@ -80,14 +73,12 @@ function openFKModal(value, location, build){
 
     fkModal.innerHTML = "<b>Lookup into table " + db + " on col '" + col + "' value '" + value + "'</b><br>";
 
-    if (wowDBMap.has(db)){
-        fkModal.innerHTML += " <a target='_BLANK' href='" + wowDBMap.get(db) + value + "' class='btn btn-warning btn-sm'>View on WoWDB</a>";
+    for (const thirdParty in thirdPartyDBMap) {
+        if (thirdPartyDBMap[thirdParty].has(db)) {
+            fkModal.innerHTML += " <a target='_BLANK' href='" + thirdPartyDBMap[thirdParty].get(db) + value + "' class='btn btn-warning btn-sm'>View on " + thirdParty + "</a>";
+        }
     }
-
-    if (wowheadMap.has(db)){
-        fkModal.innerHTML += " <a target='_BLANK' href='" + wowheadMap.get(db) + value + "' class='btn btn-warning btn-sm'>View on Wowhead</a>";
-    }
-
+    
     fkModal.innerHTML += "<table id='fktable' class='table table-condensed table-striped'><thead><tr><th style='width: 300px'>Column</th><th>Value</th></tr></thead></table>";
 
     const fkTable = document.getElementById("fktable");
@@ -144,12 +135,10 @@ function openFKModal(value, location, build){
 
                     var cleanDBname = headerjson.fks[key].split('::')[0].toLowerCase();
 
-                    if (wowDBMap.has(cleanDBname) && val != 0){
-                        fkTableHTML += " <a target='_BLANK' href='" + wowDBMap.get(cleanDBname) + val + "' class='btn btn-warning btn-sm'>View on WoWDB</a>";
-                    }
-
-                    if (wowheadMap.has(cleanDBname) && val != 0){
-                        fkTableHTML += " <a target='_BLANK' href='" + wowheadMap.get(cleanDBname) + val + "' class='btn btn-warning btn-sm'>View on Wowhead</a>";
+                    for (const thirdParty in thirdPartyDBMap) {
+                        if (thirdPartyDBMap[thirdParty].has(cleanDBname) && val != 0){
+                            fkTableHTML += " <a target='_BLANK' href='" + thirdPartyDBMap[thirdParty].get(cleanDBname) + val + "' class='btn btn-warning btn-sm'>View on " + thirdParty + "</a>";
+                        }
                     }
                 } else {
                     fkTableHTML += "<tr><td style='width: 300px;'>" + key + "</td><td>" + val;
