@@ -523,3 +523,7 @@ td {
     right: 1px;
     top: 1px;
 }
+#fkSearchResultHolder
+{
+	overflow-x: scroll;	
+}
