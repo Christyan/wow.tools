@@ -108,7 +108,7 @@ function renderBLPToCanvas(url, canvas, canvasX, canvasY) {
 let clipboard = '';
 $(document).on('draw.dt', (e, settings) => {
     $('td').on('mouseenter', function (ee) {
-        clipboard = $(this).text();
+        clipboard = $(this).text().trim();
 
         var copyButton = $("<div class=\"btn btn-sm btn-dark\" id=\"clip-button\" data-toggle=\"tooltip\" data-placement=\"top\" title=\"Copied to clipboard\"><i class=\"fa fa-copy\"></i></div>");
         copyButton.id = 'clip-button';
