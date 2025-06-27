@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Core\BaseController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
@@ -13,7 +14,8 @@ class IndexController extends BaseController
     #[Route('', name: 'index')]
     public function indexAction()
     {
-        return new Response($this->render('index/index.html.twig'));
+        return new RedirectResponse('/dbc/');
+        // return new Response($this->render('index/index.html.twig'));
     }
 
     #[Route('404', name: 'notfound')]
